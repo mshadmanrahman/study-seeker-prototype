@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
@@ -411,15 +412,17 @@ const Header = () => {
 
           {/* Search Bar */}
           <div className="flex-1 max-w-lg mx-4 relative" ref={searchRef}>
-            {!isExpanded ? <div className="flex rounded-lg overflow-hidden border border-gray-300 cursor-pointer hover:border-gray-400 transition-colors" onClick={handleSearchClick}>
-                
-                <div className="flex-1 px-3 py-2 bg-white">
-                  <span className="text-gray-500">Search for subject, school or location</span>
-                </div>
-                <div className="px-4 bg-teal-600 text-white flex items-center">
-                  <Search className="w-4 h-4" />
-                </div>
-              </div> : <div className="absolute top-0 left-0 right-0 bg-white border border-gray-300 rounded-lg shadow-lg z-50 w-[900px] -ml-60">
+            <div className="flex rounded-lg overflow-hidden border border-gray-300 cursor-pointer hover:border-gray-400 transition-colors" onClick={handleSearchClick}>
+              <div className="flex-1 px-3 py-2 bg-white">
+                <span className="text-gray-500">Search for subject, school or location</span>
+              </div>
+              <div className="px-4 bg-teal-600 text-white flex items-center">
+                <Search className="w-4 h-4" />
+              </div>
+            </div>
+            
+            {isExpanded && (
+              <div className="absolute top-12 left-0 right-0 bg-white border border-gray-300 rounded-lg shadow-lg z-50 w-[900px] -ml-60">
                 <div className="flex items-center justify-between p-3 border-b border-gray-200">
                   <div className="flex space-x-4">
                     <button onClick={() => setActiveTab('structured')} className={`px-3 py-1 text-sm font-medium rounded ${activeTab === 'structured' ? 'bg-primary text-primary-foreground' : 'text-gray-600 hover:text-gray-900'}`}>
@@ -441,7 +444,8 @@ const Header = () => {
                 </div>
                 
                 {renderSearchContent()}
-              </div>}
+              </div>
+            )}
           </div>
 
           {/* Right side - Language and Sign in */}
@@ -460,4 +464,5 @@ const Header = () => {
       </div>
     </header>;
 };
+
 export default Header;
