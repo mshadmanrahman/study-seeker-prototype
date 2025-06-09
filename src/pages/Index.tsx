@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react';
 import { Search, ChevronDown, MapPin, BookOpen, GraduationCap, Award, Filter, Globe, Clock, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -160,21 +158,19 @@ const Index = () => {
         <p className="text-gray-600">Explore programs by category or search directly</p>
       </div>
       
-      {/* Search Bar for Visual Discovery */}
-      <div className="relative mb-6">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-        <Input
-          type="text"
-          placeholder="Quick search across all programs..."
-          className="pl-10 pr-4 py-3 text-lg bg-white/50 backdrop-blur-sm border-gray-300 focus:bg-white focus:border-primary"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <Button 
-          className="absolute right-1 top-1/2 transform -translate-y-1/2"
-          size="sm"
-        >
-          Search
+      {/* Search Bar for Visual Discovery - Amazon Style */}
+      <div className="flex rounded-lg overflow-hidden border border-gray-300 mb-6">
+        <div className="flex-1 relative">
+          <Input
+            type="text"
+            placeholder="Quick search across all programs..."
+            className="border-0 rounded-none focus:ring-0 focus:border-transparent"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+        <Button className="rounded-none px-6 bg-accent text-accent-foreground hover:bg-accent/90">
+          <Search className="w-5 h-5" />
         </Button>
       </div>
 
@@ -355,4 +351,3 @@ const Index = () => {
 };
 
 export default Index;
-
