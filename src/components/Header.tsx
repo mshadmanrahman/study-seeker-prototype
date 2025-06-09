@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Search, Globe, User, ChevronDown, BookOpen, GraduationCap, Award, Target, Microscope, FileText, MapPin, Clock, Star, X, Monitor, Palette, Heart, Calculator, Briefcase, Camera, Music, Settings, Building, Plane, Hammer, Scissors, TrendingUp, Users, Zap, Cog, Leaf, Shirt, DollarSign, UtensilsCrossed, Newspaper, MessageCircle, Scale, Dna, Lightbulb, UserCheck, Megaphone, Activity, Recycle, Hotel, Car, Home, Sparkles, Earth } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -6,64 +5,190 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState('amazon');
   const [selectedDegree, setSelectedDegree] = useState('');
   const searchRef = useRef<HTMLDivElement>(null);
-
-  const subjects = [
-    { name: 'Administration Programs', icon: Settings, category: 'Business' },
-    { name: 'Architecture Programs', icon: Building, category: 'Design' },
-    { name: 'Art Programs', icon: Palette, category: 'Creative' },
-    { name: 'Aviation Programs', icon: Plane, category: 'Transportation' },
-    { name: 'Business Programs', icon: Briefcase, category: 'Business' },
-    { name: 'Construction Programs', icon: Hammer, category: 'Engineering' },
-    { name: 'Cosmetology Programs', icon: Scissors, category: 'Personal Care' },
-    { name: 'Design Programs', icon: Target, category: 'Creative' },
-    { name: 'Economic Programs', icon: TrendingUp, category: 'Business' },
-    { name: 'Education Programs', icon: Users, category: 'Education' },
-    { name: 'Energy Programs', icon: Zap, category: 'Engineering' },
-    { name: 'Engineering Programs', icon: Cog, category: 'Engineering' },
-    { name: 'Environmental Programs', icon: Leaf, category: 'Science' },
-    { name: 'Fashion Programs', icon: Shirt, category: 'Creative' },
-    { name: 'Finance Programs', icon: DollarSign, category: 'Business' },
-    { name: 'Food and Beverage Programs', icon: UtensilsCrossed, category: 'Hospitality' },
-    { name: 'General Programs', icon: BookOpen, category: 'General' },
-    { name: 'Healthcare Programs', icon: Heart, category: 'Health' },
-    { name: 'Humanities Programs', icon: BookOpen, category: 'Humanities' },
-    { name: 'Journalism, Media, and Mass Communication Programs', icon: Newspaper, category: 'Media' },
-    { name: 'Language Programs', icon: MessageCircle, category: 'Languages' },
-    { name: 'Law Programs', icon: Scale, category: 'Law' },
-    { name: 'Life Sciences Programs', icon: Dna, category: 'Science' },
-    { name: 'Life Skills Programs', icon: Target, category: 'Personal Development' },
-    { name: 'Management Programs', icon: UserCheck, category: 'Business' },
-    { name: 'Marketing Programs', icon: Megaphone, category: 'Business' },
-    { name: 'Natural Sciences Programs', icon: Microscope, category: 'Science' },
-    { name: 'Performing Arts Programs', icon: Music, category: 'Creative' },
-    { name: 'Professional Programs', icon: Lightbulb, category: 'Professional' },
-    { name: 'Self-Improvement Programs', icon: Sparkles, category: 'Personal Development' },
-    { name: 'Social Science Programs', icon: Earth, category: 'Social Sciences' },
-    { name: 'Sport and Exercise Programs', icon: Activity, category: 'Sports' },
-    { name: 'Sustainability Programs', icon: Recycle, category: 'Environmental' },
-    { name: 'Technology Programs', icon: Monitor, category: 'Technology' },
-    { name: 'Test Preparation Programs', icon: FileText, category: 'Education' },
-    { name: 'Tourism and Hospitality Programs', icon: Hotel, category: 'Hospitality' },
-    { name: 'License and Training Programs', icon: GraduationCap, category: 'Professional' },
-    { name: 'Transportation and Logistics Programs', icon: Car, category: 'Transportation' }
-  ];
-
-  const degreeTypes = [
-    { value: 'preparatory', label: 'Preparatory', icon: BookOpen },
-    { value: 'bachelors', label: 'Bachelors', icon: GraduationCap },
-    { value: 'post-bachelors', label: 'Post-Bachelors', icon: FileText },
-    { value: 'masters', label: 'Masters', icon: Target },
-    { value: 'postgraduate', label: 'Postgraduate', icon: Microscope },
-    { value: 'phd', label: 'PhD Studies', icon: Award }
-  ];
-
+  const subjects = [{
+    name: 'Administration Programs',
+    icon: Settings,
+    category: 'Business'
+  }, {
+    name: 'Architecture Programs',
+    icon: Building,
+    category: 'Design'
+  }, {
+    name: 'Art Programs',
+    icon: Palette,
+    category: 'Creative'
+  }, {
+    name: 'Aviation Programs',
+    icon: Plane,
+    category: 'Transportation'
+  }, {
+    name: 'Business Programs',
+    icon: Briefcase,
+    category: 'Business'
+  }, {
+    name: 'Construction Programs',
+    icon: Hammer,
+    category: 'Engineering'
+  }, {
+    name: 'Cosmetology Programs',
+    icon: Scissors,
+    category: 'Personal Care'
+  }, {
+    name: 'Design Programs',
+    icon: Target,
+    category: 'Creative'
+  }, {
+    name: 'Economic Programs',
+    icon: TrendingUp,
+    category: 'Business'
+  }, {
+    name: 'Education Programs',
+    icon: Users,
+    category: 'Education'
+  }, {
+    name: 'Energy Programs',
+    icon: Zap,
+    category: 'Engineering'
+  }, {
+    name: 'Engineering Programs',
+    icon: Cog,
+    category: 'Engineering'
+  }, {
+    name: 'Environmental Programs',
+    icon: Leaf,
+    category: 'Science'
+  }, {
+    name: 'Fashion Programs',
+    icon: Shirt,
+    category: 'Creative'
+  }, {
+    name: 'Finance Programs',
+    icon: DollarSign,
+    category: 'Business'
+  }, {
+    name: 'Food and Beverage Programs',
+    icon: UtensilsCrossed,
+    category: 'Hospitality'
+  }, {
+    name: 'General Programs',
+    icon: BookOpen,
+    category: 'General'
+  }, {
+    name: 'Healthcare Programs',
+    icon: Heart,
+    category: 'Health'
+  }, {
+    name: 'Humanities Programs',
+    icon: BookOpen,
+    category: 'Humanities'
+  }, {
+    name: 'Journalism, Media, and Mass Communication Programs',
+    icon: Newspaper,
+    category: 'Media'
+  }, {
+    name: 'Language Programs',
+    icon: MessageCircle,
+    category: 'Languages'
+  }, {
+    name: 'Law Programs',
+    icon: Scale,
+    category: 'Law'
+  }, {
+    name: 'Life Sciences Programs',
+    icon: Dna,
+    category: 'Science'
+  }, {
+    name: 'Life Skills Programs',
+    icon: Target,
+    category: 'Personal Development'
+  }, {
+    name: 'Management Programs',
+    icon: UserCheck,
+    category: 'Business'
+  }, {
+    name: 'Marketing Programs',
+    icon: Megaphone,
+    category: 'Business'
+  }, {
+    name: 'Natural Sciences Programs',
+    icon: Microscope,
+    category: 'Science'
+  }, {
+    name: 'Performing Arts Programs',
+    icon: Music,
+    category: 'Creative'
+  }, {
+    name: 'Professional Programs',
+    icon: Lightbulb,
+    category: 'Professional'
+  }, {
+    name: 'Self-Improvement Programs',
+    icon: Sparkles,
+    category: 'Personal Development'
+  }, {
+    name: 'Social Science Programs',
+    icon: Earth,
+    category: 'Social Sciences'
+  }, {
+    name: 'Sport and Exercise Programs',
+    icon: Activity,
+    category: 'Sports'
+  }, {
+    name: 'Sustainability Programs',
+    icon: Recycle,
+    category: 'Environmental'
+  }, {
+    name: 'Technology Programs',
+    icon: Monitor,
+    category: 'Technology'
+  }, {
+    name: 'Test Preparation Programs',
+    icon: FileText,
+    category: 'Education'
+  }, {
+    name: 'Tourism and Hospitality Programs',
+    icon: Hotel,
+    category: 'Hospitality'
+  }, {
+    name: 'License and Training Programs',
+    icon: GraduationCap,
+    category: 'Professional'
+  }, {
+    name: 'Transportation and Logistics Programs',
+    icon: Car,
+    category: 'Transportation'
+  }];
+  const degreeTypes = [{
+    value: 'preparatory',
+    label: 'Preparatory',
+    icon: BookOpen
+  }, {
+    value: 'bachelors',
+    label: 'Bachelors',
+    icon: GraduationCap
+  }, {
+    value: 'post-bachelors',
+    label: 'Post-Bachelors',
+    icon: FileText
+  }, {
+    value: 'masters',
+    label: 'Masters',
+    icon: Target
+  }, {
+    value: 'postgraduate',
+    label: 'Postgraduate',
+    icon: Microscope
+  }, {
+    value: 'phd',
+    label: 'PhD Studies',
+    icon: Award
+  }];
   const popularSearches = ['MBA in London', 'Computer Science PhD', 'Medicine in Germany', 'Online Masters'];
 
   // Close expanded search when clicking outside
@@ -73,24 +198,19 @@ const Header = () => {
         setIsExpanded(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
   const handleSearchClick = () => {
     setIsExpanded(true);
   };
-
   const handleCloseSearch = () => {
     setIsExpanded(false);
   };
-
   const renderSearchContent = () => {
     switch (activeTab) {
       case 'structured':
-        return (
-          <div className="p-6 space-y-4">
+        return <div className="p-6 space-y-4">
             <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -130,41 +250,22 @@ const Header = () => {
               <Search className="w-4 h-4 mr-2" />
               Search Programs
             </Button>
-          </div>
-        );
-
+          </div>;
       case 'freetext':
-        return (
-          <div className="p-6 space-y-4">
+        return <div className="p-6 space-y-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <Input
-                type="text"
-                placeholder="Search for any program, university, or location..."
-                className="pl-10 pr-4 py-3 text-lg"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
+              <Input type="text" placeholder="Search for any program, university, or location..." className="pl-10 pr-4 py-3 text-lg" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
             </div>
             <div className="flex flex-wrap gap-2">
               <span className="text-sm text-gray-600">Popular searches:</span>
-              {popularSearches.map(term => (
-                <Badge
-                  key={term}
-                  variant="secondary"
-                  className="cursor-pointer hover:bg-accent hover:text-accent-foreground"
-                  onClick={() => setSearchQuery(term)}
-                >
+              {popularSearches.map(term => <Badge key={term} variant="secondary" className="cursor-pointer hover:bg-accent hover:text-accent-foreground" onClick={() => setSearchQuery(term)}>
                   {term}
-                </Badge>
-              ))}
+                </Badge>)}
             </div>
-          </div>
-        );
-
+          </div>;
       case 'amazon':
-        return (
-          <div className="p-6">
+        return <div className="p-6">
             {/* Search Bar */}
             <div className="flex rounded-lg overflow-hidden border border-gray-300 mb-6">
               <Select value={selectedDegree} onValueChange={setSelectedDegree}>
@@ -173,24 +274,16 @@ const Header = () => {
                 </SelectTrigger>
                 <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
                   <SelectItem value="all">All Degrees</SelectItem>
-                  {degreeTypes.map(degree => (
-                    <SelectItem key={degree.value} value={degree.value}>
+                  {degreeTypes.map(degree => <SelectItem key={degree.value} value={degree.value}>
                       <div className="flex items-center gap-2">
                         <degree.icon className="w-4 h-4" />
                         {degree.label}
                       </div>
-                    </SelectItem>
-                  ))}
+                    </SelectItem>)}
                 </SelectContent>
               </Select>
               <div className="flex-1 relative">
-                <Input
-                  type="text"
-                  placeholder="Search programs, universities, subjects..."
-                  className="border-0 rounded-none focus:ring-0 focus:border-transparent"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
+                <Input type="text" placeholder="Search programs, universities, subjects..." className="border-0 rounded-none focus:ring-0 focus:border-transparent" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
               </div>
               <Button className="rounded-none px-6 bg-pink-800 text-white hover:bg-pink-700">
                 <Search className="w-5 h-5" />
@@ -201,16 +294,9 @@ const Header = () => {
             <div className="mb-6">
               <div className="flex flex-wrap gap-2 items-center">
                 <span className="text-sm text-gray-600 font-medium">Popular searches:</span>
-                {popularSearches.map(term => (
-                  <Badge
-                    key={term}
-                    variant="secondary"
-                    className="cursor-pointer hover:bg-accent hover:text-accent-foreground px-3 py-1"
-                    onClick={() => setSearchQuery(term)}
-                  >
+                {popularSearches.map(term => <Badge key={term} variant="secondary" className="cursor-pointer hover:bg-accent hover:text-accent-foreground px-3 py-1" onClick={() => setSearchQuery(term)}>
                     {term}
-                  </Badge>
-                ))}
+                  </Badge>)}
               </div>
             </div>
 
@@ -218,12 +304,7 @@ const Header = () => {
             <div>
               <h4 className="text-lg font-semibold mb-4">Browse by Subject</h4>
               <div className="grid grid-cols-3 gap-4 max-h-80 overflow-y-auto">
-                {subjects.map(subject => (
-                  <Card 
-                    key={subject.name} 
-                    className="cursor-pointer hover:scale-105 transition-transform border border-gray-200"
-                    onClick={() => setSearchQuery(subject.name)}
-                  >
+                {subjects.map(subject => <Card key={subject.name} className="cursor-pointer hover:scale-105 transition-transform border border-gray-200" onClick={() => setSearchQuery(subject.name)}>
                     <CardContent className="p-4">
                       <div className="flex items-start gap-3">
                         <div className="text-gray-600 mt-1">
@@ -237,16 +318,12 @@ const Header = () => {
                         </div>
                       </div>
                     </CardContent>
-                  </Card>
-                ))}
+                  </Card>)}
               </div>
             </div>
-          </div>
-        );
-
+          </div>;
       case 'visual':
-        return (
-          <div className="p-6">
+        return <div className="p-6">
             <div className="text-center mb-6">
               <h3 className="text-lg font-semibold mb-2">Find Your Perfect Program</h3>
               <p className="text-gray-600">Start by selecting your degree type, then explore subjects</p>
@@ -260,24 +337,16 @@ const Header = () => {
                 </SelectTrigger>
                 <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
                   <SelectItem value="all">All Degree Types</SelectItem>
-                  {degreeTypes.map(degree => (
-                    <SelectItem key={degree.value} value={degree.value}>
+                  {degreeTypes.map(degree => <SelectItem key={degree.value} value={degree.value}>
                       <div className="flex items-center gap-2">
                         <degree.icon className="w-4 h-4" />
                         {degree.label}
                       </div>
-                    </SelectItem>
-                  ))}
+                    </SelectItem>)}
                 </SelectContent>
               </Select>
               <div className="flex-1 relative">
-                <Input
-                  type="text"
-                  placeholder="Search subjects, universities, locations..."
-                  className="border-0 rounded-none focus:ring-0 focus:border-transparent"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
+                <Input type="text" placeholder="Search subjects, universities, locations..." className="border-0 rounded-none focus:ring-0 focus:border-transparent" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
               </div>
               <Button className="rounded-none px-6 bg-accent text-accent-foreground hover:bg-accent/90">
                 <Search className="w-5 h-5" />
@@ -286,30 +355,21 @@ const Header = () => {
 
             {/* Degree Type Cards */}
             <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-6">
-              {degreeTypes.map(degree => (
-                <Card
-                  key={degree.value}
-                  className={`cursor-pointer hover:scale-105 transition-transform ${
-                    selectedDegree === degree.value ? 'ring-2 ring-primary' : ''
-                  }`}
-                  onClick={() => setSelectedDegree(degree.value)}
-                >
+              {degreeTypes.map(degree => <Card key={degree.value} className={`cursor-pointer hover:scale-105 transition-transform ${selectedDegree === degree.value ? 'ring-2 ring-primary' : ''}`} onClick={() => setSelectedDegree(degree.value)}>
                   <CardContent className="p-4">
                     <div className="mb-2 text-center text-gray-600">
                       <degree.icon className="w-8 h-8 mx-auto" />
                     </div>
                     <h4 className="font-semibold text-center text-sm">{degree.label}</h4>
                   </CardContent>
-                </Card>
-              ))}
+                </Card>)}
             </div>
 
             {/* Subject Categories */}
             <div className="mb-4">
               <h4 className="text-lg font-semibold mb-3">Browse by Subject</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-96 overflow-y-auto">
-                {subjects.map(subject => (
-                  <Card key={subject.name} className="cursor-pointer hover:scale-105 transition-transform">
+                {subjects.map(subject => <Card key={subject.name} className="cursor-pointer hover:scale-105 transition-transform">
                     <CardContent className="p-3">
                       <div className="flex items-center gap-3">
                         <div className="text-gray-600">
@@ -321,29 +381,20 @@ const Header = () => {
                         </div>
                       </div>
                     </CardContent>
-                  </Card>
-                ))}
+                  </Card>)}
               </div>
             </div>
-          </div>
-        );
-
+          </div>;
       default:
         return null;
     }
   };
-
-  return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+  return <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <img 
-              src="/lovable-uploads/f9cd9d53-d676-4f5b-a143-85d026ced35b.png" 
-              alt="Educations.com Logo" 
-              className="h-8"
-            />
+            <img src="/lovable-uploads/f9cd9d53-d676-4f5b-a143-85d026ced35b.png" alt="Educations.com Logo" className="h-8" />
           </div>
 
           {/* Navigation */}
@@ -360,77 +411,37 @@ const Header = () => {
 
           {/* Search Bar */}
           <div className="flex-1 max-w-lg mx-4 relative" ref={searchRef}>
-            {!isExpanded ? (
-              <div 
-                className="flex rounded-lg overflow-hidden border border-gray-300 cursor-pointer hover:border-gray-400 transition-colors"
-                onClick={handleSearchClick}
-              >
-                <div className="w-24 md:w-32 border-r border-gray-300 bg-gray-50 flex items-center justify-center text-xs text-gray-600">
-                  All
-                </div>
+            {!isExpanded ? <div className="flex rounded-lg overflow-hidden border border-gray-300 cursor-pointer hover:border-gray-400 transition-colors" onClick={handleSearchClick}>
+                
                 <div className="flex-1 px-3 py-2 bg-white">
-                  <span className="text-gray-500">Search for subject or location</span>
+                  <span className="text-gray-500">Search for subject, school or location</span>
                 </div>
                 <div className="px-4 bg-teal-600 text-white flex items-center">
                   <Search className="w-4 h-4" />
                 </div>
-              </div>
-            ) : (
-              <div className="absolute top-0 left-0 right-0 bg-white border border-gray-300 rounded-lg shadow-lg z-50 w-[900px] -ml-60">
+              </div> : <div className="absolute top-0 left-0 right-0 bg-white border border-gray-300 rounded-lg shadow-lg z-50 w-[900px] -ml-60">
                 <div className="flex items-center justify-between p-3 border-b border-gray-200">
                   <div className="flex space-x-4">
-                    <button
-                      onClick={() => setActiveTab('structured')}
-                      className={`px-3 py-1 text-sm font-medium rounded ${
-                        activeTab === 'structured' 
-                          ? 'bg-primary text-primary-foreground' 
-                          : 'text-gray-600 hover:text-gray-900'
-                      }`}
-                    >
+                    <button onClick={() => setActiveTab('structured')} className={`px-3 py-1 text-sm font-medium rounded ${activeTab === 'structured' ? 'bg-primary text-primary-foreground' : 'text-gray-600 hover:text-gray-900'}`}>
                       Structured
                     </button>
-                    <button
-                      onClick={() => setActiveTab('freetext')}
-                      className={`px-3 py-1 text-sm font-medium rounded ${
-                        activeTab === 'freetext' 
-                          ? 'bg-primary text-primary-foreground' 
-                          : 'text-gray-600 hover:text-gray-900'
-                      }`}
-                    >
+                    <button onClick={() => setActiveTab('freetext')} className={`px-3 py-1 text-sm font-medium rounded ${activeTab === 'freetext' ? 'bg-primary text-primary-foreground' : 'text-gray-600 hover:text-gray-900'}`}>
                       Free Text
                     </button>
-                    <button
-                      onClick={() => setActiveTab('amazon')}
-                      className={`px-3 py-1 text-sm font-medium rounded ${
-                        activeTab === 'amazon' 
-                          ? 'bg-primary text-primary-foreground' 
-                          : 'text-gray-600 hover:text-gray-900'
-                      }`}
-                    >
+                    <button onClick={() => setActiveTab('amazon')} className={`px-3 py-1 text-sm font-medium rounded ${activeTab === 'amazon' ? 'bg-primary text-primary-foreground' : 'text-gray-600 hover:text-gray-900'}`}>
                       Category + Search
                     </button>
-                    <button
-                      onClick={() => setActiveTab('visual')}
-                      className={`px-3 py-1 text-sm font-medium rounded ${
-                        activeTab === 'visual' 
-                          ? 'bg-primary text-primary-foreground' 
-                          : 'text-gray-600 hover:text-gray-900'
-                      }`}
-                    >
+                    <button onClick={() => setActiveTab('visual')} className={`px-3 py-1 text-sm font-medium rounded ${activeTab === 'visual' ? 'bg-primary text-primary-foreground' : 'text-gray-600 hover:text-gray-900'}`}>
                       Visual
                     </button>
                   </div>
-                  <button
-                    onClick={handleCloseSearch}
-                    className="text-gray-400 hover:text-gray-600"
-                  >
+                  <button onClick={handleCloseSearch} className="text-gray-400 hover:text-gray-600">
                     <X className="w-4 h-4" />
                   </button>
                 </div>
                 
                 {renderSearchContent()}
-              </div>
-            )}
+              </div>}
           </div>
 
           {/* Right side - Language and Sign in */}
@@ -447,8 +458,6 @@ const Header = () => {
           </div>
         </div>
       </div>
-    </header>
-  );
+    </header>;
 };
-
 export default Header;
