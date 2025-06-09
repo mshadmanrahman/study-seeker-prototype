@@ -7,7 +7,7 @@
 
 @layer base {
   :root {
-    --background: 240 40% 95%;
+    --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -39,7 +39,7 @@
 
     --education-primary: 179 100% 21%; /* #00695C */
     --education-accent: 320 79% 36%; /* #AD1457 */
-    --education-bg: 240 40% 95%; /* #F0F0F3 */
+    --education-bg: 0 0% 100%; /* #FFFFFF */
   }
 }
 
@@ -49,21 +49,12 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
-    background-image: url('/lovable-uploads/63335a7f-43dc-43ec-a36d-101c26e52820.png');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
+    @apply bg-white text-foreground font-sans;
     min-height: 100vh;
   }
 
   html {
-    background-image: url('/lovable-uploads/63335a7f-43dc-43ec-a36d-101c26e52820.png');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
+    background-color: #FFFFFF;
   }
 }
 

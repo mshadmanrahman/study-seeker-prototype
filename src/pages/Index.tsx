@@ -230,25 +230,23 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       {/* Header with background image */}
       <header 
-        className="relative bg-cover bg-center bg-no-repeat"
+        className="relative bg-cover bg-center bg-no-repeat flex items-center justify-center"
         style={{
           backgroundImage: "url('/lovable-uploads/63335a7f-43dc-43ec-a36d-101c26e52820.png')",
           minHeight: "300px"
         }}
       >
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-primary">Educations.com</h1>
-            <p className="text-xl text-primary/80">Search Experience Prototype</p>
-          </div>
+        <div className="text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-primary">Educations.com</h1>
+          <p className="text-xl text-primary/80">Search Experience Prototype</p>
         </div>
       </header>
 
       {/* Search Type Selector */}
-      <div className="container mx-auto px-4 py-8 bg-background">
+      <div className="container mx-auto px-4 py-8 bg-white">
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-center mb-6">Choose Your Search Experience</h2>
           <div className="grid md:grid-cols-4 gap-4 mb-8">
