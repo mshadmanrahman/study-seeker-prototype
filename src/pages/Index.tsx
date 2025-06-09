@@ -155,15 +155,31 @@ const Index = () => {
     <div className="search-container p-6">
       <div className="text-center mb-6">
         <h3 className="text-lg font-semibold mb-2">Find Your Perfect Program</h3>
-        <p className="text-gray-600">Explore programs by category or search directly</p>
+        <p className="text-gray-600">Start by selecting your degree type, then search</p>
       </div>
       
-      {/* Search Bar for Visual Discovery - Amazon Style */}
+      {/* Degree-First Search Bar */}
       <div className="flex rounded-lg overflow-hidden border border-gray-300 mb-6">
+        <Select value={selectedDegree} onValueChange={setSelectedDegree}>
+          <SelectTrigger className="w-56 border-0 border-r border-gray-300 rounded-none bg-gray-50">
+            <SelectValue placeholder="Select Degree Type" />
+          </SelectTrigger>
+          <SelectContent className="bg-white border border-gray-200 shadow-lg">
+            <SelectItem value="all">All Degree Types</SelectItem>
+            {degreeTypes.map((degree) => (
+              <SelectItem key={degree.value} value={degree.value}>
+                <div className="flex items-center gap-2">
+                  <span>{degree.icon}</span>
+                  {degree.label}
+                </div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         <div className="flex-1 relative">
           <Input
             type="text"
-            placeholder="Quick search across all programs..."
+            placeholder="Search subjects, universities, locations..."
             className="border-0 rounded-none focus:ring-0 focus:border-transparent"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -174,6 +190,25 @@ const Index = () => {
         </Button>
       </div>
 
+      {/* Degree Type Cards */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+        {degreeTypes.map((degree) => (
+          <Card 
+            key={degree.value} 
+            className={`cursor-pointer hover:scale-105 transition-transform search-card ${
+              selectedDegree === degree.value ? 'ring-2 ring-primary' : ''
+            }`}
+            onClick={() => setSelectedDegree(degree.value)}
+          >
+            <CardContent className="p-4">
+              <div className="text-3xl mb-2 text-center">{degree.icon}</div>
+              <h4 className="font-semibold text-center text-sm">{degree.label}</h4>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Subject Categories */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {[
           { title: 'STEM & Technology', icon: '💻', color: 'bg-blue-500', count: '2,847 programs' },
