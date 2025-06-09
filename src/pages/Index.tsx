@@ -1,4 +1,5 @@
 
+
 import React, { useState } from 'react';
 import { Search, ChevronDown, MapPin, BookOpen, GraduationCap, Award, Filter, Globe, Clock, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -244,7 +245,7 @@ const Index = () => {
           <img 
             src="/lovable-uploads/f9cd9d53-d676-4f5b-a143-85d026ced35b.png" 
             alt="Educations.com Logo" 
-            className="h-16 md:h-20 mx-auto mb-4"
+            className="h-11 md:h-14 mx-auto mb-4"
           />
           <p className="text-xl text-primary/80">Search Experience Prototype</p>
         </div>
@@ -354,3 +355,4 @@ const Index = () => {
 };
 
 export default Index;
+
