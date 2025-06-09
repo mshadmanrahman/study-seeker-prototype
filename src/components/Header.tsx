@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, Globe, User, ChevronDown, BookOpen, GraduationCap, Award, Target, Microscope, FileText, MapPin, Clock, Star, X } from 'lucide-react';
+import { Search, Globe, User, ChevronDown, BookOpen, GraduationCap, Award, Target, Microscope, FileText, MapPin, Clock, Star, X, Monitor, Palette, Heart, Calculator, Briefcase, Camera, Music } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -25,7 +25,17 @@ const Header = () => {
     { value: 'phd', label: 'PhD Studies', icon: Award }
   ];
 
-  const popularSubjects = ['Computer Science', 'Business Administration', 'Engineering', 'Medicine', 'Psychology', 'Arts & Design', 'Data Science', 'Marketing'];
+  const popularSubjects = [
+    { name: 'Computer Science', icon: Monitor },
+    { name: 'Business Administration', icon: Briefcase },
+    { name: 'Engineering', icon: Calculator },
+    { name: 'Medicine', icon: Heart },
+    { name: 'Psychology', icon: User },
+    { name: 'Arts & Design', icon: Palette },
+    { name: 'Data Science', icon: Target },
+    { name: 'Marketing', icon: Camera }
+  ];
+  
   const locations = ['United States', 'United Kingdom', 'Germany', 'Canada', 'Australia', 'Netherlands', 'Sweden', 'Switzerland'];
   const popularSearches = ['MBA in London', 'Computer Science PhD', 'Medicine in Germany', 'Online Masters'];
 
@@ -62,8 +72,11 @@ const Header = () => {
             </SelectTrigger>
             <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
               {popularSubjects.map(subject => (
-                <SelectItem key={subject} value={subject.toLowerCase()}>
-                  {subject}
+                <SelectItem key={subject.name} value={subject.name.toLowerCase()}>
+                  <div className="flex items-center gap-2">
+                    <subject.icon className="w-4 h-4" />
+                    {subject.name}
+                  </div>
                 </SelectItem>
               ))}
             </SelectContent>
@@ -126,14 +139,19 @@ const Header = () => {
   );
 
   const CategorySearch = () => (
-    <div className="p-6">
-      <div className="flex rounded-lg overflow-hidden border border-gray-300 mb-4">
+    <div className="p-8 min-h-[400px]">
+      <div className="text-center mb-6">
+        <h3 className="text-lg font-semibold mb-2">Find Your Perfect Program</h3>
+        <p className="text-gray-600">Browse by subject area or search directly</p>
+      </div>
+
+      <div className="flex rounded-lg overflow-hidden border border-gray-300 mb-6">
         <Select value={selectedDegree} onValueChange={setSelectedDegree}>
-          <SelectTrigger className="w-32 border-0 border-r border-gray-300 rounded-none bg-gray-50">
-            <SelectValue placeholder="All" />
+          <SelectTrigger className="w-48 border-0 border-r border-gray-300 rounded-none bg-gray-50">
+            <SelectValue placeholder="All Degrees" />
           </SelectTrigger>
           <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
-            <SelectItem value="all">All Degrees</SelectItem>
+            <SelectItem value="all">All Degree Types</SelectItem>
             {degreeTypes.map(degree => (
               <SelectItem key={degree.value} value={degree.value}>
                 <div className="flex items-center gap-2">
@@ -147,7 +165,7 @@ const Header = () => {
         <div className="flex-1 relative">
           <Input
             type="text"
-            placeholder="Search programs, universities, subjects..."
+            placeholder="Search subjects, universities, locations..."
             className="border-0 rounded-none focus:ring-0 focus:border-transparent"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -157,30 +175,51 @@ const Header = () => {
           <Search className="w-5 h-5" />
         </Button>
       </div>
-      <div className="flex flex-wrap gap-2">
-        <span className="text-sm text-gray-600">Popular searches:</span>
-        {popularSearches.map(term => (
-          <Badge
-            key={term}
-            variant="secondary"
-            className="cursor-pointer hover:bg-accent hover:text-accent-foreground"
-            onClick={() => setSearchQuery(term)}
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+        {popularSubjects.map(subject => (
+          <Card
+            key={subject.name}
+            className="cursor-pointer hover:scale-105 transition-transform hover:shadow-md"
+            onClick={() => setSearchQuery(subject.name)}
           >
-            {term}
-          </Badge>
+            <CardContent className="p-4">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center text-teal-600 mb-3 mx-auto">
+                  <subject.icon className="w-6 h-6" />
+                </div>
+                <h4 className="font-medium text-sm">{subject.name}</h4>
+              </div>
+            </CardContent>
+          </Card>
         ))}
+      </div>
+      
+      <div className="flex gap-2 justify-center">
+        <Badge variant="outline" className="cursor-pointer hover:bg-teal-500 hover:text-white">
+          <Globe className="w-3 h-3 mr-1" />
+          Online
+        </Badge>
+        <Badge variant="outline" className="cursor-pointer hover:bg-teal-500 hover:text-white">
+          <Clock className="w-3 h-3 mr-1" />
+          Part-time
+        </Badge>
+        <Badge variant="outline" className="cursor-pointer hover:bg-teal-500 hover:text-white">
+          <Star className="w-3 h-3 mr-1" />
+          Top Rated
+        </Badge>
       </div>
     </div>
   );
 
   const VisualSearch = () => (
-    <div className="p-6">
-      <div className="text-center mb-4">
-        <h3 className="text-lg font-semibold mb-2">Find Your Perfect Program</h3>
-        <p className="text-gray-600">Start by selecting your degree type</p>
+    <div className="p-8 min-h-[450px]">
+      <div className="text-center mb-6">
+        <h3 className="text-xl font-semibold mb-2">Choose Your Educational Journey</h3>
+        <p className="text-gray-600">Select your degree type to explore programs</p>
       </div>
       
-      <div className="flex rounded-lg overflow-hidden border border-gray-300 mb-4">
+      <div className="flex rounded-lg overflow-hidden border border-gray-300 mb-6">
         <Select value={selectedDegree} onValueChange={setSelectedDegree}>
           <SelectTrigger className="w-48 border-0 border-r border-gray-300 rounded-none bg-gray-50">
             <SelectValue placeholder="Select Degree Type" />
@@ -211,37 +250,45 @@ const Header = () => {
         </Button>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-6 gap-2 mb-4">
+      <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-6">
         {degreeTypes.map(degree => (
           <Card
             key={degree.value}
-            className={`cursor-pointer hover:scale-105 transition-transform ${
-              selectedDegree === degree.value ? 'ring-2 ring-teal-500' : ''
+            className={`cursor-pointer hover:scale-105 transition-transform hover:shadow-lg ${
+              selectedDegree === degree.value ? 'ring-2 ring-teal-500 bg-teal-50' : ''
             }`}
             onClick={() => setSelectedDegree(degree.value)}
           >
-            <CardContent className="p-3">
-              <div className="mb-2 text-center text-gray-600">
-                <degree.icon className="w-6 h-6 mx-auto" />
+            <CardContent className="p-4">
+              <div className="text-center">
+                <div className={`w-12 h-12 rounded-lg flex items-center justify-center mb-3 mx-auto ${
+                  selectedDegree === degree.value ? 'bg-teal-600 text-white' : 'bg-gray-100 text-gray-600'
+                }`}>
+                  <degree.icon className="w-6 h-6" />
+                </div>
+                <h4 className="font-semibold text-xs">{degree.label}</h4>
               </div>
-              <h4 className="font-semibold text-center text-xs">{degree.label}</h4>
             </CardContent>
           </Card>
         ))}
       </div>
       
-      <div className="flex gap-2">
+      <div className="flex gap-2 justify-center">
         <Badge variant="outline" className="cursor-pointer hover:bg-teal-500 hover:text-white">
           <Globe className="w-3 h-3 mr-1" />
-          Online
+          Online Programs
         </Badge>
         <Badge variant="outline" className="cursor-pointer hover:bg-teal-500 hover:text-white">
           <Clock className="w-3 h-3 mr-1" />
-          Part-time
+          Flexible Schedule
         </Badge>
         <Badge variant="outline" className="cursor-pointer hover:bg-teal-500 hover:text-white">
           <Star className="w-3 h-3 mr-1" />
-          Top Rated
+          Top Universities
+        </Badge>
+        <Badge variant="outline" className="cursor-pointer hover:bg-teal-500 hover:text-white">
+          <Award className="w-3 h-3 mr-1" />
+          Scholarships
         </Badge>
       </div>
     </div>
