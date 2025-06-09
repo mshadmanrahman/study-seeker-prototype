@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, ChevronDown, MapPin, BookOpen, GraduationCap, Award, Filter, Globe, Clock, Star } from 'lucide-react';
+import { Search, ChevronDown, MapPin, BookOpen, GraduationCap, Award, Filter, Globe, Clock, Star, Settings, Building, Palette, Plane, Briefcase, Hammer, Scissors, Target, TrendingUp, Users, Zap, Cog, Leaf, Shirt, DollarSign, UtensilsCrossed, Home, Heart, Newspaper, MessageCircle, Scale, Dna, Lightbulb, UserCheck, Megaphone, Microscope, Music, Sparkles, Earth, Activity, Recycle, Monitor, FileText, Hotel, Car } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -13,179 +13,179 @@ const Index = () => {
   const degreeTypes = [{
     value: 'preparatory',
     label: 'Preparatory',
-    icon: '📚'
+    icon: BookOpen
   }, {
     value: 'bachelors',
     label: 'Bachelors',
-    icon: '🎓'
+    icon: GraduationCap
   }, {
     value: 'post-bachelors',
     label: 'Post-Bachelors',
-    icon: '📜'
+    icon: FileText
   }, {
     value: 'masters',
     label: 'Masters',
-    icon: '🎯'
+    icon: Target
   }, {
     value: 'postgraduate',
     label: 'Postgraduate',
-    icon: '🔬'
+    icon: Microscope
   }, {
     value: 'phd',
     label: 'PhD Studies',
-    icon: '👨‍🎓'
+    icon: Award
   }];
   const subjects = [{
     name: 'Administration Programs',
-    icon: '📋',
+    icon: Settings,
     category: 'Business'
   }, {
     name: 'Architecture Programs',
-    icon: '🏗️',
+    icon: Building,
     category: 'Design'
   }, {
     name: 'Art Programs',
-    icon: '🎨',
+    icon: Palette,
     category: 'Creative'
   }, {
     name: 'Aviation Programs',
-    icon: '✈️',
+    icon: Plane,
     category: 'Transportation'
   }, {
     name: 'Business Programs',
-    icon: '💼',
+    icon: Briefcase,
     category: 'Business'
   }, {
     name: 'Construction Programs',
-    icon: '🔨',
+    icon: Hammer,
     category: 'Engineering'
   }, {
     name: 'Cosmetology Programs',
-    icon: '💄',
+    icon: Scissors,
     category: 'Personal Care'
   }, {
     name: 'Design Programs',
-    icon: '🎯',
+    icon: Target,
     category: 'Creative'
   }, {
     name: 'Economic Programs',
-    icon: '📈',
+    icon: TrendingUp,
     category: 'Business'
   }, {
     name: 'Education Programs',
-    icon: '👩‍🏫',
+    icon: Users,
     category: 'Education'
   }, {
     name: 'Energy Programs',
-    icon: '⚡',
+    icon: Zap,
     category: 'Engineering'
   }, {
     name: 'Engineering Programs',
-    icon: '⚙️',
+    icon: Cog,
     category: 'Engineering'
   }, {
     name: 'Environmental Programs',
-    icon: '🌱',
+    icon: Leaf,
     category: 'Science'
   }, {
     name: 'Fashion Programs',
-    icon: '👗',
+    icon: Shirt,
     category: 'Creative'
   }, {
     name: 'Finance Programs',
-    icon: '💰',
+    icon: DollarSign,
     category: 'Business'
   }, {
     name: 'Food and Beverage Programs',
-    icon: '🍽️',
+    icon: UtensilsCrossed,
     category: 'Hospitality'
   }, {
     name: 'General Programs',
-    icon: '📚',
+    icon: BookOpen,
     category: 'General'
   }, {
     name: 'Healthcare Programs',
-    icon: '🏥',
+    icon: Heart,
     category: 'Health'
   }, {
     name: 'Humanities Programs',
-    icon: '📖',
+    icon: BookOpen,
     category: 'Humanities'
   }, {
     name: 'Journalism, Media, and Mass Communication Programs',
-    icon: '📺',
+    icon: Newspaper,
     category: 'Media'
   }, {
     name: 'Language Programs',
-    icon: '🗣️',
+    icon: MessageCircle,
     category: 'Languages'
   }, {
     name: 'Law Programs',
-    icon: '⚖️',
+    icon: Scale,
     category: 'Law'
   }, {
     name: 'Life Sciences Programs',
-    icon: '🧬',
+    icon: Dna,
     category: 'Science'
   }, {
     name: 'Life Skills Programs',
-    icon: '🎯',
+    icon: Target,
     category: 'Personal Development'
   }, {
     name: 'Management Programs',
-    icon: '👔',
+    icon: UserCheck,
     category: 'Business'
   }, {
     name: 'Marketing Programs',
-    icon: '📢',
+    icon: Megaphone,
     category: 'Business'
   }, {
     name: 'Natural Sciences Programs',
-    icon: '🔬',
+    icon: Microscope,
     category: 'Science'
   }, {
     name: 'Performing Arts Programs',
-    icon: '🎭',
+    icon: Music,
     category: 'Creative'
   }, {
     name: 'Professional Programs',
-    icon: '💡',
+    icon: Lightbulb,
     category: 'Professional'
   }, {
     name: 'Self-Improvement Programs',
-    icon: '🌟',
+    icon: Sparkles,
     category: 'Personal Development'
   }, {
     name: 'Social Science Programs',
-    icon: '🌍',
+    icon: Earth,
     category: 'Social Sciences'
   }, {
     name: 'Sport and Exercise Programs',
-    icon: '🏃‍♂️',
+    icon: Activity,
     category: 'Sports'
   }, {
     name: 'Sustainability Programs',
-    icon: '♻️',
+    icon: Recycle,
     category: 'Environmental'
   }, {
     name: 'Technology Programs',
-    icon: '💻',
+    icon: Monitor,
     category: 'Technology'
   }, {
     name: 'Test Preparation Programs',
-    icon: '📝',
+    icon: FileText,
     category: 'Education'
   }, {
     name: 'Tourism and Hospitality Programs',
-    icon: '🏨',
+    icon: Hotel,
     category: 'Hospitality'
   }, {
     name: 'License and Training Programs',
-    icon: '🎓',
+    icon: GraduationCap,
     category: 'Professional'
   }, {
     name: 'Transportation and Logistics Programs',
-    icon: '🚚',
+    icon: Car,
     category: 'Transportation'
   }];
   const popularSubjects = ['Computer Science', 'Business Administration', 'Engineering', 'Medicine', 'Psychology', 'Arts & Design', 'Data Science', 'Marketing'];
@@ -253,7 +253,7 @@ const Index = () => {
             <SelectItem value="all">All Degrees</SelectItem>
             {degreeTypes.map(degree => <SelectItem key={degree.value} value={degree.value}>
                 <div className="flex items-center gap-2">
-                  <span>{degree.icon}</span>
+                  <degree.icon className="w-4 h-4" />
                   {degree.label}
                 </div>
               </SelectItem>)}
@@ -282,7 +282,9 @@ const Index = () => {
           {subjects.map(subject => <Card key={subject.name} className="cursor-pointer hover:scale-105 transition-transform search-card">
               <CardContent className="p-4">
                 <div className="flex items-center gap-3">
-                  <div className="text-2xl">{subject.icon}</div>
+                  <div className="text-gray-600">
+                    <subject.icon className="w-6 h-6" />
+                  </div>
                   <div className="flex-1">
                     <h4 className="font-medium text-sm">{subject.name}</h4>
                     <Badge variant="secondary" className="text-xs mt-1">{subject.category}</Badge>
@@ -309,7 +311,7 @@ const Index = () => {
             <SelectItem value="all">All Degree Types</SelectItem>
             {degreeTypes.map(degree => <SelectItem key={degree.value} value={degree.value}>
                 <div className="flex items-center gap-2">
-                  <span>{degree.icon}</span>
+                  <degree.icon className="w-4 h-4" />
                   {degree.label}
                 </div>
               </SelectItem>)}
@@ -327,7 +329,9 @@ const Index = () => {
       <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-6">
         {degreeTypes.map(degree => <Card key={degree.value} className={`cursor-pointer hover:scale-105 transition-transform search-card ${selectedDegree === degree.value ? 'ring-2 ring-primary' : ''}`} onClick={() => setSelectedDegree(degree.value)}>
             <CardContent className="p-4">
-              <div className="text-3xl mb-2 text-center">{degree.icon}</div>
+              <div className="mb-2 text-center text-gray-600">
+                <degree.icon className="w-8 h-8 mx-auto" />
+              </div>
               <h4 className="font-semibold text-center text-sm">{degree.label}</h4>
             </CardContent>
           </Card>)}
@@ -340,7 +344,9 @@ const Index = () => {
           {subjects.map(subject => <Card key={subject.name} className="cursor-pointer hover:scale-105 transition-transform search-card">
               <CardContent className="p-3">
                 <div className="flex items-center gap-3">
-                  <div className="text-2xl">{subject.icon}</div>
+                  <div className="text-gray-600">
+                    <subject.icon className="w-6 h-6" />
+                  </div>
                   <div className="flex-1">
                     <h4 className="font-medium text-sm">{subject.name}</h4>
                     <Badge variant="secondary" className="text-xs mt-1">{subject.category}</Badge>
