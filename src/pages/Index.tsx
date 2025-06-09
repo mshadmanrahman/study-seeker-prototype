@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search, ChevronDown, MapPin, BookOpen, GraduationCap, Award, Filter, Globe, Clock, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -233,7 +232,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-gradient-to-r from-primary/80 to-accent/80 backdrop-blur-sm text-white">
+      <header className="text-white">
         <div className="container mx-auto px-4 py-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Educations.com</h1>
