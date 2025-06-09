@@ -267,12 +267,20 @@ const Index = () => {
         </Button>
       </div>
       
+      {/* Popular Searches Section */}
+      <div className="flex flex-wrap gap-2 mt-4">
+        <span className="text-sm text-gray-600">Popular searches:</span>
+        {['MBA in London', 'Computer Science PhD', 'Medicine in Germany', 'Online Masters'].map(term => <Badge key={term} variant="secondary" className="cursor-pointer hover:bg-accent hover:text-accent-foreground" onClick={() => setSearchQuery(term)}>
+            {term}
+          </Badge>)}
+      </div>
+      
       {/* Browse by Subject Section */}
       <div className="mt-6">
         <h4 className="text-lg font-semibold mb-4">Browse by Subject</h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-96 overflow-y-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 max-h-96 overflow-y-auto">
           {subjects.map(subject => <Card key={subject.name} className="cursor-pointer hover:scale-105 transition-transform search-card">
-              <CardContent className="p-3">
+              <CardContent className="p-4">
                 <div className="flex items-center gap-3">
                   <div className="text-2xl">{subject.icon}</div>
                   <div className="flex-1">
