@@ -5,11 +5,14 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
+import Header from '@/components/Header';
+
 const Index = () => {
   const [activeSearch, setActiveSearch] = useState('structured');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDegree, setSelectedDegree] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('');
+
   const degreeTypes = [{
     value: 'preparatory',
     label: 'Preparatory',
@@ -190,6 +193,7 @@ const Index = () => {
   }];
   const popularSubjects = ['Computer Science', 'Business Administration', 'Engineering', 'Medicine', 'Psychology', 'Arts & Design', 'Data Science', 'Marketing'];
   const locations = ['United States', 'United Kingdom', 'Germany', 'Canada', 'Australia', 'Netherlands', 'Sweden', 'Switzerland'];
+
   const StructuredSearch = () => <div className="search-container p-6">
       <div className="grid md:grid-cols-2 gap-4">
         <div>
@@ -246,8 +250,8 @@ const Index = () => {
   const AmazonStyleSearch = () => <div className="search-container p-6">
       <div className="flex rounded-lg overflow-hidden border border-gray-300">
         <Select value={selectedDegree} onValueChange={setSelectedDegree}>
-          <SelectTrigger className="w-32 md:w-48 border-0 border-r border-gray-300 rounded-none bg-gray-50">
-            <SelectValue placeholder="All Degrees" />
+          <SelectTrigger className="w-20 md:w-32 border-0 border-r border-gray-300 rounded-none bg-gray-50">
+            <SelectValue placeholder="All" />
           </SelectTrigger>
           <SelectContent className="bg-white border border-gray-200 shadow-lg">
             <SelectItem value="all">All Degrees</SelectItem>
@@ -380,6 +384,7 @@ const Index = () => {
         </div>
       </div>
     </div>;
+
   const searchTypes = [{
     id: 'structured',
     name: 'Current Implementation',
@@ -398,16 +403,19 @@ const Index = () => {
     desc: 'Category-based visual exploration'
   }];
   return <div className="min-h-screen bg-white">
-      {/* Header with background image */}
-      <header className="relative bg-cover bg-center bg-no-repeat flex items-center justify-center" style={{
+      {/* Header */}
+      <Header />
+
+      {/* Hero section with background image */}
+      <section className="relative bg-cover bg-center bg-no-repeat flex items-center justify-center" style={{
       backgroundImage: "url('/lovable-uploads/63335a7f-43dc-43ec-a36d-101c26e52820.png')",
-      minHeight: "300px"
+      minHeight: "200px"
     }}>
         <div className="text-center">
-          <img src="/lovable-uploads/f9cd9d53-d676-4f5b-a143-85d026ced35b.png" alt="Educations.com Logo" className="h-11 md:h-14 mx-auto mb-4" />
-          <p className="text-xl text-primary/80">Search Experience Prototype</p>
+          <h1 className="text-3xl font-bold text-primary mb-2">Search Experience Prototype</h1>
+          <p className="text-lg text-primary/80">Explore different search implementations</p>
         </div>
-      </header>
+      </section>
 
       {/* Search Type Selector */}
       <div className="container mx-auto px-4 py-8 bg-white">
@@ -491,4 +499,5 @@ const Index = () => {
       </div>
     </div>;
 };
+
 export default Index;
