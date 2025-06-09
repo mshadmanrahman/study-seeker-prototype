@@ -262,7 +262,7 @@ const Index = () => {
         <div className="flex-1 relative">
           <Input type="text" placeholder="Search programs, universities, subjects..." className="border-0 rounded-none focus:ring-0 focus:border-transparent" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
         </div>
-        <Button className="rounded-none px-6 bg-accent text-accent-foreground hover:bg-accent/90">
+        <Button className="rounded-none px-6 text-accent-foreground bg-pink-800 hover:bg-pink-700">
           <Search className="w-5 h-5" />
         </Button>
       </div>
