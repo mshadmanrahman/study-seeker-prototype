@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Search, ChevronDown, MapPin, BookOpen, GraduationCap, Award, Filter, Globe, Clock, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -13,11 +14,53 @@ const Index = () => {
   const [selectedLocation, setSelectedLocation] = useState('');
 
   const degreeTypes = [
-    { value: 'bachelor', label: 'Bachelor\'s Degree', icon: '🎓' },
-    { value: 'master', label: 'Master\'s Degree', icon: '📚' },
-    { value: 'phd', label: 'PhD/Doctorate', icon: '🔬' },
-    { value: 'certificate', label: 'Certificate', icon: '📜' },
-    { value: 'diploma', label: 'Diploma', icon: '🏆' },
+    { value: 'preparatory', label: 'Preparatory', icon: '📚' },
+    { value: 'bachelors', label: 'Bachelors', icon: '🎓' },
+    { value: 'post-bachelors', label: 'Post-Bachelors', icon: '📜' },
+    { value: 'masters', label: 'Masters', icon: '🎯' },
+    { value: 'postgraduate', label: 'Postgraduate', icon: '🔬' },
+    { value: 'phd', label: 'PhD Studies', icon: '👨‍🎓' },
+  ];
+
+  const subjects = [
+    'Administration Programs',
+    'Architecture Programs',
+    'Art Programs',
+    'Aviation Programs',
+    'Business Programs',
+    'Construction Programs',
+    'Cosmetology Programs',
+    'Design Programs',
+    'Economic Programs',
+    'Education Programs',
+    'Energy Programs',
+    'Engineering Programs',
+    'Environmental Programs',
+    'Fashion Programs',
+    'Finance Programs',
+    'Food and Beverage Programs',
+    'General Programs',
+    'Healthcare Programs',
+    'Humanities Programs',
+    'Journalism, Media, and Mass Communication Programs',
+    'Language Programs',
+    'Law Programs',
+    'Life Sciences Programs',
+    'Life Skills Programs',
+    'Management Programs',
+    'Marketing Programs',
+    'Natural Sciences Programs',
+    'Performing Arts Programs',
+    'Professional Programs',
+    'Self-Improvement Programs',
+    'Social Science Programs',
+    'Sport and Exercise Programs',
+    'Sustainability Programs',
+    'Technology Programs',
+    'Test Preparation Programs',
+    'Tourism and Hospitality Programs',
+    'License and Training Programs',
+    'Transportation and Logistics Programs'
   ];
 
   const popularSubjects = [
@@ -191,7 +234,7 @@ const Index = () => {
       </div>
 
       {/* Degree Type Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-6">
         {degreeTypes.map((degree) => (
           <Card 
             key={degree.value} 
@@ -209,22 +252,11 @@ const Index = () => {
       </div>
 
       {/* Subject Categories */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {[
-          { title: 'STEM & Technology', icon: '💻', color: 'bg-blue-500', count: '2,847 programs' },
-          { title: 'Business & Finance', icon: '💼', color: 'bg-green-500', count: '1,923 programs' },
-          { title: 'Arts & Design', icon: '🎨', color: 'bg-purple-500', count: '1,156 programs' },
-          { title: 'Health & Medicine', icon: '🏥', color: 'bg-red-500', count: '987 programs' },
-          { title: 'Social Sciences', icon: '🌍', color: 'bg-yellow-500', count: '1,445 programs' },
-          { title: 'Engineering', icon: '⚙️', color: 'bg-gray-500', count: '2,134 programs' },
-        ].map((category) => (
-          <Card key={category.title} className="cursor-pointer hover:scale-105 transition-transform search-card">
-            <CardContent className="p-4">
-              <div className={`w-12 h-12 ${category.color} rounded-lg flex items-center justify-center text-white text-2xl mb-3 mx-auto`}>
-                {category.icon}
-              </div>
-              <h4 className="font-semibold text-center mb-1">{category.title}</h4>
-              <p className="text-xs text-gray-500 text-center">{category.count}</p>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-h-96 overflow-y-auto">
+        {subjects.map((subject) => (
+          <Card key={subject} className="cursor-pointer hover:scale-105 transition-transform search-card">
+            <CardContent className="p-3">
+              <h4 className="font-medium text-center text-sm">{subject}</h4>
             </CardContent>
           </Card>
         ))}
