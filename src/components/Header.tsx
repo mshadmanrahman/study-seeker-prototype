@@ -285,7 +285,7 @@ const Header = () => {
               <div className="flex-1 relative">
                 <Input type="text" placeholder="Search programs, universities, subjects..." className="border-0 rounded-none focus:ring-0 focus:border-transparent" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
               </div>
-              <Button className="rounded-none px-6 bg-pink-800 text-white hover:bg-pink-700">
+              <Button className="rounded-none px-6 text-white bg-teal-800 hover:bg-teal-700">
                 <Search className="w-5 h-5" />
               </Button>
             </div>
