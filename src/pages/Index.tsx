@@ -246,7 +246,7 @@ const Index = () => {
   const AmazonStyleSearch = () => <div className="search-container p-6">
       <div className="flex rounded-lg overflow-hidden border border-gray-300">
         <Select value={selectedDegree} onValueChange={setSelectedDegree}>
-          <SelectTrigger className="w-48 border-0 border-r border-gray-300 rounded-none bg-gray-50">
+          <SelectTrigger className="w-32 md:w-48 border-0 border-r border-gray-300 rounded-none bg-gray-50">
             <SelectValue placeholder="All Degrees" />
           </SelectTrigger>
           <SelectContent className="bg-white border border-gray-200 shadow-lg">
