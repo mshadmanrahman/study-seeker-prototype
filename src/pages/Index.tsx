@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Search, ChevronDown, MapPin, BookOpen, GraduationCap, Award, Filter, Globe, Clock, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -240,7 +241,11 @@ const Index = () => {
         }}
       >
         <div className="text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-primary">Educations.com</h1>
+          <img 
+            src="/lovable-uploads/f9cd9d53-d676-4f5b-a143-85d026ced35b.png" 
+            alt="Educations.com Logo" 
+            className="h-16 md:h-20 mx-auto mb-4"
+          />
           <p className="text-xl text-primary/80">Search Experience Prototype</p>
         </div>
       </header>
