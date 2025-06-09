@@ -180,15 +180,25 @@ const Index = () => {
           <Search className="w-5 h-5" />
         </Button>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-4">
-        {degreeTypes.slice(0, 4).map((degree) => (
-          <Card key={degree.value} className="cursor-pointer hover:shadow-md transition-shadow">
-            <CardContent className="p-3 text-center">
-              <div className="text-2xl mb-1">{degree.icon}</div>
-              <div className="text-xs font-medium">{degree.label}</div>
-            </CardContent>
-          </Card>
-        ))}
+      
+      {/* Browse by Subject Section */}
+      <div className="mt-6">
+        <h4 className="text-lg font-semibold mb-4">Browse by Subject</h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-96 overflow-y-auto">
+          {subjects.map((subject) => (
+            <Card key={subject.name} className="cursor-pointer hover:scale-105 transition-transform search-card">
+              <CardContent className="p-3">
+                <div className="flex items-center gap-3">
+                  <div className="text-2xl">{subject.icon}</div>
+                  <div className="flex-1">
+                    <h4 className="font-medium text-sm">{subject.name}</h4>
+                    <Badge variant="secondary" className="text-xs mt-1">{subject.category}</Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     </div>
   );
