@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search, ChevronDown, MapPin, BookOpen, GraduationCap, Award, Filter, Globe, Clock, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -23,44 +22,44 @@ const Index = () => {
   ];
 
   const subjects = [
-    'Administration Programs',
-    'Architecture Programs',
-    'Art Programs',
-    'Aviation Programs',
-    'Business Programs',
-    'Construction Programs',
-    'Cosmetology Programs',
-    'Design Programs',
-    'Economic Programs',
-    'Education Programs',
-    'Energy Programs',
-    'Engineering Programs',
-    'Environmental Programs',
-    'Fashion Programs',
-    'Finance Programs',
-    'Food and Beverage Programs',
-    'General Programs',
-    'Healthcare Programs',
-    'Humanities Programs',
-    'Journalism, Media, and Mass Communication Programs',
-    'Language Programs',
-    'Law Programs',
-    'Life Sciences Programs',
-    'Life Skills Programs',
-    'Management Programs',
-    'Marketing Programs',
-    'Natural Sciences Programs',
-    'Performing Arts Programs',
-    'Professional Programs',
-    'Self-Improvement Programs',
-    'Social Science Programs',
-    'Sport and Exercise Programs',
-    'Sustainability Programs',
-    'Technology Programs',
-    'Test Preparation Programs',
-    'Tourism and Hospitality Programs',
-    'License and Training Programs',
-    'Transportation and Logistics Programs'
+    { name: 'Administration Programs', icon: '📋', category: 'Business' },
+    { name: 'Architecture Programs', icon: '🏗️', category: 'Design' },
+    { name: 'Art Programs', icon: '🎨', category: 'Creative' },
+    { name: 'Aviation Programs', icon: '✈️', category: 'Transportation' },
+    { name: 'Business Programs', icon: '💼', category: 'Business' },
+    { name: 'Construction Programs', icon: '🔨', category: 'Engineering' },
+    { name: 'Cosmetology Programs', icon: '💄', category: 'Personal Care' },
+    { name: 'Design Programs', icon: '🎯', category: 'Creative' },
+    { name: 'Economic Programs', icon: '📈', category: 'Business' },
+    { name: 'Education Programs', icon: '👩‍🏫', category: 'Education' },
+    { name: 'Energy Programs', icon: '⚡', category: 'Engineering' },
+    { name: 'Engineering Programs', icon: '⚙️', category: 'Engineering' },
+    { name: 'Environmental Programs', icon: '🌱', category: 'Science' },
+    { name: 'Fashion Programs', icon: '👗', category: 'Creative' },
+    { name: 'Finance Programs', icon: '💰', category: 'Business' },
+    { name: 'Food and Beverage Programs', icon: '🍽️', category: 'Hospitality' },
+    { name: 'General Programs', icon: '📚', category: 'General' },
+    { name: 'Healthcare Programs', icon: '🏥', category: 'Health' },
+    { name: 'Humanities Programs', icon: '📖', category: 'Humanities' },
+    { name: 'Journalism, Media, and Mass Communication Programs', icon: '📺', category: 'Media' },
+    { name: 'Language Programs', icon: '🗣️', category: 'Languages' },
+    { name: 'Law Programs', icon: '⚖️', category: 'Law' },
+    { name: 'Life Sciences Programs', icon: '🧬', category: 'Science' },
+    { name: 'Life Skills Programs', icon: '🎯', category: 'Personal Development' },
+    { name: 'Management Programs', icon: '👔', category: 'Business' },
+    { name: 'Marketing Programs', icon: '📢', category: 'Business' },
+    { name: 'Natural Sciences Programs', icon: '🔬', category: 'Science' },
+    { name: 'Performing Arts Programs', icon: '🎭', category: 'Creative' },
+    { name: 'Professional Programs', icon: '💡', category: 'Professional' },
+    { name: 'Self-Improvement Programs', icon: '🌟', category: 'Personal Development' },
+    { name: 'Social Science Programs', icon: '🌍', category: 'Social Sciences' },
+    { name: 'Sport and Exercise Programs', icon: '🏃‍♂️', category: 'Sports' },
+    { name: 'Sustainability Programs', icon: '♻️', category: 'Environmental' },
+    { name: 'Technology Programs', icon: '💻', category: 'Technology' },
+    { name: 'Test Preparation Programs', icon: '📝', category: 'Education' },
+    { name: 'Tourism and Hospitality Programs', icon: '🏨', category: 'Hospitality' },
+    { name: 'License and Training Programs', icon: '🎓', category: 'Professional' },
+    { name: 'Transportation and Logistics Programs', icon: '🚚', category: 'Transportation' }
   ];
 
   const popularSubjects = [
@@ -198,7 +197,7 @@ const Index = () => {
     <div className="search-container p-6">
       <div className="text-center mb-6">
         <h3 className="text-lg font-semibold mb-2">Find Your Perfect Program</h3>
-        <p className="text-gray-600">Start by selecting your degree type, then search</p>
+        <p className="text-gray-600">Start by selecting your degree type, then explore subjects</p>
       </div>
       
       {/* Degree-First Search Bar */}
@@ -251,15 +250,24 @@ const Index = () => {
         ))}
       </div>
 
-      {/* Subject Categories */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-h-96 overflow-y-auto">
-        {subjects.map((subject) => (
-          <Card key={subject} className="cursor-pointer hover:scale-105 transition-transform search-card">
-            <CardContent className="p-3">
-              <h4 className="font-medium text-center text-sm">{subject}</h4>
-            </CardContent>
-          </Card>
-        ))}
+      {/* Subject Categories with Icons */}
+      <div className="mb-4">
+        <h4 className="text-lg font-semibold mb-3">Browse by Subject</h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-96 overflow-y-auto">
+          {subjects.map((subject) => (
+            <Card key={subject.name} className="cursor-pointer hover:scale-105 transition-transform search-card">
+              <CardContent className="p-3">
+                <div className="flex items-center gap-3">
+                  <div className="text-2xl">{subject.icon}</div>
+                  <div className="flex-1">
+                    <h4 className="font-medium text-sm">{subject.name}</h4>
+                    <Badge variant="secondary" className="text-xs mt-1">{subject.category}</Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
       
       <div className="mt-6 p-4 bg-gradient-to-r from-primary/10 to-accent/10 rounded-lg backdrop-blur-sm">
