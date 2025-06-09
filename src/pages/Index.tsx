@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search, ChevronDown, MapPin, BookOpen, GraduationCap, Award, Filter, Globe, Clock, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -231,9 +230,15 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-transparent">
+    <div className="min-h-screen">
+      {/* Header with background image */}
+      <header 
+        className="relative bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: "url('/lovable-uploads/63335a7f-43dc-43ec-a36d-101c26e52820.png')",
+          minHeight: "300px"
+        }}
+      >
         <div className="container mx-auto px-4 py-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4 text-primary">Educations.com</h1>
@@ -243,7 +248,7 @@ const Index = () => {
       </header>
 
       {/* Search Type Selector */}
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 bg-background">
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-center mb-6">Choose Your Search Experience</h2>
           <div className="grid md:grid-cols-4 gap-4 mb-8">
