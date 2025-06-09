@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search, ChevronDown, MapPin, BookOpen, GraduationCap, Award, Filter, Globe, Clock, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -156,8 +155,27 @@ const Index = () => {
     <div className="search-container p-6">
       <div className="text-center mb-6">
         <h3 className="text-lg font-semibold mb-2">Find Your Perfect Program</h3>
-        <p className="text-gray-600">Explore programs by category</p>
+        <p className="text-gray-600">Explore programs by category or search directly</p>
       </div>
+      
+      {/* Search Bar for Visual Discovery */}
+      <div className="relative mb-6">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+        <Input
+          type="text"
+          placeholder="Quick search across all programs..."
+          className="pl-10 pr-4 py-3 text-lg bg-white/50 backdrop-blur-sm border-gray-300 focus:bg-white focus:border-primary"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <Button 
+          className="absolute right-1 top-1/2 transform -translate-y-1/2"
+          size="sm"
+        >
+          Search
+        </Button>
+      </div>
+
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {[
           { title: 'STEM & Technology', icon: '💻', color: 'bg-blue-500', count: '2,847 programs' },
@@ -179,7 +197,7 @@ const Index = () => {
         ))}
       </div>
       
-      <div className="mt-6 p-4 bg-gradient-to-r from-primary/10 to-accent/10 rounded-lg">
+      <div className="mt-6 p-4 bg-gradient-to-r from-primary/10 to-accent/10 rounded-lg backdrop-blur-sm">
         <div className="flex items-center justify-between">
           <div>
             <h4 className="font-semibold">Quick Filters</h4>

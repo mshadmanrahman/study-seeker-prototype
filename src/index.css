@@ -50,16 +50,21 @@
 
   body {
     @apply bg-background text-foreground font-sans;
+    background-image: url('/lovable-uploads/63335a7f-43dc-43ec-a36d-101c26e52820.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
   }
 }
 
 @layer components {
   .search-container {
-    @apply bg-white rounded-lg shadow-lg border border-gray-200;
+    @apply bg-white/90 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200;
   }
   
   .search-card {
-    @apply bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300;
+    @apply bg-white/90 backdrop-blur-sm rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300;
   }
   
   .education-gradient {
