@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, MapPin, Clock, Globe, GraduationCap, Calendar, BookOpen, Award, Building, ChevronDown, X, Star } from 'lucide-react';
+import { Search, Filter, MapPin, Clock, Globe, GraduationCap, Calendar, BookOpen, Award, Building, ChevronDown, X, Star, User, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -198,6 +199,214 @@ const SearchResults: React.FC = () => {
     );
   };
 
+  const ProgramCard = ({ result }: { result: SearchResult }) => (
+    <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
+      <div className="flex">
+        {/* Left side - Institution image/logo */}
+        <div className="w-48 h-48 flex-shrink-0">
+          <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+            {result.image ? (
+              <img src={result.image} alt={result.institution} className="w-full h-full object-cover" />
+            ) : (
+              <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center">
+                <Building className="w-8 h-8 text-blue-600" />
+              </div>
+            )}
+          </div>
+        </div>
+        
+        {/* Right side - Program details */}
+        <div className="flex-1 p-6">
+          <div className="flex justify-between items-start h-full">
+            <div className="flex-1">
+              {/* Institution name */}
+              <p className="text-sm text-gray-600 mb-1">{result.institution}</p>
+              
+              {/* Program title */}
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                {result.title}
+              </h3>
+              
+              {/* Location */}
+              <p className="text-sm text-gray-600 mb-4">{result.location}</p>
+              
+              {/* Program details */}
+              <div className="flex flex-wrap gap-4 mb-4">
+                {result.degreeType && (
+                  <div className="flex items-center gap-1 text-sm text-gray-600">
+                    <GraduationCap className="w-4 h-4" />
+                    {result.degreeType}
+                  </div>
+                )}
+                {result.duration && (
+                  <div className="flex items-center gap-1 text-sm text-gray-600">
+                    <Clock className="w-4 h-4" />
+                    {result.duration}
+                  </div>
+                )}
+                {result.studyFormat && (
+                  <div className="flex items-center gap-1 text-sm text-gray-600">
+                    <MapPin className="w-4 h-4" />
+                    {result.studyFormat}
+                  </div>
+                )}
+                {result.language && (
+                  <div className="flex items-center gap-1 text-sm text-gray-600">
+                    <Globe className="w-4 h-4" />
+                    {result.language}
+                  </div>
+                )}
+              </div>
+              
+              {/* Description */}
+              <p className="text-sm text-gray-700 line-clamp-2 mb-4">
+                {result.description}
+              </p>
+            </div>
+            
+            {/* Right side - Price and action */}
+            <div className="text-right ml-6">
+              {result.tuitionFee && (
+                <p className="text-lg font-semibold text-green-600 mb-4">
+                  {result.tuitionFee}
+                </p>
+              )}
+              <Button variant="outline" size="sm" className="text-blue-600 border-blue-600 hover:bg-blue-50">
+                Read more
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
+
+  const ArticleCard = ({ result }: { result: SearchResult }) => (
+    <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer bg-gradient-to-r from-purple-50 to-blue-50">
+      <div className="flex">
+        {/* Left side - Article image/thumbnail */}
+        <div className="w-32 h-32 flex-shrink-0">
+          <div className="w-full h-full bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center">
+            <BookOpen className="w-8 h-8 text-purple-600" />
+          </div>
+        </div>
+        
+        {/* Right side - Article details */}
+        <div className="flex-1 p-6">
+          <div className="flex justify-between items-start">
+            <div className="flex-1">
+              {/* Article badge */}
+              <Badge variant="secondary" className="mb-2 bg-purple-100 text-purple-700">
+                Article
+              </Badge>
+              
+              {/* Article title */}
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                {result.title}
+              </h3>
+              
+              {/* Author and date info */}
+              <div className="flex items-center gap-4 text-xs text-gray-500 mb-3">
+                <div className="flex items-center gap-1">
+                  <User className="w-3 h-3" />
+                  <span>Education.com</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Calendar className="w-3 h-3" />
+                  <span>Dec 2024</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Eye className="w-3 h-3" />
+                  <span>5 min read</span>
+                </div>
+              </div>
+              
+              {/* Description */}
+              <p className="text-sm text-gray-700 line-clamp-3">
+                {result.description}
+              </p>
+            </div>
+            
+            {/* Right side - Action */}
+            <div className="ml-6">
+              <Button variant="ghost" size="sm" className="text-purple-600 hover:bg-purple-50">
+                Read article
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
+
+  const ScholarshipCard = ({ result }: { result: SearchResult }) => (
+    <Card className="p-6 hover:shadow-md transition-shadow cursor-pointer border-l-4 border-l-yellow-400">
+      <div className="flex items-start gap-4">
+        <div className="flex-shrink-0">
+          <div className="w-12 h-12 bg-yellow-50 rounded-lg flex items-center justify-center">
+            <Award className="w-6 h-6 text-yellow-600" />
+          </div>
+        </div>
+        
+        <div className="flex-1">
+          <div className="flex items-start justify-between">
+            <div>
+              <Badge variant="outline" className="text-xs mb-2 border-yellow-400 text-yellow-700">
+                Scholarship
+              </Badge>
+              
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                {result.title}
+              </h3>
+              
+              <p className="text-gray-600 mb-3">
+                {result.description}
+              </p>
+              
+              {result.institution && (
+                <p className="text-sm font-medium text-gray-700 mb-3">
+                  {result.institution}
+                </p>
+              )}
+              
+              <div className="flex flex-wrap gap-4 text-sm text-gray-500">
+                {result.location && (
+                  <div className="flex items-center gap-1">
+                    <MapPin className="w-4 h-4" />
+                    {result.location}
+                  </div>
+                )}
+                {result.fieldOfStudy && (
+                  <div className="flex items-center gap-1">
+                    <GraduationCap className="w-4 h-4" />
+                    {result.fieldOfStudy}
+                  </div>
+                )}
+                {result.deadline && (
+                  <div className="flex items-center gap-1">
+                    <Calendar className="w-4 h-4" />
+                    Deadline: {result.deadline}
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            <div className="text-right">
+              {result.tuitionFee && (
+                <p className="text-lg font-semibold text-yellow-600 mb-2">
+                  {result.tuitionFee}
+                </p>
+              )}
+              <Button variant="outline" size="sm" className="text-yellow-600 border-yellow-600 hover:bg-yellow-50">
+                Apply Now
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Use shared Header component */}
@@ -345,85 +554,11 @@ const SearchResults: React.FC = () => {
             {/* Results */}
             <div className="space-y-6">
               {filteredResults.map((result) => (
-                <Card key={result.id} className="p-6 hover:shadow-md transition-shadow cursor-pointer">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0">
-                      <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
-                        {getResultTypeIcon(result.type)}
-                      </div>
-                    </div>
-                    
-                    <div className="flex-1">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <div className="flex items-center gap-2 mb-2">
-                            <Badge variant="outline" className="text-xs">
-                              {result.type}
-                            </Badge>
-                            {result.rating && (
-                              <div className="flex items-center gap-1">
-                                <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                                <span className="text-sm font-medium">{result.rating}</span>
-                              </div>
-                            )}
-                          </div>
-                          
-                          <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                            {result.title}
-                          </h3>
-                          
-                          <p className="text-gray-600 mb-3">
-                            {result.description}
-                          </p>
-                          
-                          {result.institution && (
-                            <p className="text-sm font-medium text-gray-700 mb-3">
-                              {result.institution}
-                            </p>
-                          )}
-                          
-                          <div className="flex flex-wrap gap-4 text-sm text-gray-500">
-                            {result.location && (
-                              <div className="flex items-center gap-1">
-                                <MapPin className="w-4 h-4" />
-                                {result.location}
-                              </div>
-                            )}
-                            {result.duration && (
-                              <div className="flex items-center gap-1">
-                                <Clock className="w-4 h-4" />
-                                {result.duration}
-                              </div>
-                            )}
-                            {result.language && (
-                              <div className="flex items-center gap-1">
-                                <Globe className="w-4 h-4" />
-                                {result.language}
-                              </div>
-                            )}
-                            {result.deadline && (
-                              <div className="flex items-center gap-1">
-                                <Calendar className="w-4 h-4" />
-                                Deadline: {result.deadline}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                        
-                        <div className="text-right">
-                          {result.tuitionFee && (
-                            <p className="text-lg font-semibold text-green-600 mb-2">
-                              {result.tuitionFee}
-                            </p>
-                          )}
-                          <Button variant="outline" size="sm">
-                            View Details
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Card>
+                <div key={result.id}>
+                  {result.type === 'program' && <ProgramCard result={result} />}
+                  {result.type === 'article' && <ArticleCard result={result} />}
+                  {result.type === 'scholarship' && <ScholarshipCard result={result} />}
+                </div>
               ))}
             </div>
 
