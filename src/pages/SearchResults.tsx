@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Search, Filter, MapPin, Clock, Globe, GraduationCap, Calendar, BookOpen, Award, Building, ChevronDown, X, Star, User, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -579,7 +580,6 @@ const SearchResults: React.FC = () => {
                       />
                     </Badge>
                   ))}
-                  {/* Add similar badges for other filter types */}
                 </div>
               </div>
             )}
@@ -610,5 +610,3 @@ const SearchResults: React.FC = () => {
 };
 
 export default SearchResults;
-
-}
