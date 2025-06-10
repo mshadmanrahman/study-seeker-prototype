@@ -266,11 +266,11 @@ const SearchResults: React.FC = () => {
     <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
       <div className="flex">
         {/* Left side - Article image */}
-        <div className="w-24 h-full flex-shrink-0 relative">
+        <div className="w-24 h-full flex-shrink-0 relative overflow-hidden">
           <img 
             src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=200&h=200&fit=crop" 
             alt="Article image" 
-            className="w-full h-full object-cover" 
+            className="w-full h-full object-cover block" 
           />
           {/* Article icon overlay */}
           <div className="absolute bottom-1 right-1">
@@ -323,11 +323,11 @@ const SearchResults: React.FC = () => {
     <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
       <div className="flex">
         {/* Left side - Scholarship image */}
-        <div className="w-24 h-full flex-shrink-0 relative">
+        <div className="w-24 h-full flex-shrink-0 relative overflow-hidden">
           <img 
             src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=200&h=200&fit=crop" 
             alt="Scholarship image" 
-            className="w-full h-full object-cover" 
+            className="w-full h-full object-cover block" 
           />
           {/* Scholarship icon overlay */}
           <div className="absolute bottom-1 right-1">
