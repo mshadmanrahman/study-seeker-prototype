@@ -8,7 +8,6 @@ import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { useSearchParams } from 'react-router-dom';
 import Header from '@/components/Header';
-
 interface SearchResult {
   id: string;
   type: 'program' | 'article' | 'scholarship' | 'school';
@@ -27,7 +26,6 @@ interface SearchResult {
   image?: string;
   institution?: string;
 }
-
 const mockResults: SearchResult[] = [{
   id: '1',
   type: 'program',
@@ -84,7 +82,6 @@ const mockResults: SearchResult[] = [{
   description: 'Discover the best scholarships available for international students, including merit-based, need-based, and country-specific funding options.',
   fieldOfStudy: 'Scholarships'
 }];
-
 const SearchResults: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
@@ -200,11 +197,7 @@ const SearchResults: React.FC = () => {
       <div className="flex">
         {/* Left side - Campus image */}
         <div className="w-48 flex-shrink-0 relative">
-          <img 
-            src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&h=400&fit=crop" 
-            alt={`${result.institution} campus`} 
-            className="w-full h-full object-cover" 
-          />
+          <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&h=400&fit=crop" alt={`${result.institution} campus`} className="w-full h-full object-cover" />
           {/* Institution logo overlay */}
           <div className="absolute bottom-3 left-3">
             <div className="w-12 h-12 bg-white rounded-lg shadow-md flex items-center justify-center">
@@ -275,11 +268,7 @@ const SearchResults: React.FC = () => {
       <div className="flex h-32">
         {/* Left side - Article image */}
         <div className="w-32 flex-shrink-0 overflow-hidden">
-          <img 
-            src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=200&h=200&fit=crop" 
-            alt="Article image" 
-            className="w-full h-full object-cover block" 
-          />
+          <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=200&h=200&fit=crop" alt="Article image" className="w-full h-full object-cover block" />
         </div>
         
         {/* Right side - Article content */}
@@ -325,11 +314,7 @@ const SearchResults: React.FC = () => {
       <div className="flex h-32">
         {/* Left side - Scholarship image */}
         <div className="w-32 flex-shrink-0 overflow-hidden relative">
-          <img 
-            src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=200&h=200&fit=crop" 
-            alt="Scholarship image" 
-            className="w-full h-full object-cover block" 
-          />
+          <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=200&h=200&fit=crop" alt="Scholarship image" className="w-full h-full object-cover block" />
           {/* Scholarship icon overlay */}
           <div className="absolute bottom-1 right-1">
             <div className="w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center">
@@ -339,7 +324,7 @@ const SearchResults: React.FC = () => {
         </div>
         
         {/* Right side - Scholarship content */}
-        <div className="flex-1 min-w-0 p-4">
+        <div className="flex-1 min-w-0 p-4 py-[8px]">
           {/* Publication date */}
           <p className="text-xs text-gray-500 mb-2">Dec 2024</p>
           
