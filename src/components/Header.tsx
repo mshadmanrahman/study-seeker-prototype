@@ -11,7 +11,11 @@ const Header = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState('amazon');
   const [selectedDegree, setSelectedDegree] = useState('');
+  const [showMegaDropdown, setShowMegaDropdown] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('');
   const searchRef = useRef<HTMLDivElement>(null);
+  const megaInputRef = useRef<HTMLInputElement>(null);
+  
   const subjects = [{
     name: 'Administration Programs',
     icon: Settings,
@@ -192,22 +196,49 @@ const Header = () => {
   }];
   const popularSearches = ['MBA in London', 'Computer Science PhD', 'Medicine in Germany', 'Online Masters'];
 
+  // Get unique categories for mega search
+  const searchCategories = [
+    { name: 'All Programs', icon: BookOpen, value: 'all' },
+    ...Array.from(new Set(subjects.map(s => s.category))).map(category => ({
+      name: category,
+      icon: subjects.find(s => s.category === category)?.icon || BookOpen,
+      value: category.toLowerCase().replace(/\s+/g, '-')
+    }))
+  ];
+
   // Close expanded search when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setIsExpanded(false);
+        setShowMegaDropdown(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
   const handleSearchClick = () => {
     setIsExpanded(true);
   };
+
   const handleCloseSearch = () => {
     setIsExpanded(false);
+    setShowMegaDropdown(false);
   };
+
+  const handleMegaInputFocus = () => {
+    setShowMegaDropdown(true);
+  };
+
+  const handleCategorySelect = (category: any) => {
+    setSelectedCategory(category.value);
+    setShowMegaDropdown(false);
+    if (megaInputRef.current) {
+      megaInputRef.current.focus();
+    }
+  };
+
   const renderSearchContent = () => {
     switch (activeTab) {
       case 'structured':
@@ -386,10 +417,100 @@ const Header = () => {
               </div>
             </div>
           </div>;
+      case 'mega':
+        return <div className="p-6">
+            <div className="text-center mb-6">
+              <h3 className="text-lg font-semibold mb-2">Mega Search</h3>
+              <p className="text-gray-600">Search across all categories or select a specific one</p>
+            </div>
+            
+            {/* Mega Search Bar with Category Dropdown */}
+            <div className="relative mb-6">
+              <div className="flex rounded-lg overflow-hidden border border-gray-300">
+                <div className="flex-1 relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <Input 
+                    ref={megaInputRef}
+                    type="text" 
+                    placeholder={selectedCategory && selectedCategory !== 'all' 
+                      ? `Search in ${searchCategories.find(c => c.value === selectedCategory)?.name}...` 
+                      : "Search programs, universities, subjects..."
+                    }
+                    className="pl-10 pr-4 py-3 text-lg border-0 rounded-none focus:ring-0 focus:border-transparent" 
+                    value={searchQuery} 
+                    onChange={e => setSearchQuery(e.target.value)}
+                    onFocus={handleMegaInputFocus}
+                  />
+                  {selectedCategory && selectedCategory !== 'all' && (
+                    <Badge className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-blue-100 text-blue-800">
+                      {searchCategories.find(c => c.value === selectedCategory)?.name}
+                    </Badge>
+                  )}
+                </div>
+                <Button className="rounded-none px-6 bg-purple-600 text-white hover:bg-purple-700">
+                  <Search className="w-5 h-5" />
+                </Button>
+              </div>
+
+              {/* Category Dropdown */}
+              {showMegaDropdown && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-80 overflow-y-auto">
+                  <div className="p-2">
+                    <div className="text-xs text-gray-500 uppercase font-semibold mb-2 px-2">Search in:</div>
+                    {searchCategories.map(category => (
+                      <div 
+                        key={category.value}
+                        className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 cursor-pointer rounded"
+                        onClick={() => handleCategorySelect(category)}
+                      >
+                        <category.icon className="w-4 h-4 text-gray-600" />
+                        <span className="text-sm">{category.name}</span>
+                        {selectedCategory === category.value && (
+                          <div className="ml-auto w-2 h-2 bg-blue-600 rounded-full"></div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Popular Searches */}
+            <div className="mb-6">
+              <div className="flex flex-wrap gap-2 items-center">
+                <span className="text-sm text-gray-600 font-medium">Popular searches:</span>
+                {popularSearches.map(term => <Badge key={term} variant="secondary" className="cursor-pointer hover:bg-accent hover:text-accent-foreground px-3 py-1" onClick={() => setSearchQuery(term)}>
+                    {term}
+                  </Badge>)}
+              </div>
+            </div>
+
+            {/* Quick Category Access */}
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Quick Category Access</h4>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                {searchCategories.slice(1, 13).map(category => (
+                  <Card 
+                    key={category.value} 
+                    className={`cursor-pointer hover:scale-105 transition-transform ${selectedCategory === category.value ? 'ring-2 ring-purple-500' : ''}`}
+                    onClick={() => handleCategorySelect(category)}
+                  >
+                    <CardContent className="p-4">
+                      <div className="text-center">
+                        <category.icon className="w-8 h-8 mx-auto mb-2 text-gray-600" />
+                        <h4 className="font-medium text-sm">{category.name}</h4>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </div>;
       default:
         return null;
     }
   };
+
   return <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
@@ -436,6 +557,9 @@ const Header = () => {
                     </button>
                     <button onClick={() => setActiveTab('visual')} className={`px-3 py-1 text-sm font-medium rounded ${activeTab === 'visual' ? 'bg-primary text-primary-foreground' : 'text-gray-600 hover:text-gray-900'}`}>
                       Visual
+                    </button>
+                    <button onClick={() => setActiveTab('mega')} className={`px-3 py-1 text-sm font-medium rounded ${activeTab === 'mega' ? 'bg-primary text-primary-foreground' : 'text-gray-600 hover:text-gray-900'}`}>
+                      Mega Search
                     </button>
                   </div>
                   <button onClick={handleCloseSearch} className="text-gray-400 hover:text-gray-600">
