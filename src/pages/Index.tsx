@@ -238,7 +238,12 @@ const Index = () => {
   };
 
   const handleCategorySelect = (category: any) => {
-    setSelectedCategory(category.name);
+    // Toggle selection - if already selected, unselect it
+    if (selectedCategory === category.name) {
+      setSelectedCategory('');
+    } else {
+      setSelectedCategory(category.name);
+    }
     setShowMegaDropdown(false);
     if (megaInputRef.current) {
       megaInputRef.current.focus();
@@ -473,28 +478,20 @@ const Index = () => {
 
         {/* Enhanced Mega Dropdown */}
         {showMegaDropdown && (
-          <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto">
+          <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-[60] max-h-96 overflow-y-auto">
             <div className="p-4">
-              {/* Search Types - Card Layout */}
+              {/* Search Types - Chip Layout */}
               <div className="mb-6">
                 <h4 className="text-sm font-semibold text-gray-500 uppercase mb-3">Search in</h4>
-                <div className="grid grid-cols-1 gap-2">
+                <div className="flex flex-wrap gap-2">
                   {megaSearchCategories.map((type) => (
                     <div 
                       key={type.name}
-                      className="flex items-center gap-3 p-3 hover:bg-gray-50 cursor-pointer rounded-lg border border-gray-100 transition-colors"
+                      className={`inline-flex items-center gap-2 px-3 py-2 rounded-full border cursor-pointer transition-all hover:shadow-md ${selectedCategory === type.name ? 'border-purple-500 bg-purple-50 text-purple-700' : 'border-gray-200 bg-white hover:border-gray-300'}`}
                       onClick={() => handleCategorySelect(type)}
                     >
-                      <div className="p-2 bg-gray-100 rounded-lg">
-                        <type.icon className="w-5 h-5 text-gray-600" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="font-medium text-sm">{type.name}</div>
-                        <div className="text-xs text-gray-500">{type.description}</div>
-                      </div>
-                      {selectedCategory === type.name && (
-                        <div className="w-2 h-2 rounded-full bg-teal-600"></div>
-                      )}
+                      <type.icon className="w-4 h-4" />
+                      <span className="text-sm font-medium">{type.name}</span>
                     </div>
                   ))}
                 </div>
@@ -538,18 +535,18 @@ const Index = () => {
         )}
       </div>
 
-      {/* Quick Access - Modern Chip Layout */}
-      <div>
-        <h4 className="text-lg font-semibold mb-4">Quick Access</h4>
+      {/* Quick Access - Single Line with Chips */}
+      <div className="flex items-center gap-3">
+        <span className="text-sm font-medium text-gray-600 whitespace-nowrap">Quick Access:</span>
         <div className="flex flex-wrap gap-2">
           {megaSearchCategories.map((type) => (
             <div 
               key={type.name}
-              className={`inline-flex items-center gap-2 px-3 py-2 rounded-full border cursor-pointer transition-all hover:shadow-md ${selectedCategory === type.name ? 'border-purple-500 bg-purple-50 text-purple-700' : 'border-gray-200 bg-white hover:border-gray-300'}`}
+              className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border cursor-pointer transition-all hover:shadow-md text-xs ${selectedCategory === type.name ? 'border-purple-500 bg-purple-50 text-purple-700' : 'border-gray-200 bg-white hover:border-gray-300'}`}
               onClick={() => handleCategorySelect(type)}
             >
-              <type.icon className="w-4 h-4" />
-              <span className="text-sm font-medium">{type.name}</span>
+              <type.icon className="w-3 h-3" />
+              <span className="font-medium">{type.name}</span>
             </div>
           ))}
         </div>
