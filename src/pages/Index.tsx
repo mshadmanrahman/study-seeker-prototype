@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import Header from '@/components/Header';
-
 const Index = () => {
   const [activeSearch, setActiveSearch] = useState('structured');
   const [searchQuery, setSearchQuery] = useState('');
@@ -15,7 +14,6 @@ const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [showMegaDropdown, setShowMegaDropdown] = useState(false);
   const megaInputRef = useRef<HTMLInputElement>(null);
-
   const degreeTypes = [{
     value: 'preparatory',
     label: 'Preparatory',
@@ -218,11 +216,9 @@ const Index = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
   const handleMegaInputFocus = () => {
     setShowMegaDropdown(true);
   };
-
   const handleCategorySelect = (category: any) => {
     setSelectedCategory(category.value);
     setShowMegaDropdown(false);
@@ -230,7 +226,6 @@ const Index = () => {
       megaInputRef.current.focus();
     }
   };
-
   const StructuredSearch = () => <div className="search-container p-6">
       <div className="grid md:grid-cols-2 gap-4">
         <div>
@@ -421,7 +416,6 @@ const Index = () => {
         </div>
       </div>
     </div>;
-
   const MegaSearch = () => <div className="search-container p-6">
       <div className="text-center mb-6">
         <h3 className="text-lg font-semibold mb-2">Mega Search</h3>
@@ -438,7 +432,7 @@ const Index = () => {
                 {searchCategories.find(c => c.value === selectedCategory)?.name}
               </Badge>}
           </div>
-          <Button className="rounded-none px-6 text-white bg-teal-700 hover:bg-teal-600">
+          <Button className="rounded-none px-6 text-white bg-accent hover:bg-accent-foreground ">
             <Search className="w-5 h-5" />
           </Button>
         </div>
@@ -481,7 +475,6 @@ const Index = () => {
         </div>
       </div>
     </div>;
-
   const searchTypes = [{
     id: 'structured',
     name: 'Current Implementation',
@@ -503,7 +496,6 @@ const Index = () => {
     name: 'Mega Search',
     desc: 'Combined category selection with free text search'
   }];
-
   return <div className="min-h-screen bg-white">
       {/* Header */}
       <Header />
@@ -607,5 +599,4 @@ const Index = () => {
       </div>
     </div>;
 };
-
 export default Index;
