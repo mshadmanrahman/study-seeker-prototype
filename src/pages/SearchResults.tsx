@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { useSearchParams } from 'react-router-dom';
 import Header from '@/components/Header';
+
 interface SearchResult {
   id: string;
   type: 'program' | 'article' | 'scholarship' | 'school';
@@ -26,6 +27,7 @@ interface SearchResult {
   image?: string;
   institution?: string;
 }
+
 const mockResults: SearchResult[] = [{
   id: '1',
   type: 'program',
@@ -82,6 +84,7 @@ const mockResults: SearchResult[] = [{
   description: 'Discover the best scholarships available for international students, including merit-based, need-based, and country-specific funding options.',
   fieldOfStudy: 'Scholarships'
 }];
+
 const SearchResults: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
@@ -194,9 +197,9 @@ const SearchResults: React.FC = () => {
   }: {
     result: SearchResult;
   }) => <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
-      <div className="flex h-48">
+      <div className="flex min-h-[192px]">
         {/* Left side - Campus image */}
-        <div className="w-48 flex-shrink-0 relative">
+        <div className="w-48 h-48 flex-shrink-0 relative">
           <img 
             src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&h=400&fit=crop" 
             alt={`${result.institution} campus`} 
