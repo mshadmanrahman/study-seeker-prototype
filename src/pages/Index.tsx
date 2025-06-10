@@ -199,8 +199,8 @@ const Index = () => {
   const popularSubjects = ['Computer Science', 'Business Administration', 'Engineering', 'Medicine', 'Psychology', 'Arts & Design', 'Data Science', 'Marketing'];
   const locations = ['United States', 'United Kingdom', 'Germany', 'Canada', 'Australia', 'Netherlands', 'Sweden', 'Switzerland'];
 
-  // Updated search types for mega search
-  const searchTypes = [
+  // Mega search categories for dropdown
+  const megaSearchCategories = [
     { name: 'Degrees', icon: GraduationCap, description: 'Bachelor, Master, PhD programs' },
     { name: 'Subjects', icon: BookOpen, description: 'Academic fields and disciplines' },
     { name: 'Schools', icon: Building, description: 'Universities and institutions' },
@@ -479,7 +479,7 @@ const Index = () => {
               <div className="mb-6">
                 <h4 className="text-sm font-semibold text-gray-500 uppercase mb-3">Search in</h4>
                 <div className="space-y-2">
-                  {searchTypes.map((type) => (
+                  {megaSearchCategories.map((type) => (
                     <div 
                       key={type.name}
                       className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 cursor-pointer rounded"
@@ -540,7 +540,7 @@ const Index = () => {
       <div>
         <h4 className="text-lg font-semibold mb-4">Quick Access</h4>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-          {searchTypes.map((type) => (
+          {megaSearchCategories.map((type) => (
             <Card 
               key={type.name}
               className={`cursor-pointer hover:scale-105 transition-transform ${selectedCategory === type.name ? 'ring-2 ring-teal-500' : ''}`}
@@ -559,26 +559,27 @@ const Index = () => {
     </div>
   );
 
-  const searchTypes = [{
+  // Search implementation options for the selector
+  const searchImplementations = [{
     id: 'structured',
     name: 'Current Implementation',
-    desc: 'Dropdown-based structured search'
+    description: 'Dropdown-based structured search'
   }, {
     id: 'freetext',
     name: 'Free Text Search',
-    desc: 'Google-style text input with suggestions'
+    description: 'Google-style text input with suggestions'
   }, {
     id: 'amazon',
     name: 'Category + Search',
-    desc: 'Amazon-style category dropdown with search'
+    description: 'Amazon-style category dropdown with search'
   }, {
     id: 'visual',
     name: 'Visual Discovery',
-    desc: 'Category-based visual exploration'
+    description: 'Category-based visual exploration'
   }, {
     id: 'mega',
     name: 'Mega Search',
-    desc: 'Combined category selection with free text search'
+    description: 'Combined category selection with free text search'
   }];
 
   return (
@@ -602,12 +603,12 @@ const Index = () => {
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-center mb-6">Choose Your Search Experience</h2>
           <div className="grid md:grid-cols-5 gap-4 mb-8">
-            {searchTypes.map(type => <Card key={type.id} className={`cursor-pointer transition-all ${activeSearch === type.id ? 'ring-2 ring-primary shadow-lg' : 'hover:shadow-md'}`} onClick={() => setActiveSearch(type.id)}>
+            {searchImplementations.map(type => <Card key={type.id} className={`cursor-pointer transition-all ${activeSearch === type.id ? 'ring-2 ring-primary shadow-lg' : 'hover:shadow-md'}`} onClick={() => setActiveSearch(type.id)}>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-lg">{type.name}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-gray-600">{type.desc}</p>
+                  <p className="text-sm text-gray-600">{type.description}</p>
                 </CardContent>
               </Card>)}
           </div>
