@@ -198,7 +198,7 @@ const SearchResults: React.FC = () => {
         {/* Left side - Campus image */}
         <div className="w-48 h-48 flex-shrink-0">
           <div className="w-full h-full relative">
-            <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&h=400&fit=crop" alt={`${result.institution} campus`} className="w-full h-full object-fill" />
+            <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&h=400&fit=crop" alt={`${result.institution} campus`} className="w-full h-full -bottom-0 " />
             {/* Institution logo overlay */}
             <div className="absolute bottom-3 left-3">
               <div className="w-12 h-12 bg-white rounded-lg shadow-md flex items-center justify-center">
