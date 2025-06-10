@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
@@ -14,6 +15,7 @@ const Header = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const searchRef = useRef<HTMLDivElement>(null);
   const megaInputRef = useRef<HTMLInputElement>(null);
+
   const subjects = [{
     name: 'Administration Programs',
     icon: Settings,
@@ -194,6 +196,22 @@ const Header = () => {
   }];
   const popularSearches = ['MBA in London', 'Computer Science PhD', 'Medicine in Germany', 'Online Masters'];
 
+  // Updated search categories for mega search
+  const searchTypes = [
+    { name: 'Degrees', icon: GraduationCap, description: 'Bachelor, Master, PhD programs' },
+    { name: 'Subjects', icon: BookOpen, description: 'Academic fields and disciplines' },
+    { name: 'Schools', icon: Building, description: 'Universities and institutions' },
+    { name: 'Scholarships', icon: Award, description: 'Financial aid and grants' },
+    { name: 'Articles', icon: FileText, description: 'Study guides and resources' }
+  ];
+
+  const recentSearches = [
+    'Engineering Degrees in Spain',
+    'Free Masters Programs', 
+    'Erasmus Programs',
+    'Dual Masters in Europe'
+  ];
+
   // Get unique categories for mega search
   const searchCategories = [{
     name: 'All Programs',
@@ -227,7 +245,7 @@ const Header = () => {
     setShowMegaDropdown(true);
   };
   const handleCategorySelect = (category: any) => {
-    setSelectedCategory(category.value);
+    setSelectedCategory(category.name);
     setShowMegaDropdown(false);
     if (megaInputRef.current) {
       megaInputRef.current.focus();
@@ -475,7 +493,7 @@ const Header = () => {
         return null;
     }
   };
-  return <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+  return <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
