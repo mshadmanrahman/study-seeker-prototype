@@ -302,9 +302,19 @@ const SearchResults: React.FC = () => {
   const ArticleCard = ({ result }: { result: SearchResult }) => (
     <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
       <div className="flex gap-4 p-4">
-        {/* Left side - Small thumbnail */}
-        <div className="w-24 h-20 flex-shrink-0 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg flex items-center justify-center">
-          <BookOpen className="w-8 h-8 text-blue-600" />
+        {/* Left side - Article image */}
+        <div className="w-24 h-20 flex-shrink-0 relative">
+          <img 
+            src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=200&h=200&fit=crop" 
+            alt="Article image" 
+            className="w-full h-full object-cover rounded-lg" 
+          />
+          {/* Article icon overlay */}
+          <div className="absolute bottom-1 right-1">
+            <div className="w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center">
+              <BookOpen className="w-3 h-3 text-blue-600" />
+            </div>
+          </div>
         </div>
         
         {/* Right side - Article content */}
@@ -349,9 +359,19 @@ const SearchResults: React.FC = () => {
   const ScholarshipCard = ({ result }: { result: SearchResult }) => (
     <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
       <div className="flex gap-4 p-4">
-        {/* Left side - Small thumbnail */}
-        <div className="w-24 h-20 flex-shrink-0 bg-gradient-to-br from-yellow-50 to-amber-100 rounded-lg flex items-center justify-center">
-          <Award className="w-8 h-8 text-yellow-600" />
+        {/* Left side - Scholarship image */}
+        <div className="w-24 h-20 flex-shrink-0 relative">
+          <img 
+            src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=200&h=200&fit=crop" 
+            alt="Scholarship image" 
+            className="w-full h-full object-cover rounded-lg" 
+          />
+          {/* Scholarship icon overlay */}
+          <div className="absolute bottom-1 right-1">
+            <div className="w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center">
+              <Award className="w-3 h-3 text-yellow-600" />
+            </div>
+          </div>
         </div>
         
         {/* Right side - Scholarship content */}
