@@ -199,7 +199,7 @@ const SearchResults: React.FC = () => {
   }) => <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
       <div className="flex min-h-[192px]">
         {/* Left side - Campus image */}
-        <div className="w-48 h-48 flex-shrink-0 relative">
+        <div className="w-48 h-full flex-shrink-0 relative">
           <img 
             src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&h=400&fit=crop" 
             alt={`${result.institution} campus`} 
