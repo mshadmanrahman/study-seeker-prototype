@@ -457,7 +457,7 @@ const Header = () => {
               </div>
 
               {/* Enhanced Category Dropdown */}
-              {showMegaDropdown && <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-[60] max-h-80 overflow-y-auto">
+              {showMegaDropdown && <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-[100] max-h-80 overflow-y-auto">
                   <div className="p-4">
                     {/* Search Types - Chip Layout */}
                     <div className="mb-6">
