@@ -293,20 +293,22 @@ const SearchResults: React.FC = () => {
           </h3>
           
           {/* Description */}
-          <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+          <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed mb-3">
             {result.description}
           </p>
           
+          {/* Tags row */}
+          <div className="flex flex-wrap gap-2 mb-2">
+            {result.fieldOfStudy && <Badge variant="secondary" className="text-xs">
+                {result.fieldOfStudy}
+              </Badge>}
+            {result.location && <Badge variant="secondary" className="text-xs">
+                {result.location}
+              </Badge>}
+          </div>
+          
           {/* Metadata footer */}
-          <div className="flex items-center gap-3 mt-3 text-xs text-gray-500">
-            {result.fieldOfStudy && <div className="flex items-center gap-1">
-                <GraduationCap className="w-3 h-3" />
-                <span>{result.fieldOfStudy}</span>
-              </div>}
-            {result.location && <div className="flex items-center gap-1">
-                <MapPin className="w-3 h-3" />
-                <span>{result.location}</span>
-              </div>}
+          <div className="flex items-center gap-3 text-xs text-gray-500">
             <div className="flex items-center gap-1">
               <Eye className="w-3 h-3" />
               <span>5 min read</span>
@@ -322,7 +324,7 @@ const SearchResults: React.FC = () => {
   }) => <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
       <div className="flex h-32">
         {/* Left side - Scholarship image */}
-        <div className="w-32 flex-shrink-0 overflow-hidden">
+        <div className="w-32 flex-shrink-0 overflow-hidden relative">
           <img 
             src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=200&h=200&fit=crop" 
             alt="Scholarship image" 
@@ -347,12 +349,12 @@ const SearchResults: React.FC = () => {
           </h3>
           
           {/* Description */}
-          <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed mb-2">
+          <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed mb-4">
             {result.description}
           </p>
           
           {/* Metadata footer */}
-          <div className="flex items-center gap-3 mt-4 text-xs text-gray-500">
+          <div className="flex items-center gap-3 text-xs text-gray-500">
             {result.fieldOfStudy && <div className="flex items-center gap-1">
                 <GraduationCap className="w-3 h-3" />
                 <span>{result.fieldOfStudy}</span>
