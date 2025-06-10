@@ -196,7 +196,7 @@ const SearchResults: React.FC = () => {
   }) => <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
       <div className="flex">
         {/* Left side - Campus image */}
-        <div className="w-48 h-48 flex-shrink-0 overflow-hidden">
+        <div className="w-48 h-48 flex-shrink-0 relative overflow-hidden">
           <img 
             src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&h=400&fit=crop" 
             alt={`${result.institution} campus`} 
@@ -211,7 +211,7 @@ const SearchResults: React.FC = () => {
         </div>
         
         {/* Right side - Program details */}
-        <div className="flex-1 p-6 px-[16px] mx-0 my-0 py-[8px]">
+        <div className="flex-1 p-6">
           <div className="flex justify-between items-start h-full">
             <div className="flex-1">
               {/* Institution name */}
