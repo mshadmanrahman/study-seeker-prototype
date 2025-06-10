@@ -501,7 +501,7 @@ const Header = () => {
               <div className="flex-1 px-3 py-2 bg-white">
                 <span className="text-gray-500">Search for subject, school or location</span>
               </div>
-              <div className="px-4 bg-teal-600 text-white flex items-center">
+              <div className="px-4 bg-primary text-white flex items-center">
                 <Search className="w-4 h-4" />
               </div>
             </div>
