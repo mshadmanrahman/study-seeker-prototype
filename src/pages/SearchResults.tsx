@@ -196,14 +196,16 @@ const SearchResults: React.FC = () => {
   }) => <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
       <div className="flex">
         {/* Left side - Campus image */}
-        <div className="w-48 h-48 flex-shrink-0">
-          <div className="w-full h-full relative">
-            <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&h=400&fit=crop" alt={`${result.institution} campus`} className="w-full h-full object-fill" />
-            {/* Institution logo overlay */}
-            <div className="absolute bottom-3 left-3">
-              <div className="w-12 h-12 bg-white rounded-lg shadow-md flex items-center justify-center">
-                <Building className="w-6 h-6 text-blue-600" />
-              </div>
+        <div className="w-48 h-48 flex-shrink-0 overflow-hidden">
+          <img 
+            src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&h=400&fit=crop" 
+            alt={`${result.institution} campus`} 
+            className="w-full h-full object-cover block" 
+          />
+          {/* Institution logo overlay */}
+          <div className="absolute bottom-3 left-3">
+            <div className="w-12 h-12 bg-white rounded-lg shadow-md flex items-center justify-center">
+              <Building className="w-6 h-6 text-blue-600" />
             </div>
           </div>
         </div>
@@ -267,10 +269,14 @@ const SearchResults: React.FC = () => {
   }: {
     result: SearchResult;
   }) => <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
-      <div className="flex">
+      <div className="flex h-32">
         {/* Left side - Article image */}
-        <div className="w-24 h-full flex-shrink-0 relative overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=200&h=200&fit=crop" alt="Article image" className="w-full h-full object-cover block" />
+        <div className="w-32 flex-shrink-0 overflow-hidden">
+          <img 
+            src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=200&h=200&fit=crop" 
+            alt="Article image" 
+            className="w-full h-full object-cover block" 
+          />
           {/* Article icon overlay */}
           <div className="absolute bottom-1 right-1">
             <div className="w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center">
@@ -317,10 +323,14 @@ const SearchResults: React.FC = () => {
   }: {
     result: SearchResult;
   }) => <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
-      <div className="flex">
+      <div className="flex h-32">
         {/* Left side - Scholarship image */}
-        <div className="w-24 h-full flex-shrink-0 relative overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=200&h=200&fit=crop" alt="Scholarship image" className="w-full h-full object-cover block" />
+        <div className="w-32 flex-shrink-0 overflow-hidden">
+          <img 
+            src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=200&h=200&fit=crop" 
+            alt="Scholarship image" 
+            className="w-full h-full object-cover block" 
+          />
           {/* Scholarship icon overlay */}
           <div className="absolute bottom-1 right-1">
             <div className="w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center">
