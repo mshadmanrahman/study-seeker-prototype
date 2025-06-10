@@ -258,6 +258,29 @@ const Header = () => {
       megaInputRef.current.focus();
     }
   };
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setIsExpanded(false);
+    }
+  };
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+  const handleLogoClick = () => {
+    navigate('/');
+  };
+  const handleSubjectClick = (subjectName: string) => {
+    navigate(`/search?q=${encodeURIComponent(subjectName)}`);
+    setIsExpanded(false);
+  };
+  const handlePopularSearchClick = (searchTerm: string) => {
+    navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
+    setIsExpanded(false);
+  };
+
   const renderSearchContent = () => {
     switch (activeTab) {
       case 'structured':
@@ -297,7 +320,7 @@ const Header = () => {
                 </Select>
               </div>
             </div>
-            <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
+            <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90" onClick={handleSearch}>
               <Search className="w-4 h-4 mr-2" />
               Search Programs
             </Button>
@@ -306,11 +329,11 @@ const Header = () => {
         return <div className="p-6 space-y-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <Input type="text" placeholder="Search for any program, university, or location..." className="pl-10 pr-4 py-3 text-lg" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+              <Input type="text" placeholder="Search for any program, university, or location..." className="pl-10 pr-4 py-3 text-lg" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyPress={handleKeyPress} />
             </div>
             <div className="flex flex-wrap gap-2">
               <span className="text-sm text-gray-600">Popular searches:</span>
-              {popularSearches.map(term => <Badge key={term} variant="secondary" className="cursor-pointer hover:bg-accent hover:text-accent-foreground" onClick={() => setSearchQuery(term)}>
+              {popularSearches.map(term => <Badge key={term} variant="secondary" className="cursor-pointer hover:bg-accent hover:text-accent-foreground" onClick={() => handlePopularSearchClick(term)}>
                   {term}
                 </Badge>)}
             </div>
@@ -334,9 +357,9 @@ const Header = () => {
                 </SelectContent>
               </Select>
               <div className="flex-1 relative">
-                <Input type="text" placeholder="Search programs, universities, subjects..." className="border-0 rounded-none focus:ring-0 focus:border-transparent" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+                <Input type="text" placeholder="Search programs, universities, subjects..." className="border-0 rounded-none focus:ring-0 focus:border-transparent" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyPress={handleKeyPress} />
               </div>
-              <Button className="rounded-none px-6 text-white bg-primary hover:bg-teal-700">
+              <Button className="rounded-none px-6 text-white bg-primary hover:bg-teal-700" onClick={handleSearch}>
                 <Search className="w-5 h-5" />
               </Button>
             </div>
@@ -345,7 +368,7 @@ const Header = () => {
             <div className="mb-6">
               <div className="flex flex-wrap gap-2 items-center">
                 <span className="text-sm text-gray-600 font-medium">Popular searches:</span>
-                {popularSearches.map(term => <Badge key={term} variant="secondary" className="cursor-pointer hover:bg-accent hover:text-accent-foreground px-3 py-1" onClick={() => setSearchQuery(term)}>
+                {popularSearches.map(term => <Badge key={term} variant="secondary" className="cursor-pointer hover:bg-accent hover:text-accent-foreground px-3 py-1" onClick={() => handlePopularSearchClick(term)}>
                     {term}
                   </Badge>)}
               </div>
@@ -355,7 +378,7 @@ const Header = () => {
             <div>
               <h4 className="text-lg font-semibold mb-4">Browse by Subject</h4>
               <div className="grid grid-cols-3 gap-4 max-h-80 overflow-y-auto">
-                {subjects.map(subject => <Card key={subject.name} className="cursor-pointer hover:scale-105 transition-transform border border-gray-200" onClick={() => setSearchQuery(subject.name)}>
+                {subjects.map(subject => <Card key={subject.name} className="cursor-pointer hover:scale-105 transition-transform border border-gray-200" onClick={() => handleSubjectClick(subject.name)}>
                     <CardContent className="p-4">
                       <div className="flex items-start gap-3">
                         <div className="text-gray-600 mt-1">
@@ -397,9 +420,9 @@ const Header = () => {
                 </SelectContent>
               </Select>
               <div className="flex-1 relative">
-                <Input type="text" placeholder="Search subjects, universities, locations..." className="border-0 rounded-none focus:ring-0 focus:border-transparent" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+                <Input type="text" placeholder="Search subjects, universities, locations..." className="border-0 rounded-none focus:ring-0 focus:border-transparent" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyPress={handleKeyPress} />
               </div>
-              <Button className="rounded-none px-6 bg-accent text-accent-foreground hover:bg-accent/90">
+              <Button className="rounded-none px-6 bg-accent text-accent-foreground hover:bg-accent/90" onClick={handleSearch}>
                 <Search className="w-5 h-5" />
               </Button>
             </div>
@@ -420,7 +443,7 @@ const Header = () => {
             <div className="mb-4">
               <h4 className="text-lg font-semibold mb-3">Browse by Subject</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-96 overflow-y-auto">
-                {subjects.map(subject => <Card key={subject.name} className="cursor-pointer hover:scale-105 transition-transform">
+                {subjects.map(subject => <Card key={subject.name} className="cursor-pointer hover:scale-105 transition-transform" onClick={() => handleSubjectClick(subject.name)}>
                     <CardContent className="p-3">
                       <div className="flex items-center gap-3">
                         <div className="text-gray-600">
@@ -448,12 +471,12 @@ const Header = () => {
               <div className="flex rounded-lg overflow-hidden border border-gray-300">
                 <div className="flex-1 relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <Input ref={megaInputRef} type="text" placeholder={selectedCategory && selectedCategory !== 'all' ? `Search in ${megaSearchCategories.find(c => c.name === selectedCategory)?.name}...` : "Search programs, universities, subjects..."} className="pl-10 pr-4 py-3 text-lg border-0 rounded-none focus:ring-0 focus:border-transparent" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onFocus={handleMegaInputFocus} />
+                  <Input ref={megaInputRef} type="text" placeholder={selectedCategory && selectedCategory !== 'all' ? `Search in ${megaSearchCategories.find(c => c.name === selectedCategory)?.name}...` : "Search programs, universities, subjects..."} className="pl-10 pr-4 py-3 text-lg border-0 rounded-none focus:ring-0 focus:border-transparent" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onFocus={handleMegaInputFocus} onKeyPress={handleKeyPress} />
                   {selectedCategory && selectedCategory !== 'all' && <Badge className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-blue-100 text-blue-800">
                       {megaSearchCategories.find(c => c.name === selectedCategory)?.name}
                     </Badge>}
                 </div>
-                <Button className="rounded-none px-6 text-white bg-teal-700 hover:bg-teal-600">
+                <Button className="rounded-none px-6 text-white bg-teal-700 hover:bg-teal-600" onClick={handleSearch}>
                   <Search className="w-5 h-5" />
                 </Button>
               </div>
@@ -476,7 +499,7 @@ const Header = () => {
                     <div className="mb-6">
                       <h4 className="text-sm font-semibold text-gray-500 uppercase mb-3">Recent searches</h4>
                       <div className="space-y-1">
-                        {recentSearches.map(search => <div key={search} className="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 cursor-pointer rounded text-sm" onClick={() => setSearchQuery(search)}>
+                        {recentSearches.map(search => <div key={search} className="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 cursor-pointer rounded text-sm" onClick={() => handlePopularSearchClick(search)}>
                             <Clock className="w-3 h-3 text-gray-400" />
                             <span>{search}</span>
                           </div>)}
@@ -487,7 +510,7 @@ const Header = () => {
                     <div>
                       <h4 className="text-sm font-semibold text-gray-500 uppercase mb-3">Popular searches</h4>
                       <div className="flex flex-wrap gap-2">
-                        {popularSearches.map(search => <Badge key={search} variant="secondary" className="cursor-pointer hover:bg-accent hover:text-accent-foreground text-xs px-2 py-1" onClick={() => setSearchQuery(search)}>
+                        {popularSearches.map(search => <Badge key={search} variant="secondary" className="cursor-pointer hover:bg-accent hover:text-accent-foreground text-xs px-2 py-1" onClick={() => handlePopularSearchClick(search)}>
                             {search}
                           </Badge>)}
                       </div>
@@ -511,25 +534,18 @@ const Header = () => {
         return null;
     }
   };
-  const handleSearch = () => {
-    if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-    }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  };
-
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+          {/* Logo - Now clickable */}
           <div className="flex items-center">
-            <img src="/lovable-uploads/f9cd9d53-d676-4f5b-a143-85d026ced35b.png" alt="Educations.com Logo" className="h-8" />
+            <img 
+              src="/lovable-uploads/f9cd9d53-d676-4f5b-a143-85d026ced35b.png" 
+              alt="Educations.com Logo" 
+              className="h-8 cursor-pointer hover:opacity-80 transition-opacity" 
+              onClick={handleLogoClick}
+            />
           </div>
 
           {/* Navigation */}

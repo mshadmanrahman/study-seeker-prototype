@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Search, ChevronDown, MapPin, BookOpen, GraduationCap, Award, Filter, Globe, Clock, Star, Settings, Building, Palette, Plane, Briefcase, Hammer, Scissors, Target, TrendingUp, Users, Zap, Cog, Leaf, Shirt, DollarSign, UtensilsCrossed, Home, Heart, Newspaper, MessageCircle, Scale, Dna, Lightbulb, UserCheck, Megaphone, Microscope, Music, Sparkles, Earth, Activity, Recycle, Monitor, FileText, Hotel, Car } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -6,9 +5,11 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
+import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 
 const Index = () => {
+  const navigate = useNavigate();
   const [activeSearch, setActiveSearch] = useState('structured');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDegree, setSelectedDegree] = useState('');
@@ -251,6 +252,26 @@ const Index = () => {
     }
   };
 
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  const handlePopularSearchClick = (searchTerm: string) => {
+    navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
+  };
+
+  const handleSubjectClick = (subjectName: string) => {
+    navigate(`/search?q=${encodeURIComponent(subjectName)}`);
+  };
+
   const StructuredSearch = () => <div className="search-container p-6">
       <div className="grid md:grid-cols-2 gap-4">
         <div>
@@ -287,7 +308,7 @@ const Index = () => {
           </Select>
         </div>
       </div>
-      <Button className="w-full mt-4 bg-primary text-primary-foreground hover:bg-primary/90">
+      <Button className="w-full mt-4 bg-primary text-primary-foreground hover:bg-primary/90" onClick={handleSearch}>
         <Search className="w-4 h-4 mr-2" />
         Search Programs
       </Button>
@@ -296,11 +317,11 @@ const Index = () => {
   const FreeTextSearch = () => <div className="search-container p-6">
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-        <Input type="text" placeholder="Search for any program, university, or location..." className="pl-10 pr-4 py-3 text-lg" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+        <Input type="text" placeholder="Search for any program, university, or location..." className="pl-10 pr-4 py-3 text-lg" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyPress={handleKeyPress} />
       </div>
       <div className="flex flex-wrap gap-2 mt-4">
         <span className="text-sm text-gray-600">Popular searches:</span>
-        {['MBA in London', 'Computer Science PhD', 'Medicine in Germany', 'Online Masters'].map(term => <Badge key={term} variant="secondary" className="cursor-pointer hover:bg-accent hover:text-accent-foreground" onClick={() => setSearchQuery(term)}>
+        {['MBA in London', 'Computer Science PhD', 'Medicine in Germany', 'Online Masters'].map(term => <Badge key={term} variant="secondary" className="cursor-pointer hover:bg-accent hover:text-accent-foreground" onClick={() => handlePopularSearchClick(term)}>
             {term}
           </Badge>)}
       </div>
@@ -323,9 +344,9 @@ const Index = () => {
           </SelectContent>
         </Select>
         <div className="flex-1 relative">
-          <Input type="text" placeholder="Search programs, universities, subjects..." className="border-0 rounded-none focus:ring-0 focus:border-transparent" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+          <Input type="text" placeholder="Search programs, universities, subjects..." className="border-0 rounded-none focus:ring-0 focus:border-transparent" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyPress={handleKeyPress} />
         </div>
-        <Button className="rounded-none px-6 text-accent-foreground bg-pink-800 hover:bg-pink-700">
+        <Button className="rounded-none px-6 text-accent-foreground bg-pink-800 hover:bg-pink-700" onClick={handleSearch}>
           <Search className="w-5 h-5" />
         </Button>
       </div>
@@ -333,7 +354,7 @@ const Index = () => {
       {/* Popular Searches Section */}
       <div className="flex flex-wrap gap-2 mt-4">
         <span className="text-sm text-gray-600">Popular searches:</span>
-        {['MBA in London', 'Computer Science PhD', 'Medicine in Germany', 'Online Masters'].map(term => <Badge key={term} variant="secondary" className="cursor-pointer hover:bg-accent hover:text-accent-foreground" onClick={() => setSearchQuery(term)}>
+        {['MBA in London', 'Computer Science PhD', 'Medicine in Germany', 'Online Masters'].map(term => <Badge key={term} variant="secondary" className="cursor-pointer hover:bg-accent hover:text-accent-foreground" onClick={() => handlePopularSearchClick(term)}>
             {term}
           </Badge>)}
       </div>
@@ -342,7 +363,7 @@ const Index = () => {
       <div className="mt-6">
         <h4 className="text-lg font-semibold mb-4">Browse by Subject</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 max-h-96 overflow-y-auto">
-          {subjects.map(subject => <Card key={subject.name} className="cursor-pointer hover:scale-105 transition-transform search-card">
+          {subjects.map(subject => <Card key={subject.name} className="cursor-pointer hover:scale-105 transition-transform search-card" onClick={() => handleSubjectClick(subject.name)}>
               <CardContent className="p-4">
                 <div className="flex items-center gap-3">
                   <div className="text-gray-600">
@@ -382,9 +403,9 @@ const Index = () => {
           </SelectContent>
         </Select>
         <div className="flex-1 relative">
-          <Input type="text" placeholder="Search subjects, universities, locations..." className="border-0 rounded-none focus:ring-0 focus:border-transparent" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+          <Input type="text" placeholder="Search subjects, universities, locations..." className="border-0 rounded-none focus:ring-0 focus:border-transparent" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyPress={handleKeyPress} />
         </div>
-        <Button className="rounded-none px-6 bg-accent text-accent-foreground hover:bg-accent/90">
+        <Button className="rounded-none px-6 bg-accent text-accent-foreground hover:bg-accent/90" onClick={handleSearch}>
           <Search className="w-5 h-5" />
         </Button>
       </div>
@@ -405,7 +426,7 @@ const Index = () => {
       <div className="mb-4">
         <h4 className="text-lg font-semibold mb-3">Browse by Subject</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-96 overflow-y-auto">
-          {subjects.map(subject => <Card key={subject.name} className="cursor-pointer hover:scale-105 transition-transform search-card">
+          {subjects.map(subject => <Card key={subject.name} className="cursor-pointer hover:scale-105 transition-transform search-card" onClick={() => handleSubjectClick(subject.name)}>
               <CardContent className="p-3">
                 <div className="flex items-center gap-3">
                   <div className="text-gray-600">
@@ -464,7 +485,8 @@ const Index = () => {
               className="pl-10 pr-4 py-3 text-lg border-0 rounded-none focus:ring-0 focus:border-transparent" 
               value={searchQuery} 
               onChange={(e) => setSearchQuery(e.target.value)} 
-              onFocus={handleMegaInputFocus} 
+              onFocus={handleMegaInputFocus}
+              onKeyPress={handleKeyPress}
             />
             {selectedCategory && (
               <Badge className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-blue-100 text-blue-800">
@@ -472,7 +494,7 @@ const Index = () => {
               </Badge>
             )}
           </div>
-          <Button className="rounded-none px-6 text-white bg-accent hover:bg-accent/90">
+          <Button className="rounded-none px-6 text-white bg-accent hover:bg-accent/90" onClick={handleSearch}>
             <Search className="w-5 h-5" />
           </Button>
         </div>
@@ -506,7 +528,7 @@ const Index = () => {
                     <div 
                       key={search}
                       className="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 cursor-pointer rounded text-sm"
-                      onClick={() => setSearchQuery(search)}
+                      onClick={() => handlePopularSearchClick(search)}
                     >
                       <Clock className="w-3 h-3 text-gray-400" />
                       <span>{search}</span>
@@ -524,7 +546,7 @@ const Index = () => {
                       key={search}
                       variant="secondary" 
                       className="cursor-pointer hover:bg-accent hover:text-accent-foreground text-xs px-2 py-1"
-                      onClick={() => setSearchQuery(search)}
+                      onClick={() => handlePopularSearchClick(search)}
                     >
                       {search}
                     </Badge>
