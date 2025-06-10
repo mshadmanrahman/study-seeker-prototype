@@ -471,21 +471,23 @@ const Index = () => {
           </Button>
         </div>
 
-        {/* Mega Dropdown */}
+        {/* Enhanced Mega Dropdown */}
         {showMegaDropdown && (
           <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto">
             <div className="p-4">
-              {/* Search Types */}
+              {/* Search Types - Card Layout */}
               <div className="mb-6">
                 <h4 className="text-sm font-semibold text-gray-500 uppercase mb-3">Search in</h4>
-                <div className="space-y-2">
+                <div className="grid grid-cols-1 gap-2">
                   {megaSearchCategories.map((type) => (
                     <div 
                       key={type.name}
-                      className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 cursor-pointer rounded"
+                      className="flex items-center gap-3 p-3 hover:bg-gray-50 cursor-pointer rounded-lg border border-gray-100 transition-colors"
                       onClick={() => handleCategorySelect(type)}
                     >
-                      <type.icon className="w-5 h-5 text-gray-600" />
+                      <div className="p-2 bg-gray-100 rounded-lg">
+                        <type.icon className="w-5 h-5 text-gray-600" />
+                      </div>
                       <div className="flex-1">
                         <div className="font-medium text-sm">{type.name}</div>
                         <div className="text-xs text-gray-500">{type.description}</div>
@@ -498,36 +500,36 @@ const Index = () => {
                 </div>
               </div>
 
-              {/* Recent Searches */}
+              {/* Recent Searches - Compact List */}
               <div className="mb-6">
                 <h4 className="text-sm font-semibold text-gray-500 uppercase mb-3">Recent searches</h4>
                 <div className="space-y-1">
                   {recentSearches.map((search) => (
                     <div 
                       key={search}
-                      className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 cursor-pointer rounded"
+                      className="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 cursor-pointer rounded text-sm"
                       onClick={() => setSearchQuery(search)}
                     >
-                      <Clock className="w-4 h-4 text-gray-400" />
-                      <span className="text-sm">{search}</span>
+                      <Clock className="w-3 h-3 text-gray-400" />
+                      <span>{search}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Popular Searches */}
+              {/* Popular Searches - Badge Layout */}
               <div>
                 <h4 className="text-sm font-semibold text-gray-500 uppercase mb-3">Popular searches</h4>
-                <div className="space-y-1">
+                <div className="flex flex-wrap gap-2">
                   {popularSearches.map((search) => (
-                    <div 
+                    <Badge 
                       key={search}
-                      className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 cursor-pointer rounded"
+                      variant="secondary" 
+                      className="cursor-pointer hover:bg-accent hover:text-accent-foreground text-xs px-2 py-1"
                       onClick={() => setSearchQuery(search)}
                     >
-                      <TrendingUp className="w-4 h-4 text-gray-400" />
-                      <span className="text-sm">{search}</span>
-                    </div>
+                      {search}
+                    </Badge>
                   ))}
                 </div>
               </div>
@@ -536,23 +538,19 @@ const Index = () => {
         )}
       </div>
 
-      {/* Quick Access Cards */}
+      {/* Quick Access - Modern Chip Layout */}
       <div>
         <h4 className="text-lg font-semibold mb-4">Quick Access</h4>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div className="flex flex-wrap gap-2">
           {megaSearchCategories.map((type) => (
-            <Card 
+            <div 
               key={type.name}
-              className={`cursor-pointer hover:scale-105 transition-transform ${selectedCategory === type.name ? 'ring-2 ring-teal-500' : ''}`}
+              className={`inline-flex items-center gap-2 px-3 py-2 rounded-full border cursor-pointer transition-all hover:shadow-md ${selectedCategory === type.name ? 'border-purple-500 bg-purple-50 text-purple-700' : 'border-gray-200 bg-white hover:border-gray-300'}`}
               onClick={() => handleCategorySelect(type)}
             >
-              <CardContent className="p-4">
-                <div className="text-center">
-                  <type.icon className="w-8 h-8 mx-auto mb-2 text-gray-600" />
-                  <h4 className="font-medium text-sm">{type.name}</h4>
-                </div>
-              </CardContent>
-            </Card>
+              <type.icon className="w-4 h-4" />
+              <span className="text-sm font-medium">{type.name}</span>
+            </div>
           ))}
         </div>
       </div>
