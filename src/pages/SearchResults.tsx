@@ -280,12 +280,6 @@ const SearchResults: React.FC = () => {
             alt="Article image" 
             className="w-full h-full object-cover block" 
           />
-          {/* Article icon overlay */}
-          <div className="absolute bottom-1 right-1">
-            <div className="w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center">
-              <BookOpen className="w-3 h-3 text-blue-600" />
-            </div>
-          </div>
         </div>
         
         {/* Right side - Article content */}
@@ -353,12 +347,12 @@ const SearchResults: React.FC = () => {
           </h3>
           
           {/* Description */}
-          <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+          <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed mb-2">
             {result.description}
           </p>
           
           {/* Metadata footer */}
-          <div className="flex items-center gap-3 mt-3 text-xs text-gray-500">
+          <div className="flex items-center gap-3 mt-4 text-xs text-gray-500">
             {result.fieldOfStudy && <div className="flex items-center gap-1">
                 <GraduationCap className="w-3 h-3" />
                 <span>{result.fieldOfStudy}</span>
