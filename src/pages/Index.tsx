@@ -432,7 +432,7 @@ const Index = () => {
                 {searchCategories.find(c => c.value === selectedCategory)?.name}
               </Badge>}
           </div>
-          <Button className="rounded-none px-6 text-white bg-accent hover:bg-accent-foreground ">
+          <Button className="rounded-none px-6 text-white bg-accent hover:bg-accent/90">
             <Search className="w-5 h-5" />
           </Button>
         </div>
