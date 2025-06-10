@@ -262,15 +262,16 @@ const SearchResults: React.FC = () => {
         </div>
       </div>
     </Card>;
-  const ArticleCard = ({
-    result
-  }: {
-    result: SearchResult;
-  }) => <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
-      <div className="flex gap-4 p-4">
+  const ArticleCard = ({ result }: { result: SearchResult }) => (
+    <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
+      <div className="flex">
         {/* Left side - Article image */}
-        <div className="w-24 h-20 flex-shrink-0 relative">
-          <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=200&h=200&fit=crop" alt="Article image" className="w-full h-full object-cover rounded-lg" />
+        <div className="w-24 h-full flex-shrink-0 relative">
+          <img 
+            src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=200&h=200&fit=crop" 
+            alt="Article image" 
+            className="w-full h-full object-cover" 
+          />
           {/* Article icon overlay */}
           <div className="absolute bottom-1 right-1">
             <div className="w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center">
@@ -280,7 +281,7 @@ const SearchResults: React.FC = () => {
         </div>
         
         {/* Right side - Article content */}
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 p-4">
           {/* Publication date */}
           <p className="text-xs text-gray-500 mb-2">Dec 2024</p>
           
@@ -296,14 +297,18 @@ const SearchResults: React.FC = () => {
           
           {/* Metadata footer */}
           <div className="flex items-center gap-3 mt-3 text-xs text-gray-500">
-            {result.fieldOfStudy && <div className="flex items-center gap-1">
+            {result.fieldOfStudy && (
+              <div className="flex items-center gap-1">
                 <GraduationCap className="w-3 h-3" />
                 <span>{result.fieldOfStudy}</span>
-              </div>}
-            {result.location && <div className="flex items-center gap-1">
+              </div>
+            )}
+            {result.location && (
+              <div className="flex items-center gap-1">
                 <MapPin className="w-3 h-3" />
                 <span>{result.location}</span>
-              </div>}
+              </div>
+            )}
             <div className="flex items-center gap-1">
               <Eye className="w-3 h-3" />
               <span>5 min read</span>
@@ -311,16 +316,19 @@ const SearchResults: React.FC = () => {
           </div>
         </div>
       </div>
-    </Card>;
-  const ScholarshipCard = ({
-    result
-  }: {
-    result: SearchResult;
-  }) => <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
-      <div className="flex gap-4 p-4">
+    </Card>
+  );
+
+  const ScholarshipCard = ({ result }: { result: SearchResult }) => (
+    <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
+      <div className="flex">
         {/* Left side - Scholarship image */}
-        <div className="w-24 h-20 flex-shrink-0 relative">
-          <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=200&h=200&fit=crop" alt="Scholarship image" className="w-full h-full object-cover rounded-lg" />
+        <div className="w-24 h-full flex-shrink-0 relative">
+          <img 
+            src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=200&h=200&fit=crop" 
+            alt="Scholarship image" 
+            className="w-full h-full object-cover" 
+          />
           {/* Scholarship icon overlay */}
           <div className="absolute bottom-1 right-1">
             <div className="w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center">
@@ -330,7 +338,7 @@ const SearchResults: React.FC = () => {
         </div>
         
         {/* Right side - Scholarship content */}
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 p-4">
           {/* Publication date */}
           <p className="text-xs text-gray-500 mb-2">Dec 2024</p>
           
@@ -346,22 +354,29 @@ const SearchResults: React.FC = () => {
           
           {/* Metadata footer */}
           <div className="flex items-center gap-3 mt-3 text-xs text-gray-500">
-            {result.fieldOfStudy && <div className="flex items-center gap-1">
+            {result.fieldOfStudy && (
+              <div className="flex items-center gap-1">
                 <GraduationCap className="w-3 h-3" />
                 <span>{result.fieldOfStudy}</span>
-              </div>}
-            {result.location && <div className="flex items-center gap-1">
+              </div>
+            )}
+            {result.location && (
+              <div className="flex items-center gap-1">
                 <MapPin className="w-3 h-3" />
                 <span>{result.location}</span>
-              </div>}
-            {result.deadline && <div className="flex items-center gap-1">
+              </div>
+            )}
+            {result.deadline && (
+              <div className="flex items-center gap-1">
                 <Calendar className="w-3 h-3" />
                 <span>Deadline: {new Date(result.deadline).toLocaleDateString()}</span>
-              </div>}
+              </div>
+            )}
           </div>
         </div>
       </div>
-    </Card>;
+    </Card>
+  );
   return <div className="min-h-screen bg-gray-50">
       {/* Use shared Header component */}
       <Header />
