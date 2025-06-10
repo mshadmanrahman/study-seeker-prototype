@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Search, ChevronDown, MapPin, BookOpen, GraduationCap, Award, Filter, Globe, Clock, Star, Settings, Building, Palette, Plane, Briefcase, Hammer, Scissors, Target, TrendingUp, Users, Zap, Cog, Leaf, Shirt, DollarSign, UtensilsCrossed, Home, Heart, Newspaper, MessageCircle, Scale, Dna, Lightbulb, UserCheck, Megaphone, Microscope, Music, Sparkles, Earth, Activity, Recycle, Monitor, FileText, Hotel, Car } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,6 +12,9 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDegree, setSelectedDegree] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [showMegaDropdown, setShowMegaDropdown] = useState(false);
+  const megaInputRef = useRef<HTMLInputElement>(null);
 
   const degreeTypes = [{
     value: 'preparatory',
@@ -193,6 +196,40 @@ const Index = () => {
   }];
   const popularSubjects = ['Computer Science', 'Business Administration', 'Engineering', 'Medicine', 'Psychology', 'Arts & Design', 'Data Science', 'Marketing'];
   const locations = ['United States', 'United Kingdom', 'Germany', 'Canada', 'Australia', 'Netherlands', 'Sweden', 'Switzerland'];
+
+  // Get unique categories for mega search
+  const searchCategories = [{
+    name: 'All Programs',
+    icon: BookOpen,
+    value: 'all'
+  }, ...Array.from(new Set(subjects.map(s => s.category))).map(category => ({
+    name: category,
+    icon: subjects.find(s => s.category === category)?.icon || BookOpen,
+    value: category.toLowerCase().replace(/\s+/g, '-')
+  }))];
+
+  // Close mega dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (megaInputRef.current && !megaInputRef.current.contains(event.target as Node)) {
+        setShowMegaDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleMegaInputFocus = () => {
+    setShowMegaDropdown(true);
+  };
+
+  const handleCategorySelect = (category: any) => {
+    setSelectedCategory(category.value);
+    setShowMegaDropdown(false);
+    if (megaInputRef.current) {
+      megaInputRef.current.focus();
+    }
+  };
 
   const StructuredSearch = () => <div className="search-container p-6">
       <div className="grid md:grid-cols-2 gap-4">
@@ -385,6 +422,66 @@ const Index = () => {
       </div>
     </div>;
 
+  const MegaSearch = () => <div className="search-container p-6">
+      <div className="text-center mb-6">
+        <h3 className="text-lg font-semibold mb-2">Mega Search</h3>
+        <p className="text-gray-600">Search across all categories or select a specific one</p>
+      </div>
+      
+      {/* Mega Search Bar with Category Dropdown */}
+      <div className="relative mb-6">
+        <div className="flex rounded-lg overflow-hidden border border-gray-300">
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <Input ref={megaInputRef} type="text" placeholder={selectedCategory && selectedCategory !== 'all' ? `Search in ${searchCategories.find(c => c.value === selectedCategory)?.name}...` : "Search programs, universities, subjects..."} className="pl-10 pr-4 py-3 text-lg border-0 rounded-none focus:ring-0 focus:border-transparent" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onFocus={handleMegaInputFocus} />
+            {selectedCategory && selectedCategory !== 'all' && <Badge className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-blue-100 text-blue-800">
+                {searchCategories.find(c => c.value === selectedCategory)?.name}
+              </Badge>}
+          </div>
+          <Button className="rounded-none px-6 text-white bg-teal-700 hover:bg-teal-600">
+            <Search className="w-5 h-5" />
+          </Button>
+        </div>
+
+        {/* Category Dropdown */}
+        {showMegaDropdown && <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-80 overflow-y-auto">
+            <div className="p-2">
+              <div className="text-xs text-gray-500 uppercase font-semibold mb-2 px-2">Search in:</div>
+              {searchCategories.map(category => <div key={category.value} className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 cursor-pointer rounded" onClick={() => handleCategorySelect(category)}>
+                  <category.icon className="w-4 h-4 text-gray-600" />
+                  <span className="text-sm">{category.name}</span>
+                  {selectedCategory === category.value && <div className="ml-auto w-2 h-2 rounded-full bg-teal-600"></div>}
+                </div>)}
+            </div>
+          </div>}
+      </div>
+
+      {/* Popular Searches */}
+      <div className="mb-6">
+        <div className="flex flex-wrap gap-2 items-center">
+          <span className="text-sm text-gray-600 font-medium">Popular searches:</span>
+          {['MBA in London', 'Computer Science PhD', 'Medicine in Germany', 'Online Masters'].map(term => <Badge key={term} variant="secondary" className="cursor-pointer hover:bg-accent hover:text-accent-foreground px-3 py-1" onClick={() => setSearchQuery(term)}>
+              {term}
+            </Badge>)}
+        </div>
+      </div>
+
+      {/* Quick Category Access */}
+      <div>
+        <h4 className="text-lg font-semibold mb-4">Quick Category Access</h4>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          {searchCategories.slice(1, 13).map(category => <Card key={category.value} className={`cursor-pointer hover:scale-105 transition-transform ${selectedCategory === category.value ? 'ring-2 ring-purple-500' : ''}`} onClick={() => handleCategorySelect(category)}>
+              <CardContent className="p-4">
+                <div className="text-center">
+                  <category.icon className="w-8 h-8 mx-auto mb-2 text-gray-600" />
+                  <h4 className="font-medium text-sm">{category.name}</h4>
+                </div>
+              </CardContent>
+            </Card>)}
+        </div>
+      </div>
+    </div>;
+
   const searchTypes = [{
     id: 'structured',
     name: 'Current Implementation',
@@ -401,7 +498,12 @@ const Index = () => {
     id: 'visual',
     name: 'Visual Discovery',
     desc: 'Category-based visual exploration'
+  }, {
+    id: 'mega',
+    name: 'Mega Search',
+    desc: 'Combined category selection with free text search'
   }];
+
   return <div className="min-h-screen bg-white">
       {/* Header */}
       <Header />
@@ -421,7 +523,7 @@ const Index = () => {
       <div className="container mx-auto px-4 py-8 bg-white">
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-center mb-6">Choose Your Search Experience</h2>
-          <div className="grid md:grid-cols-4 gap-4 mb-8">
+          <div className="grid md:grid-cols-5 gap-4 mb-8">
             {searchTypes.map(type => <Card key={type.id} className={`cursor-pointer transition-all ${activeSearch === type.id ? 'ring-2 ring-primary shadow-lg' : 'hover:shadow-md'}`} onClick={() => setActiveSearch(type.id)}>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-lg">{type.name}</CardTitle>
@@ -439,12 +541,13 @@ const Index = () => {
           {activeSearch === 'freetext' && <FreeTextSearch />}
           {activeSearch === 'amazon' && <AmazonStyleSearch />}
           {activeSearch === 'visual' && <VisualSearch />}
+          {activeSearch === 'mega' && <MegaSearch />}
         </div>
 
         {/* Features Comparison */}
         <div className="mt-16">
           <h3 className="text-2xl font-bold text-center mb-8">Implementation Comparison</h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
             {[{
             type: 'Current Implementation',
             pros: ['Precise filtering', 'Database-friendly', 'Clear structure'],
@@ -465,6 +568,11 @@ const Index = () => {
             pros: ['Engaging interface', 'Great for exploration', 'Mobile-friendly'],
             cons: ['Less precise', 'Harder to implement', 'Limited text search'],
             best: 'New users and mobile browsing'
+          }, {
+            type: 'Mega Search',
+            pros: ['Category-aware search', 'Flexible discovery', 'Teams-like UX'],
+            cons: ['Complex implementation', 'Learning curve', 'Requires good categorization'],
+            best: 'Power users and cross-category exploration'
           }].map((item, index) => <Card key={index} className="search-card">
                 <CardHeader>
                   <CardTitle className="text-lg">{item.type}</CardTitle>
