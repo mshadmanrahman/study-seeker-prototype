@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { useSearchParams } from 'react-router-dom';
+import Header from '@/components/Header';
 
 interface SearchResult {
   id: string;
@@ -199,31 +200,8 @@ const SearchResults: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header with Search */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center gap-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <Input
-                type="text"
-                placeholder="Search programs, scholarships, articles..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 h-12"
-              />
-            </div>
-            <Button
-              variant="outline"
-              onClick={() => setShowFilters(!showFilters)}
-              className="h-12 px-4"
-            >
-              <Filter className="w-4 h-4 mr-2" />
-              Filters {getActiveFiltersCount() > 0 && `(${getActiveFiltersCount()})`}
-            </Button>
-          </div>
-        </div>
-      </div>
+      {/* Use shared Header component */}
+      <Header />
 
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex gap-6">
@@ -232,6 +210,13 @@ const SearchResults: React.FC = () => {
             <div className="bg-white rounded-lg border border-gray-200 p-6 sticky top-6">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-semibold text-gray-900">Filters</h3>
+                <Button
+                  variant="outline"
+                  onClick={() => setShowFilters(!showFilters)}
+                  className="lg:hidden"
+                >
+                  <X className="w-4 h-4" />
+                </Button>
                 {getActiveFiltersCount() > 0 && (
                   <Button
                     variant="ghost"
@@ -299,14 +284,24 @@ const SearchResults: React.FC = () => {
           <div className="flex-1">
             {/* Results Header */}
             <div className="flex items-center justify-between mb-6">
-              <div>
-                <h2 className="text-2xl font-semibold text-gray-900">
-                  Search Results
-                </h2>
-                <p className="text-gray-600 mt-1">
-                  {filteredResults.length} results found
-                  {searchQuery && ` for "${searchQuery}"`}
-                </p>
+              <div className="flex items-center gap-4">
+                <div>
+                  <h2 className="text-2xl font-semibold text-gray-900">
+                    Search Results
+                  </h2>
+                  <p className="text-gray-600 mt-1">
+                    {filteredResults.length} results found
+                    {searchQuery && ` for "${searchQuery}"`}
+                  </p>
+                </div>
+                <Button
+                  variant="outline"
+                  onClick={() => setShowFilters(!showFilters)}
+                  className="lg:hidden"
+                >
+                  <Filter className="w-4 h-4 mr-2" />
+                  Filters {getActiveFiltersCount() > 0 && `(${getActiveFiltersCount()})`}
+                </Button>
               </div>
               <Select value={sortBy} onValueChange={setSortBy}>
                 <SelectTrigger className="w-48">
