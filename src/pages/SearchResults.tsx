@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Search, Filter, MapPin, Clock, Globe, GraduationCap, Calendar, BookOpen, Award, Building, ChevronDown, X, Star, User, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -297,76 +296,46 @@ const SearchResults: React.FC = () => {
   );
 
   const ArticleCard = ({ result }: { result: SearchResult }) => (
-    <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer border-l-4 border-l-indigo-500">
-      <div className="flex h-40">
-        {/* Left side - Featured illustration */}
-        <div className="w-64 flex-shrink-0 bg-gradient-to-br from-indigo-50 via-purple-50 to-blue-50 relative overflow-hidden">
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-20 h-20 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl flex items-center justify-center shadow-lg">
-              <BookOpen className="w-10 h-10 text-indigo-600" />
-            </div>
-          </div>
-          {/* Decorative elements */}
-          <div className="absolute top-4 left-4 w-8 h-8 bg-indigo-200 rounded-full opacity-60"></div>
-          <div className="absolute bottom-6 right-6 w-6 h-6 bg-purple-200 rounded-full opacity-40"></div>
-          <div className="absolute top-1/2 right-8 w-4 h-4 bg-blue-200 rounded-full opacity-50"></div>
+    <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
+      <div className="flex gap-4 p-4">
+        {/* Left side - Small thumbnail */}
+        <div className="w-24 h-20 flex-shrink-0 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg flex items-center justify-center">
+          <BookOpen className="w-8 h-8 text-blue-600" />
         </div>
         
         {/* Right side - Article content */}
-        <div className="flex-1 p-6 flex flex-col justify-between">
-          <div>
-            {/* Article badge and metadata */}
-            <div className="flex items-center justify-between mb-3">
-              <Badge variant="secondary" className="bg-indigo-100 text-indigo-700 font-medium">
-                Educational Guide
-              </Badge>
-              <div className="flex items-center gap-3 text-xs text-gray-500">
-                <div className="flex items-center gap-1">
-                  <Calendar className="w-3 h-3" />
-                  <span>Dec 2024</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Eye className="w-3 h-3" />
-                  <span>8 min read</span>
-                </div>
-              </div>
-            </div>
-            
-            {/* Article title */}
-            <h3 className="text-xl font-bold text-gray-900 mb-3 leading-tight line-clamp-2">
-              {result.title}
-            </h3>
-            
-            {/* Description */}
-            <p className="text-gray-700 text-sm leading-relaxed line-clamp-3 mb-4">
-              {result.description}
-            </p>
-          </div>
+        <div className="flex-1 min-w-0">
+          {/* Publication date */}
+          <p className="text-xs text-gray-500 mb-2">Dec 2024</p>
           
-          {/* Bottom section */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4 text-xs text-gray-500">
+          {/* Article title */}
+          <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 leading-tight">
+            {result.title}
+          </h3>
+          
+          {/* Description */}
+          <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+            {result.description}
+          </p>
+          
+          {/* Metadata footer */}
+          <div className="flex items-center gap-3 mt-3 text-xs text-gray-500">
+            {result.fieldOfStudy && (
               <div className="flex items-center gap-1">
-                <User className="w-3 h-3" />
-                <span>Education.com</span>
+                <GraduationCap className="w-3 h-3" />
+                <span>{result.fieldOfStudy}</span>
               </div>
-              {result.fieldOfStudy && (
-                <div className="flex items-center gap-1">
-                  <GraduationCap className="w-3 h-3" />
-                  <span>{result.fieldOfStudy}</span>
-                </div>
-              )}
-              {result.location && (
-                <div className="flex items-center gap-1">
-                  <MapPin className="w-3 h-3" />
-                  <span>{result.location}</span>
-                </div>
-              )}
+            )}
+            {result.location && (
+              <div className="flex items-center gap-1">
+                <MapPin className="w-3 h-3" />
+                <span>{result.location}</span>
+              </div>
+            )}
+            <div className="flex items-center gap-1">
+              <Eye className="w-3 h-3" />
+              <span>5 min read</span>
             </div>
-            
-            <Button variant="ghost" size="sm" className="text-indigo-600 hover:bg-indigo-50 font-medium">
-              Read Guide
-            </Button>
           </div>
         </div>
       </div>
