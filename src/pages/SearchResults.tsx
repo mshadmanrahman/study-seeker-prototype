@@ -343,67 +343,48 @@ const SearchResults: React.FC = () => {
   );
 
   const ScholarshipCard = ({ result }: { result: SearchResult }) => (
-    <Card className="p-6 hover:shadow-md transition-shadow cursor-pointer border-l-4 border-l-yellow-400">
-      <div className="flex items-start gap-4">
-        <div className="flex-shrink-0">
-          <div className="w-12 h-12 bg-yellow-50 rounded-lg flex items-center justify-center">
-            <Award className="w-6 h-6 text-yellow-600" />
-          </div>
+    <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
+      <div className="flex gap-4 p-4">
+        {/* Left side - Small thumbnail */}
+        <div className="w-24 h-20 flex-shrink-0 bg-gradient-to-br from-yellow-50 to-amber-100 rounded-lg flex items-center justify-center">
+          <Award className="w-8 h-8 text-yellow-600" />
         </div>
         
-        <div className="flex-1">
-          <div className="flex items-start justify-between">
-            <div>
-              <Badge variant="outline" className="text-xs mb-2 border-yellow-400 text-yellow-700">
-                Scholarship
-              </Badge>
-              
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                {result.title}
-              </h3>
-              
-              <p className="text-gray-600 mb-3">
-                {result.description}
-              </p>
-              
-              {result.institution && (
-                <p className="text-sm font-medium text-gray-700 mb-3">
-                  {result.institution}
-                </p>
-              )}
-              
-              <div className="flex flex-wrap gap-4 text-sm text-gray-500">
-                {result.location && (
-                  <div className="flex items-center gap-1">
-                    <MapPin className="w-4 h-4" />
-                    {result.location}
-                  </div>
-                )}
-                {result.fieldOfStudy && (
-                  <div className="flex items-center gap-1">
-                    <GraduationCap className="w-4 h-4" />
-                    {result.fieldOfStudy}
-                  </div>
-                )}
-                {result.deadline && (
-                  <div className="flex items-center gap-1">
-                    <Calendar className="w-4 h-4" />
-                    Deadline: {result.deadline}
-                  </div>
-                )}
+        {/* Right side - Scholarship content */}
+        <div className="flex-1 min-w-0">
+          {/* Publication date */}
+          <p className="text-xs text-gray-500 mb-2">Dec 2024</p>
+          
+          {/* Scholarship title */}
+          <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 leading-tight">
+            {result.title}
+          </h3>
+          
+          {/* Description */}
+          <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+            {result.description}
+          </p>
+          
+          {/* Metadata footer */}
+          <div className="flex items-center gap-3 mt-3 text-xs text-gray-500">
+            {result.fieldOfStudy && (
+              <div className="flex items-center gap-1">
+                <GraduationCap className="w-3 h-3" />
+                <span>{result.fieldOfStudy}</span>
               </div>
-            </div>
-            
-            <div className="text-right">
-              {result.tuitionFee && (
-                <p className="text-lg font-semibold text-yellow-600 mb-2">
-                  {result.tuitionFee}
-                </p>
-              )}
-              <Button variant="outline" size="sm" className="text-yellow-600 border-yellow-600 hover:bg-yellow-50">
-                Apply Now
-              </Button>
-            </div>
+            )}
+            {result.location && (
+              <div className="flex items-center gap-1">
+                <MapPin className="w-3 h-3" />
+                <span>{result.location}</span>
+              </div>
+            )}
+            {result.deadline && (
+              <div className="flex items-center gap-1">
+                <Calendar className="w-3 h-3" />
+                <span>Deadline: {new Date(result.deadline).toLocaleDateString()}</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -579,3 +560,5 @@ const SearchResults: React.FC = () => {
 };
 
 export default SearchResults;
+
+}
