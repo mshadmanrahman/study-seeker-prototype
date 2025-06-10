@@ -216,16 +216,20 @@ const SearchResults: React.FC = () => {
   const ProgramCard = ({ result }: { result: SearchResult }) => (
     <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
       <div className="flex">
-        {/* Left side - Institution image/logo */}
+        {/* Left side - Campus image */}
         <div className="w-48 h-48 flex-shrink-0">
-          <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-            {result.image ? (
-              <img src={result.image} alt={result.institution} className="w-full h-full object-cover" />
-            ) : (
-              <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center">
-                <Building className="w-8 h-8 text-blue-600" />
+          <div className="w-full h-full relative">
+            <img 
+              src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&h=400&fit=crop" 
+              alt={`${result.institution} campus`} 
+              className="w-full h-full object-cover" 
+            />
+            {/* Institution logo overlay */}
+            <div className="absolute bottom-3 left-3">
+              <div className="w-12 h-12 bg-white rounded-lg shadow-md flex items-center justify-center">
+                <Building className="w-6 h-6 text-blue-600" />
               </div>
-            )}
+            </div>
           </div>
         </div>
         
@@ -560,3 +564,5 @@ const SearchResults: React.FC = () => {
 };
 
 export default SearchResults;
+
+}
