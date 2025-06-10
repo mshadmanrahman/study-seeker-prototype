@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Search, ChevronDown, MapPin, BookOpen, GraduationCap, Award, Filter, Globe, Clock, Star, Settings, Building, Palette, Plane, Briefcase, Hammer, Scissors, Target, TrendingUp, Users, Zap, Cog, Leaf, Shirt, DollarSign, UtensilsCrossed, Home, Heart, Newspaper, MessageCircle, Scale, Dna, Lightbulb, UserCheck, Megaphone, Microscope, Music, Sparkles, Earth, Activity, Recycle, Monitor, FileText, Hotel, Car } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -478,7 +479,7 @@ const Index = () => {
 
         {/* Enhanced Mega Dropdown */}
         {showMegaDropdown && (
-          <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-[100] max-h-96 overflow-y-auto">
+          <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-xl z-[9999] max-h-96 overflow-y-auto">
             <div className="p-4">
               {/* Search Types - Chip Layout */}
               <div className="mb-6">
