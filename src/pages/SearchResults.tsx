@@ -564,5 +564,3 @@ const SearchResults: React.FC = () => {
 };
 
 export default SearchResults;
-
-}
