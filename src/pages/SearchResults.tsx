@@ -103,7 +103,6 @@ const mockResults: SearchResult[] = [
     rating: 4.3,
     institution: 'University of Toronto'
   },
-  // Banner will be inserted at position 5
   {
     id: '5',
     type: 'program',
@@ -410,7 +409,7 @@ const SearchResults: React.FC = () => {
   const [filteredResults, setFilteredResults] = useState<SearchResult[]>(mockResults);
   const [showFilters, setShowFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const resultsPerPage = 10;
+  const resultsPerPage = 27; // 15 programs + 5 scholarships + 7 articles
 
   // Filter states
   const [selectedDegreeTypes, setSelectedDegreeTypes] = useState<string[]>([]);
@@ -470,18 +469,66 @@ const SearchResults: React.FC = () => {
     return selectedDegreeTypes.length + selectedFields.length + selectedLocations.length + selectedDurations.length + selectedPaces.length + selectedLanguages.length + selectedFormats.length;
   };
 
-  // Pagination logic
-  const totalPages = Math.ceil(filteredResults.length / resultsPerPage);
-  const startIndex = (currentPage - 1) * resultsPerPage;
-  const endIndex = startIndex + resultsPerPage;
-  const currentResults = filteredResults.slice(startIndex, endIndex);
+  // Create mixed content for each page (15 programs, 5 scholarships, 7 articles)
+  const createMixedPageResults = () => {
+    const programs = filteredResults.filter(r => r.type === 'program');
+    const scholarships = filteredResults.filter(r => r.type === 'scholarship');
+    const articles = filteredResults.filter(r => r.type === 'article');
+    
+    const startIndex = (currentPage - 1) * resultsPerPage;
+    
+    // Calculate how many of each type to show for this page
+    const programsPerPage = 15;
+    const scholarshipsPerPage = 5;
+    const articlesPerPage = 7;
+    
+    const programStart = Math.floor(startIndex * (programsPerPage / resultsPerPage));
+    const scholarshipStart = Math.floor(startIndex * (scholarshipsPerPage / resultsPerPage));
+    const articleStart = Math.floor(startIndex * (articlesPerPage / resultsPerPage));
+    
+    const pagePrograms = programs.slice(programStart, programStart + programsPerPage);
+    const pageScholarships = scholarships.slice(scholarshipStart, scholarshipStart + scholarshipsPerPage);
+    const pageArticles = articles.slice(articleStart, articleStart + articlesPerPage);
+    
+    // Mix the results in order: programs, scholarships, articles distributed throughout
+    const mixedResults: (SearchResult | { id: string; type: 'banner' })[] = [];
+    const totalItems = pagePrograms.length + pageScholarships.length + pageArticles.length;
+    
+    let programIndex = 0;
+    let scholarshipIndex = 0;
+    let articleIndex = 0;
+    
+    for (let i = 0; i < totalItems; i++) {
+      if (i === 4 && currentPage === 1) {
+        // Insert banner at position 5 on first page
+        mixedResults.push({ id: 'banner', type: 'banner' });
+        continue;
+      }
+      
+      // Distribute content: roughly 15 programs, 5 scholarships, 7 articles
+      const position = i % 27;
+      if (position < 15 && programIndex < pagePrograms.length) {
+        mixedResults.push(pagePrograms[programIndex++]);
+      } else if (position < 20 && scholarshipIndex < pageScholarships.length) {
+        mixedResults.push(pageScholarships[scholarshipIndex++]);
+      } else if (articleIndex < pageArticles.length) {
+        mixedResults.push(pageArticles[articleIndex++]);
+      } else if (programIndex < pagePrograms.length) {
+        mixedResults.push(pagePrograms[programIndex++]);
+      } else if (scholarshipIndex < pageScholarships.length) {
+        mixedResults.push(pageScholarships[scholarshipIndex++]);
+      }
+    }
+    
+    return mixedResults;
+  };
 
-  // Insert banner at position 5 (index 4) if we're on the first page
-  const resultsWithBanner = currentPage === 1 ? [
-    ...currentResults.slice(0, 4),
-    { id: 'banner', type: 'banner' as const },
-    ...currentResults.slice(4)
-  ] : currentResults;
+  const currentResults = createMixedPageResults();
+  const totalPages = Math.ceil(Math.max(
+    filteredResults.filter(r => r.type === 'program').length / 15,
+    filteredResults.filter(r => r.type === 'scholarship').length / 5,
+    filteredResults.filter(r => r.type === 'article').length / 7
+  ));
 
   const getResultTypeIcon = (type: string) => {
     switch (type) {
@@ -498,7 +545,7 @@ const SearchResults: React.FC = () => {
     }
   };
 
-  // ... keep existing code (FilterSection component)
+  // FilterSection component
   const FilterSection = ({
     title,
     options,
@@ -511,33 +558,49 @@ const SearchResults: React.FC = () => {
     onSelectionChange: (values: string[]) => void;
   }) => {
     const [isOpen, setIsOpen] = useState(true);
-    return <div className="mb-6">
-        <button onClick={() => setIsOpen(!isOpen)} className="flex items-center justify-between w-full text-left font-medium text-gray-900 mb-3">
+    return (
+      <div className="mb-6">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="flex items-center justify-between w-full text-left font-medium text-gray-900 mb-3"
+        >
           {title}
           <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
         </button>
-        {isOpen && <div className="space-y-2">
-            {options.map(option => <div key={option} className="flex items-center space-x-2">
-                <Checkbox id={`${title}-${option}`} checked={selected.includes(option)} onCheckedChange={checked => {
-            if (checked) {
-              onSelectionChange([...selected, option]);
-            } else {
-              onSelectionChange(selected.filter(item => item !== option));
-            }
-          }} />
-                <label htmlFor={`${title}-${option}`} className="text-sm text-gray-700 cursor-pointer">
+        {isOpen && (
+          <div className="space-y-2">
+            {options.map((option) => (
+              <div key={option} className="flex items-center space-x-2">
+                <Checkbox
+                  id={`${title}-${option}`}
+                  checked={selected.includes(option)}
+                  onCheckedChange={(checked) => {
+                    if (checked) {
+                      onSelectionChange([...selected, option]);
+                    } else {
+                      onSelectionChange(selected.filter((item) => item !== option));
+                    }
+                  }}
+                />
+                <label
+                  htmlFor={`${title}-${option}`}
+                  className="text-sm text-gray-700 cursor-pointer"
+                >
                   {option}
                 </label>
-              </div>)}
-          </div>}
-      </div>;
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
   };
 
   const ProgramCard = ({ result }: { result: SearchResult }) => (
     <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer relative">
       {result.isPromoted && (
         <div className="absolute top-4 right-4 z-10">
-          <Badge className="bg-yellow-500 text-white">Promoted</Badge>
+          <Badge className="bg-gray-400 text-white text-xs">Promoted</Badge>
         </div>
       )}
       <div className="flex">
@@ -569,38 +632,36 @@ const SearchResults: React.FC = () => {
               
               {/* Program details */}
               <div className="flex flex-wrap gap-4 mb-4">
-                {result.degreeType && <div className="flex items-center gap-1 text-sm text-gray-600">
+                {result.degreeType && (
+                  <div className="flex items-center gap-1 text-sm text-gray-600">
                     <GraduationCap className="w-4 h-4" />
                     {result.degreeType}
-                  </div>}
-                {result.duration && <div className="flex items-center gap-1 text-sm text-gray-600">
+                  </div>
+                )}
+                {result.duration && (
+                  <div className="flex items-center gap-1 text-sm text-gray-600">
                     <Clock className="w-4 h-4" />
                     {result.duration}
-                  </div>}
-                {result.studyFormat && <div className="flex items-center gap-1 text-sm text-gray-600">
+                  </div>
+                )}
+                {result.studyFormat && (
+                  <div className="flex items-center gap-1 text-sm text-gray-600">
                     <MapPin className="w-4 h-4" />
                     {result.studyFormat}
-                  </div>}
-                {result.language && <div className="flex items-center gap-1 text-sm text-gray-600">
+                  </div>
+                )}
+                {result.language && (
+                  <div className="flex items-center gap-1 text-sm text-gray-600">
                     <Globe className="w-4 h-4" />
                     {result.language}
-                  </div>}
+                  </div>
+                )}
               </div>
               
               {/* Description */}
-              <p className="text-sm text-gray-700 line-clamp-2 mb-4">
+              <p className="text-sm text-gray-700 line-clamp-2">
                 {result.description}
               </p>
-            </div>
-            
-            {/* Right side - Price and action */}
-            <div className="text-right ml-6">
-              {result.tuitionFee && <p className="text-lg font-semibold text-green-600 mb-4">
-                  {result.tuitionFee}
-                </p>}
-              <Button variant="outline" size="sm" className="text-blue-600 border-blue-600 hover:bg-blue-50">
-                Read more
-              </Button>
             </div>
           </div>
         </div>
@@ -633,12 +694,16 @@ const SearchResults: React.FC = () => {
           
           {/* Tags row */}
           <div className="flex flex-wrap gap-2 mb-2">
-            {result.fieldOfStudy && <Badge variant="secondary" className="text-xs">
+            {result.fieldOfStudy && (
+              <Badge variant="secondary" className="text-xs">
                 {result.fieldOfStudy}
-              </Badge>}
-            {result.location && <Badge variant="secondary" className="text-xs">
+              </Badge>
+            )}
+            {result.location && (
+              <Badge variant="secondary" className="text-xs">
                 {result.location}
-              </Badge>}
+              </Badge>
+            )}
           </div>
           
           {/* Metadata footer */}
@@ -684,18 +749,24 @@ const SearchResults: React.FC = () => {
           
           {/* Metadata footer */}
           <div className="flex items-center gap-3 text-xs text-gray-500">
-            {result.fieldOfStudy && <div className="flex items-center gap-1">
+            {result.fieldOfStudy && (
+              <div className="flex items-center gap-1">
                 <GraduationCap className="w-3 h-3" />
                 <span>{result.fieldOfStudy}</span>
-              </div>}
-            {result.location && <div className="flex items-center gap-1">
+              </div>
+            )}
+            {result.location && (
+              <div className="flex items-center gap-1">
                 <MapPin className="w-3 h-3" />
                 <span>{result.location}</span>
-              </div>}
-            {result.deadline && <div className="flex items-center gap-1">
+              </div>
+            )}
+            {result.deadline && (
+              <div className="flex items-center gap-1">
                 <Calendar className="w-3 h-3" />
                 <span>Deadline: {new Date(result.deadline).toLocaleDateString()}</span>
-              </div>}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -743,24 +814,61 @@ const SearchResults: React.FC = () => {
                 <Button variant="outline" onClick={() => setShowFilters(!showFilters)} className="lg:hidden">
                   <X className="w-4 h-4" />
                 </Button>
-                {getActiveFiltersCount() > 0 && <Button variant="ghost" size="sm" onClick={clearAllFilters} className="text-blue-600">
+                {getActiveFiltersCount() > 0 && (
+                  <Button variant="ghost" size="sm" onClick={clearAllFilters} className="text-blue-600">
                     Clear all
-                  </Button>}
+                  </Button>
+                )}
               </div>
 
-              <FilterSection title="Degree Type" options={degreeTypes} selected={selectedDegreeTypes} onSelectionChange={setSelectedDegreeTypes} />
+              <FilterSection
+                title="Degree Type"
+                options={degreeTypes}
+                selected={selectedDegreeTypes}
+                onSelectionChange={setSelectedDegreeTypes}
+              />
 
-              <FilterSection title="Field of Study" options={fieldsOfStudy} selected={selectedFields} onSelectionChange={setSelectedFields} />
+              <FilterSection
+                title="Field of Study"
+                options={fieldsOfStudy}
+                selected={selectedFields}
+                onSelectionChange={setSelectedFields}
+              />
 
-              <FilterSection title="Location" options={locations} selected={selectedLocations} onSelectionChange={setSelectedLocations} />
+              <FilterSection
+                title="Location"
+                options={locations}
+                selected={selectedLocations}
+                onSelectionChange={setSelectedLocations}
+              />
 
-              <FilterSection title="Duration" options={durations} selected={selectedDurations} onSelectionChange={setSelectedDurations} />
+              <FilterSection
+                title="Duration"
+                options={durations}
+                selected={selectedDurations}
+                onSelectionChange={setSelectedDurations}
+              />
 
-              <FilterSection title="Study Pace" options={studyPaces} selected={selectedPaces} onSelectionChange={setSelectedPaces} />
+              <FilterSection
+                title="Study Pace"
+                options={studyPaces}
+                selected={selectedPaces}
+                onSelectionChange={setSelectedPaces}
+              />
 
-              <FilterSection title="Language" options={languages} selected={selectedLanguages} onSelectionChange={setSelectedLanguages} />
+              <FilterSection
+                title="Language"
+                options={languages}
+                selected={selectedLanguages}
+                onSelectionChange={setSelectedLanguages}
+              />
 
-              <FilterSection title="Study Format" options={studyFormats} selected={selectedFormats} onSelectionChange={setSelectedFormats} />
+              <FilterSection
+                title="Study Format"
+                options={studyFormats}
+                selected={selectedFormats}
+                onSelectionChange={setSelectedFormats}
+              />
             </div>
           </div>
 
@@ -796,22 +904,28 @@ const SearchResults: React.FC = () => {
             </div>
 
             {/* Active Filters */}
-            {getActiveFiltersCount() > 0 && <div className="mb-6">
+            {getActiveFiltersCount() > 0 && (
+              <div className="mb-6">
                 <div className="flex flex-wrap gap-2">
-                  {selectedDegreeTypes.map(type => <Badge key={type} variant="secondary" className="flex items-center gap-1">
+                  {selectedDegreeTypes.map((type) => (
+                    <Badge key={type} variant="secondary" className="flex items-center gap-1">
                       {type}
-                      <X className="w-3 h-3 cursor-pointer" onClick={() => setSelectedDegreeTypes(selectedDegreeTypes.filter(t => t !== type))} />
-                    </Badge>)}
-                  {selectedFields.map(field => <Badge key={field} variant="secondary" className="flex items-center gap-1">
+                      <X className="w-3 h-3 cursor-pointer" onClick={() => setSelectedDegreeTypes(selectedDegreeTypes.filter((t) => t !== type))} />
+                    </Badge>
+                  ))}
+                  {selectedFields.map((field) => (
+                    <Badge key={field} variant="secondary" className="flex items-center gap-1">
                       {field}
-                      <X className="w-3 h-3 cursor-pointer" onClick={() => setSelectedFields(selectedFields.filter(f => f !== field))} />
-                    </Badge>)}
+                      <X className="w-3 h-3 cursor-pointer" onClick={() => setSelectedFields(selectedFields.filter((f) => f !== field))} />
+                    </Badge>
+                  ))}
                 </div>
-              </div>}
+              </div>
+            )}
 
             {/* Results */}
             <div className="space-y-6">
-              {resultsWithBanner.map((result, index) => (
+              {currentResults.map((result, index) => (
                 <div key={result.id}>
                   {result.type === 'banner' ? (
                     <PromotedBanner />
@@ -826,11 +940,13 @@ const SearchResults: React.FC = () => {
               ))}
             </div>
 
-            {filteredResults.length === 0 && <div className="text-center py-12">
+            {filteredResults.length === 0 && (
+              <div className="text-center py-12">
                 <Search className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                 <h3 className="text-lg font-medium text-gray-900 mb-2">No results found</h3>
                 <p className="text-gray-500">Try adjusting your filters or search terms</p>
-              </div>}
+              </div>
+            )}
 
             {/* Pagination */}
             {totalPages > 1 && (
