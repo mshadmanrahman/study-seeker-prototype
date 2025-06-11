@@ -252,12 +252,7 @@ const Index = () => {
       setSelectedCategory(category.name);
     }
     setShowMegaDropdown(false);
-    // Don't focus back to input immediately to prevent re-opening dropdown
-    setTimeout(() => {
-      if (megaInputRef.current) {
-        megaInputRef.current.focus();
-      }
-    }, 100);
+    // Don't focus back to input to prevent interference with typing
   };
 
   const handleSearch = () => {
@@ -502,7 +497,6 @@ const Index = () => {
               className="pl-10 pr-4 py-3 text-lg border-0 rounded-none focus:ring-0 focus:border-transparent" 
               value={searchQuery} 
               onChange={(e) => setSearchQuery(e.target.value)} 
-              onClick={handleMegaInputClick}
               onKeyPress={handleKeyPress}
             />
             {selectedCategory && selectedCategory !== 'all' && (
@@ -590,6 +584,19 @@ const Index = () => {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Toggle Dropdown Button */}
+      <div className="mt-4 text-center">
+        <Button 
+          variant="outline" 
+          size="sm"
+          onClick={handleMegaInputClick}
+          className="text-sm"
+        >
+          <ChevronDown className="w-4 h-4 mr-1" />
+          Show search options
+        </Button>
       </div>
     </div>
   );
@@ -724,3 +731,5 @@ const Index = () => {
 };
 
 export default Index;
+
+}
