@@ -43,8 +43,19 @@ const MegaSearch: React.FC<MegaSearchProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [setShowMegaDropdown]);
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    if (e.target.value && !showMegaDropdown) {
+      setShowMegaDropdown(true);
+    }
+  };
+
+  const handleInputFocus = () => {
+    setShowMegaDropdown(true);
+  };
+
   return (
-    <div className="search-container p-6" ref={megaSearchRef}>
+    <div className="search-container p-6 relative z-50" ref={megaSearchRef}>
       <div className="text-center mb-6">
         <h3 className="text-lg font-semibold mb-2">Search Everything</h3>
         <p className="text-gray-600">Find programs, schools, scholarships and more</p>
@@ -59,14 +70,9 @@ const MegaSearch: React.FC<MegaSearchProps> = ({
               type="text" 
               placeholder="Type anything - programs, schools, scholarships..." 
               value={searchQuery} 
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                if (e.target.value && !showMegaDropdown) {
-                  setShowMegaDropdown(true);
-                }
-              }}
+              onChange={handleInputChange}
               onKeyPress={onKeyPress}
-              onClick={() => setShowMegaDropdown(true)}
+              onFocus={handleInputFocus}
               className="pl-10 pr-4 py-3 text-lg border-0 rounded-none focus:ring-0 focus:border-transparent"
             />
           </div>
@@ -76,7 +82,7 @@ const MegaSearch: React.FC<MegaSearchProps> = ({
         </div>
 
         {showMegaDropdown && (
-          <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-xl z-[99999] max-h-96 overflow-y-auto">
+          <div className="fixed left-1/2 transform -translate-x-1/2 w-full max-w-4xl mt-1 bg-white border border-gray-300 rounded-lg shadow-xl z-[9999] max-h-96 overflow-y-auto">
             <div className="p-4">
               <div className="mb-6">
                 <h4 className="text-sm font-semibold text-gray-500 uppercase mb-3">Search in</h4>
