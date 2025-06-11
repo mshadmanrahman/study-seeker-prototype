@@ -60,7 +60,7 @@ const VisualSearch: React.FC<VisualSearchProps> = ({
           onKeyPress={onKeyPress} 
         />
       </div>
-      <Button className="rounded-none px-6 bg-accent text-accent-foreground hover:bg-accent/90" onClick={onSearch}>
+      <Button className="rounded-none px-6 bg-primary text-primary-foreground hover:bg-primary/90" onClick={onSearch}>
         <Search className="w-5 h-5" />
       </Button>
     </div>

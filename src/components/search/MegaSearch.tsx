@@ -76,7 +76,7 @@ const MegaSearch: React.FC<MegaSearchProps> = ({
               className="pl-10 pr-4 py-3 text-lg border-0 rounded-none focus:ring-0 focus:border-transparent"
             />
           </div>
-          <Button className="rounded-none px-6 text-white bg-accent hover:bg-accent/90" onClick={onSearch}>
+          <Button className="rounded-none px-6 text-white bg-primary hover:bg-primary/90" onClick={onSearch}>
             <Search className="w-5 h-5" />
           </Button>
         </div>
@@ -127,7 +127,7 @@ const MegaSearch: React.FC<MegaSearchProps> = ({
                     <Badge 
                       key={search}
                       variant="secondary" 
-                      className="cursor-pointer hover:bg-accent hover:text-accent-foreground text-xs px-2 py-1"
+                      className="cursor-pointer hover:bg-primary hover:text-primary-foreground text-xs px-2 py-1"
                       onClick={() => onPopularSearchClick(search)}
                     >
                       {search}

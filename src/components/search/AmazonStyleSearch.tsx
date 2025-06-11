@@ -57,7 +57,7 @@ const AmazonStyleSearch: React.FC<AmazonStyleSearchProps> = ({
           onKeyPress={onKeyPress} 
         />
       </div>
-      <Button className="rounded-none px-6 text-accent-foreground bg-pink-800 hover:bg-pink-700" onClick={onSearch}>
+      <Button className="rounded-none px-6 text-white bg-primary hover:bg-primary/90" onClick={onSearch}>
         <Search className="w-5 h-5" />
       </Button>
     </div>
@@ -68,7 +68,7 @@ const AmazonStyleSearch: React.FC<AmazonStyleSearchProps> = ({
         <Badge 
           key={term} 
           variant="secondary" 
-          className="cursor-pointer hover:bg-accent hover:text-accent-foreground" 
+          className="cursor-pointer hover:bg-primary hover:text-primary-foreground" 
           onClick={() => onPopularSearchClick(term)}
         >
           {term}

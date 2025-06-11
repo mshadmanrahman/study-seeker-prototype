@@ -35,7 +35,7 @@ const FreeTextSearch: React.FC<FreeTextSearchProps> = ({
         <Badge 
           key={term} 
           variant="secondary" 
-          className="cursor-pointer hover:bg-accent hover:text-accent-foreground" 
+          className="cursor-pointer hover:bg-primary hover:text-primary-foreground" 
           onClick={() => onPopularSearchClick(term)}
         >
           {term}
