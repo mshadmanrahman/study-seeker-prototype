@@ -7,7 +7,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
-
 const Index = () => {
   const navigate = useNavigate();
   const [activeSearch, setActiveSearch] = useState('structured');
@@ -18,11 +17,10 @@ const Index = () => {
   const [showMegaDropdown, setShowMegaDropdown] = useState(false);
   const megaInputRef = useRef<HTMLInputElement>(null);
   const megaSearchRef = useRef<HTMLDivElement>(null);
-  
+
   // New state for structured search
   const [selectedSubject, setSelectedSubject] = useState('');
   const [selectedStructuredLocation, setSelectedStructuredLocation] = useState('');
-
   const degreeTypes = [{
     value: 'preparatory',
     label: 'Preparatory',
@@ -48,7 +46,6 @@ const Index = () => {
     label: 'PhD Studies',
     icon: Award
   }];
-
   const subjects = [{
     name: 'Administration Programs',
     icon: Settings,
@@ -202,32 +199,33 @@ const Index = () => {
     icon: Car,
     category: 'Transportation'
   }];
-
   const popularSubjects = ['Computer Science', 'Business Administration', 'Engineering', 'Medicine', 'Psychology', 'Arts & Design', 'Data Science', 'Marketing'];
   const locations = ['United States', 'United Kingdom', 'Germany', 'Canada', 'Australia', 'Netherlands', 'Sweden', 'Switzerland'];
 
   // Mega search categories for dropdown
-  const megaSearchCategories = [
-    { name: 'Degrees', icon: GraduationCap, description: 'Bachelor, Master, PhD programs' },
-    { name: 'Subjects', icon: BookOpen, description: 'Academic fields and disciplines' },
-    { name: 'Schools', icon: Building, description: 'Universities and institutions' },
-    { name: 'Scholarships', icon: Award, description: 'Financial aid and grants' },
-    { name: 'Articles', icon: FileText, description: 'Study guides and resources' }
-  ];
-
-  const recentSearches = [
-    'Engineering Degrees in Spain',
-    'Free Masters Programs',
-    'Erasmus Programs',
-    'Dual Masters in Europe'
-  ];
-
-  const popularSearches = [
-    'MBA in London',
-    'Computer Science PhD',
-    'Medicine in Germany',
-    'Online Masters'
-  ];
+  const megaSearchCategories = [{
+    name: 'Degrees',
+    icon: GraduationCap,
+    description: 'Bachelor, Master, PhD programs'
+  }, {
+    name: 'Subjects',
+    icon: BookOpen,
+    description: 'Academic fields and disciplines'
+  }, {
+    name: 'Schools',
+    icon: Building,
+    description: 'Universities and institutions'
+  }, {
+    name: 'Scholarships',
+    icon: Award,
+    description: 'Financial aid and grants'
+  }, {
+    name: 'Articles',
+    icon: FileText,
+    description: 'Study guides and resources'
+  }];
+  const recentSearches = ['Engineering Degrees in Spain', 'Free Masters Programs', 'Erasmus Programs', 'Dual Masters in Europe'];
+  const popularSearches = ['MBA in London', 'Computer Science PhD', 'Medicine in Germany', 'Online Masters'];
 
   // Close mega dropdown when clicking outside
   useEffect(() => {
@@ -239,7 +237,6 @@ const Index = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
   const handleCategorySelect = (category: any) => {
     // Toggle selection - if already selected, unselect it
     if (selectedCategory === category.name) {
@@ -249,36 +246,29 @@ const Index = () => {
     }
     setShowMegaDropdown(false);
   };
-
   const handleSearch = () => {
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
-
   const handleStructuredSearch = () => {
     const queryParts = [];
     if (selectedSubject) queryParts.push(selectedSubject);
     if (selectedStructuredLocation) queryParts.push(`in ${selectedStructuredLocation}`);
-    
     const query = queryParts.length > 0 ? queryParts.join(' ') : 'programs';
     navigate(`/search?q=${encodeURIComponent(query)}`);
   };
-
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleSearch();
     }
   };
-
   const handlePopularSearchClick = (searchTerm: string) => {
     navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
   };
-
   const handleSubjectClick = (subjectName: string) => {
     navigate(`/search?q=${encodeURIComponent(subjectName)}`);
   };
-
   const StructuredSearch = () => <div className="search-container p-6">
       <div className="grid md:grid-cols-2 gap-4">
         <div>
@@ -320,7 +310,6 @@ const Index = () => {
         Search Programs
       </Button>
     </div>;
-
   const FreeTextSearch = () => <div className="search-container p-6">
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -333,7 +322,6 @@ const Index = () => {
           </Badge>)}
       </div>
     </div>;
-
   const AmazonStyleSearch = () => <div className="search-container p-6">
       <div className="flex rounded-lg overflow-hidden border border-gray-300">
         <Select value={selectedDegree} onValueChange={setSelectedDegree}>
@@ -386,7 +374,6 @@ const Index = () => {
         </div>
       </div>
     </div>;
-
   const VisualSearch = () => <div className="search-container p-6">
       <div className="text-center mb-6">
         <h3 className="text-lg font-semibold mb-2">Find Your Perfect Program</h3>
@@ -472,9 +459,7 @@ const Index = () => {
         </div>
       </div>
     </div>;
-
-  const MegaSearch = () => (
-    <div className="search-container p-6" ref={megaSearchRef}>
+  const MegaSearch = () => <div className="search-container p-6" ref={megaSearchRef}>
       <div className="text-center mb-6">
         <h3 className="text-lg font-semibold mb-2">Search Everything</h3>
         <p className="text-gray-600">Find programs, schools, scholarships and more</p>
@@ -485,20 +470,10 @@ const Index = () => {
         <div className="flex rounded-lg overflow-hidden border border-gray-300">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <Input 
-              ref={megaInputRef}
-              type="text" 
-              placeholder={selectedCategory && selectedCategory !== 'all' ? `Search in ${selectedCategory}...` : "Look for programs, schools, scholarships, and more"}
-              className="pl-10 pr-4 py-3 text-lg border-0 rounded-none focus:ring-0 focus:border-transparent" 
-              value={searchQuery} 
-              onChange={(e) => setSearchQuery(e.target.value)} 
-              onKeyPress={handleKeyPress}
-            />
-            {selectedCategory && selectedCategory !== 'all' && (
-              <Badge className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-blue-100 text-blue-800">
+            <Input ref={megaInputRef} type="text" placeholder={selectedCategory && selectedCategory !== 'all' ? `Search in ${selectedCategory}...` : "Look for programs, schools, scholarships, and more"} value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyPress={handleKeyPress} className="" />
+            {selectedCategory && selectedCategory !== 'all' && <Badge className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-blue-100 text-blue-800">
                 {selectedCategory}
-              </Badge>
-            )}
+              </Badge>}
           </div>
           <Button className="rounded-none px-6 text-white bg-accent hover:bg-accent/90" onClick={handleSearch}>
             <Search className="w-5 h-5" />
@@ -506,23 +481,16 @@ const Index = () => {
         </div>
 
         {/* Enhanced Mega Dropdown - Only shown when manually toggled */}
-        {showMegaDropdown && (
-          <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-xl z-[9999] max-h-96 overflow-y-auto">
+        {showMegaDropdown && <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-xl z-[9999] max-h-96 overflow-y-auto">
             <div className="p-4">
               {/* Search Types - Chip Layout */}
               <div className="mb-6">
                 <h4 className="text-sm font-semibold text-gray-500 uppercase mb-3">Search in</h4>
                 <div className="flex flex-wrap gap-2">
-                  {megaSearchCategories.map((type) => (
-                    <div 
-                      key={type.name}
-                      className={`inline-flex items-center gap-2 px-3 py-2 rounded-full border cursor-pointer transition-all hover:shadow-md ${selectedCategory === type.name ? 'border-purple-500 bg-purple-50 text-purple-700' : 'border-gray-200 bg-white hover:border-gray-300'}`}
-                      onClick={() => handleCategorySelect(type)}
-                    >
+                  {megaSearchCategories.map(type => <div key={type.name} className={`inline-flex items-center gap-2 px-3 py-2 rounded-full border cursor-pointer transition-all hover:shadow-md ${selectedCategory === type.name ? 'border-purple-500 bg-purple-50 text-purple-700' : 'border-gray-200 bg-white hover:border-gray-300'}`} onClick={() => handleCategorySelect(type)}>
                       <type.icon className="w-4 h-4" />
                       <span className="text-sm font-medium">{type.name}</span>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
               </div>
 
@@ -530,16 +498,10 @@ const Index = () => {
               <div className="mb-6">
                 <h4 className="text-sm font-semibold text-gray-500 uppercase mb-3">Recent searches</h4>
                 <div className="space-y-1">
-                  {recentSearches.map((search) => (
-                    <div 
-                      key={search}
-                      className="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 cursor-pointer rounded text-sm"
-                      onClick={() => handlePopularSearchClick(search)}
-                    >
+                  {recentSearches.map(search => <div key={search} className="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 cursor-pointer rounded text-sm" onClick={() => handlePopularSearchClick(search)}>
                       <Clock className="w-3 h-3 text-gray-400" />
                       <span>{search}</span>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
               </div>
 
@@ -547,54 +509,31 @@ const Index = () => {
               <div>
                 <h4 className="text-sm font-semibold text-gray-500 uppercase mb-3">Popular searches</h4>
                 <div className="flex flex-wrap gap-2">
-                  {popularSearches.map((search) => (
-                    <Badge 
-                      key={search}
-                      variant="secondary" 
-                      className="cursor-pointer hover:bg-accent hover:text-accent-foreground text-xs px-2 py-1"
-                      onClick={() => handlePopularSearchClick(search)}
-                    >
+                  {popularSearches.map(search => <Badge key={search} variant="secondary" className="cursor-pointer hover:bg-accent hover:text-accent-foreground text-xs px-2 py-1" onClick={() => handlePopularSearchClick(search)}>
                       {search}
-                    </Badge>
-                  ))}
+                    </Badge>)}
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          </div>}
       </div>
 
       {/* Quick Access - Single Line with Chips */}
       <div className="flex items-center gap-3">
         <span className="text-sm font-medium text-gray-600 whitespace-nowrap">Quick Access:</span>
         <div className="flex flex-wrap gap-2">
-          {megaSearchCategories.map((type) => (
-            <div 
-              key={type.name}
-              className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border cursor-pointer transition-all hover:shadow-md text-xs ${selectedCategory === type.name ? 'border-purple-500 bg-purple-50 text-purple-700' : 'border-gray-200 bg-white hover:border-gray-300'}`}
-              onClick={() => handleCategorySelect(type)}
-            >
+          {megaSearchCategories.map(type => <div key={type.name} className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border cursor-pointer transition-all hover:shadow-md text-xs ${selectedCategory === type.name ? 'border-purple-500 bg-purple-50 text-purple-700' : 'border-gray-200 bg-white hover:border-gray-300'}`} onClick={() => handleCategorySelect(type)}>
               <type.icon className="w-3 h-3" />
               <span className="font-medium">{type.name}</span>
-            </div>
-          ))}
+            </div>)}
         </div>
       </div>
 
       {/* Toggle Dropdown Button */}
       <div className="mt-4 text-center">
-        <Button 
-          variant="outline" 
-          size="sm"
-          onClick={() => setShowMegaDropdown(!showMegaDropdown)}
-          className="text-sm"
-        >
-          <ChevronDown className="w-4 h-4 mr-1" />
-          {showMegaDropdown ? 'Hide' : 'Show'} search options
-        </Button>
+        
       </div>
-    </div>
-  );
+    </div>;
 
   // Search implementation options for the selector
   const searchImplementations = [{
@@ -618,9 +557,7 @@ const Index = () => {
     name: 'Mega Search',
     description: 'Combined category selection with free text search'
   }];
-
-  return (
-    <div className="min-h-screen bg-white">
+  return <div className="min-h-screen bg-white">
       {/* Header */}
       <Header />
 
@@ -721,8 +658,6 @@ const Index = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
