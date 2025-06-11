@@ -249,7 +249,7 @@ const Index = () => {
     } else {
       setSelectedCategory(category.name);
     }
-    setShowMegaDropdown(false);
+    // Don't close dropdown, let user continue typing
   };
 
   const handleSearch = () => {
@@ -531,7 +531,7 @@ const Index = () => {
     </div>
   );
 
-  // Simplified MegaSearch with NO interfering event handlers
+  // Completely simplified MegaSearch with NO interfering handlers
   const MegaSearch = () => (
     <div className="search-container p-6" ref={megaSearchRef}>
       <div className="text-center mb-6">
@@ -548,8 +548,15 @@ const Index = () => {
               type="text" 
               placeholder="Type anything - programs, schools, scholarships..." 
               value={searchQuery} 
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                // Show dropdown when user starts typing
+                if (e.target.value && !showMegaDropdown) {
+                  setShowMegaDropdown(true);
+                }
+              }}
               onKeyPress={handleKeyPress}
+              onClick={() => setShowMegaDropdown(true)}
               className="pl-10 pr-4 py-3 text-lg border-0 rounded-none focus:ring-0 focus:border-transparent"
             />
           </div>
