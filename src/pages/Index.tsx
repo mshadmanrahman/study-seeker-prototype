@@ -17,6 +17,7 @@ const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [showMegaDropdown, setShowMegaDropdown] = useState(false);
   const megaInputRef = useRef<HTMLInputElement>(null);
+  const megaSearchRef = useRef<HTMLDivElement>(null);
   
   // New state for structured search
   const [selectedSubject, setSelectedSubject] = useState('');
@@ -231,7 +232,7 @@ const Index = () => {
   // Close mega dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (megaInputRef.current && !megaInputRef.current.contains(event.target as Node)) {
+      if (megaSearchRef.current && !megaSearchRef.current.contains(event.target as Node)) {
         setShowMegaDropdown(false);
       }
     };
@@ -480,7 +481,7 @@ const Index = () => {
     </div>;
 
   const MegaSearch = () => (
-    <div className="search-container p-6">
+    <div className="search-container p-6" ref={megaSearchRef}>
       <div className="text-center mb-6">
         <h3 className="text-lg font-semibold mb-2">Search Everything</h3>
         <p className="text-gray-600">Find programs, schools, scholarships and more</p>
@@ -494,14 +495,14 @@ const Index = () => {
             <Input 
               ref={megaInputRef}
               type="text" 
-              placeholder={selectedCategory ? `Search in ${selectedCategory}...` : "Look for programs, schools, scholarships, and more"}
+              placeholder={selectedCategory && selectedCategory !== 'all' ? `Search in ${selectedCategory}...` : "Look for programs, schools, scholarships, and more"}
               className="pl-10 pr-4 py-3 text-lg border-0 rounded-none focus:ring-0 focus:border-transparent" 
               value={searchQuery} 
               onChange={(e) => setSearchQuery(e.target.value)} 
               onFocus={handleMegaInputFocus}
               onKeyPress={handleKeyPress}
             />
-            {selectedCategory && (
+            {selectedCategory && selectedCategory !== 'all' && (
               <Badge className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-blue-100 text-blue-800">
                 {selectedCategory}
               </Badge>
