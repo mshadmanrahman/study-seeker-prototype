@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Search, Globe, User, ChevronDown, BookOpen, GraduationCap, Award, Target, Microscope, FileText, MapPin, Clock, Star, X, Monitor, Palette, Heart, Calculator, Briefcase, Camera, Music, Settings, Building, Plane, Hammer, Scissors, TrendingUp, Users, Zap, Cog, Leaf, Shirt, DollarSign, UtensilsCrossed, Newspaper, MessageCircle, Scale, Dna, Lightbulb, UserCheck, Megaphone, Activity, Recycle, Hotel, Car, Home, Sparkles, Earth } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -482,8 +481,8 @@ const Header = () => {
                 </Button>
               </div>
 
-              {/* Enhanced Category Dropdown */}
-              {showMegaDropdown && <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-xl z-[9999] max-h-80 overflow-y-auto">
+              {/* Enhanced Category Dropdown with higher z-index */}
+              {showMegaDropdown && <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-xl z-[99999] max-h-80 overflow-y-auto">
                   <div className="p-4">
                     {/* Search Types - Chip Layout */}
                     <div className="mb-6">
