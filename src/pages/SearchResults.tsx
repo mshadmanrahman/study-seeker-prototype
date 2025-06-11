@@ -409,6 +409,7 @@ const SearchResults: React.FC = () => {
   const [filteredResults, setFilteredResults] = useState<SearchResult[]>(mockResults);
   const [showFilters, setShowFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [contentTypeFilter, setContentTypeFilter] = useState<string>('all'); // New state for content type filter
   const resultsPerPage = 27; // 15 programs + 5 scholarships + 7 articles
 
   // Filter states
@@ -432,6 +433,9 @@ const SearchResults: React.FC = () => {
   // Apply filters
   useEffect(() => {
     let filtered = results.filter(result => {
+      // Apply content type filter first
+      if (contentTypeFilter !== 'all' && result.type !== contentTypeFilter) return false;
+      
       if (selectedDegreeTypes.length > 0 && result.degreeType && !selectedDegreeTypes.includes(result.degreeType)) return false;
       if (selectedFields.length > 0 && result.fieldOfStudy && !selectedFields.includes(result.fieldOfStudy)) return false;
       if (selectedLocations.length > 0 && result.location && !selectedLocations.some(loc => result.location?.includes(loc))) return false;
@@ -453,7 +457,7 @@ const SearchResults: React.FC = () => {
     }
     setFilteredResults(filtered);
     setCurrentPage(1); // Reset to first page when filters change
-  }, [results, selectedDegreeTypes, selectedFields, selectedLocations, selectedDurations, selectedPaces, selectedLanguages, selectedFormats, sortBy]);
+  }, [results, selectedDegreeTypes, selectedFields, selectedLocations, selectedDurations, selectedPaces, selectedLanguages, selectedFormats, sortBy, contentTypeFilter]);
 
   const clearAllFilters = () => {
     setSelectedDegreeTypes([]);
@@ -469,13 +473,13 @@ const SearchResults: React.FC = () => {
     return selectedDegreeTypes.length + selectedFields.length + selectedLocations.length + selectedDurations.length + selectedPaces.length + selectedLanguages.length + selectedFormats.length;
   };
 
-  // Create mixed content for each page with proper pagination
+  // Create mixed content for each page with special positioning
   const createMixedPageResults = () => {
     const programs = filteredResults.filter(r => r.type === 'program');
     const scholarships = filteredResults.filter(r => r.type === 'scholarship');
     const articles = filteredResults.filter(r => r.type === 'article');
     
-    const itemsPerPage = 27; // 15 programs + 5 scholarships + 7 articles
+    const itemsPerPage = 27;
     const startIndex = (currentPage - 1) * itemsPerPage;
     
     // Calculate pagination for each type
@@ -491,29 +495,34 @@ const SearchResults: React.FC = () => {
     const pageScholarships = scholarships.slice(scholarshipStart, scholarshipStart + scholarshipsPerPage);
     const pageArticles = articles.slice(articleStart, articleStart + articlesPerPage);
     
-    // Create mixed results array
     const mixedResults: (SearchResult | { id: string; type: 'banner' })[] = [];
     
-    // Add banner at position 5 on first page only
-    let bannerAdded = false;
+    // First 3 positions: promoted programs
+    const promotedPrograms = pagePrograms.filter(p => p.isPromoted).slice(0, 3);
+    const regularPrograms = pagePrograms.filter(p => !p.isPromoted);
+    const remainingPromoted = pagePrograms.filter(p => p.isPromoted).slice(3);
     
-    // Mix all content types together
-    const allPageContent = [
-      ...pagePrograms.map(p => ({ ...p, priority: 1 })),
-      ...pageScholarships.map(s => ({ ...s, priority: 2 })),
-      ...pageArticles.map(a => ({ ...a, priority: 3 }))
+    // Add first 3 promoted programs
+    promotedPrograms.forEach(program => mixedResults.push(program));
+    
+    // Mix the remaining content (regular programs + all promoted after first 3 + scholarships + articles)
+    const remainingContent = [
+      ...regularPrograms,
+      ...remainingPromoted,
+      ...pageScholarships,
+      ...pageArticles
     ];
     
-    // Shuffle the content to mix it up
-    const shuffledContent = allPageContent.sort(() => Math.random() - 0.5);
+    // Shuffle remaining content
+    const shuffledContent = remainingContent.sort(() => Math.random() - 0.5);
     
+    // Add shuffled content, inserting banner at position 6 (index 5)
     shuffledContent.forEach((item, index) => {
-      // Insert banner at position 5 on first page
-      if (index === 4 && currentPage === 1 && !bannerAdded) {
+      if (mixedResults.length === 5 && currentPage === 1) {
+        // Insert banner at position 6 on first page
         mixedResults.push({ id: 'banner', type: 'banner' });
-        bannerAdded = true;
       }
-      mixedResults.push(item as SearchResult);
+      mixedResults.push(item);
     });
     
     return mixedResults;
@@ -521,13 +530,25 @@ const SearchResults: React.FC = () => {
 
   const currentResults = createMixedPageResults();
   
-  // Calculate total pages based on the largest content type
-  const totalPages = Math.max(
-    Math.ceil(filteredResults.filter(r => r.type === 'program').length / 15),
-    Math.ceil(filteredResults.filter(r => r.type === 'scholarship').length / 5),
-    Math.ceil(filteredResults.filter(r => r.type === 'article').length / 7),
-    1
-  );
+  // Calculate total pages based on content type filter
+  const getTotalPages = () => {
+    if (contentTypeFilter === 'program') {
+      return Math.ceil(filteredResults.filter(r => r.type === 'program').length / 15);
+    } else if (contentTypeFilter === 'scholarship') {
+      return Math.ceil(filteredResults.filter(r => r.type === 'scholarship').length / 5);
+    } else if (contentTypeFilter === 'article') {
+      return Math.ceil(filteredResults.filter(r => r.type === 'article').length / 7);
+    } else {
+      return Math.max(
+        Math.ceil(filteredResults.filter(r => r.type === 'program').length / 15),
+        Math.ceil(filteredResults.filter(r => r.type === 'scholarship').length / 5),
+        Math.ceil(filteredResults.filter(r => r.type === 'article').length / 7),
+        1
+      );
+    }
+  };
+
+  const totalPages = getTotalPages();
 
   const getResultTypeIcon = (type: string) => {
     switch (type) {
@@ -900,6 +921,55 @@ const SearchResults: React.FC = () => {
                   <SelectItem value="deadline">Application Deadline</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+
+            {/* Content Type Filter Tabs */}
+            <div className="mb-6">
+              <div className="flex gap-2 border-b border-gray-200">
+                <button
+                  className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+                    contentTypeFilter === 'all'
+                      ? 'border-primary text-primary'
+                      : 'border-transparent text-gray-500 hover:text-gray-700'
+                  }`}
+                  onClick={() => setContentTypeFilter('all')}
+                >
+                  All Results ({filteredResults.length})
+                </button>
+                <button
+                  className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+                    contentTypeFilter === 'program'
+                      ? 'border-primary text-primary'
+                      : 'border-transparent text-gray-500 hover:text-gray-700'
+                  }`}
+                  onClick={() => setContentTypeFilter('program')}
+                >
+                  <GraduationCap className="w-4 h-4 inline mr-2" />
+                  Programs ({filteredResults.filter(r => r.type === 'program').length})
+                </button>
+                <button
+                  className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+                    contentTypeFilter === 'scholarship'
+                      ? 'border-primary text-primary'
+                      : 'border-transparent text-gray-500 hover:text-gray-700'
+                  }`}
+                  onClick={() => setContentTypeFilter('scholarship')}
+                >
+                  <Award className="w-4 h-4 inline mr-2" />
+                  Scholarships ({filteredResults.filter(r => r.type === 'scholarship').length})
+                </button>
+                <button
+                  className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+                    contentTypeFilter === 'article'
+                      ? 'border-primary text-primary'
+                      : 'border-transparent text-gray-500 hover:text-gray-700'
+                  }`}
+                  onClick={() => setContentTypeFilter('article')}
+                >
+                  <BookOpen className="w-4 h-4 inline mr-2" />
+                  Articles ({filteredResults.filter(r => r.type === 'article').length})
+                </button>
+              </div>
             </div>
 
             {/* Active Filters */}
