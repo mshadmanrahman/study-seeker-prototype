@@ -469,66 +469,65 @@ const SearchResults: React.FC = () => {
     return selectedDegreeTypes.length + selectedFields.length + selectedLocations.length + selectedDurations.length + selectedPaces.length + selectedLanguages.length + selectedFormats.length;
   };
 
-  // Create mixed content for each page (15 programs, 5 scholarships, 7 articles)
+  // Create mixed content for each page with proper pagination
   const createMixedPageResults = () => {
     const programs = filteredResults.filter(r => r.type === 'program');
     const scholarships = filteredResults.filter(r => r.type === 'scholarship');
     const articles = filteredResults.filter(r => r.type === 'article');
     
-    const startIndex = (currentPage - 1) * resultsPerPage;
+    const itemsPerPage = 27; // 15 programs + 5 scholarships + 7 articles
+    const startIndex = (currentPage - 1) * itemsPerPage;
     
-    // Calculate how many of each type to show for this page
+    // Calculate pagination for each type
     const programsPerPage = 15;
     const scholarshipsPerPage = 5;
     const articlesPerPage = 7;
     
-    const programStart = Math.floor(startIndex * (programsPerPage / resultsPerPage));
-    const scholarshipStart = Math.floor(startIndex * (scholarshipsPerPage / resultsPerPage));
-    const articleStart = Math.floor(startIndex * (articlesPerPage / resultsPerPage));
+    const programStart = Math.floor((currentPage - 1) * programsPerPage);
+    const scholarshipStart = Math.floor((currentPage - 1) * scholarshipsPerPage);
+    const articleStart = Math.floor((currentPage - 1) * articlesPerPage);
     
     const pagePrograms = programs.slice(programStart, programStart + programsPerPage);
     const pageScholarships = scholarships.slice(scholarshipStart, scholarshipStart + scholarshipsPerPage);
     const pageArticles = articles.slice(articleStart, articleStart + articlesPerPage);
     
-    // Mix the results in order: programs, scholarships, articles distributed throughout
+    // Create mixed results array
     const mixedResults: (SearchResult | { id: string; type: 'banner' })[] = [];
-    const totalItems = pagePrograms.length + pageScholarships.length + pageArticles.length;
     
-    let programIndex = 0;
-    let scholarshipIndex = 0;
-    let articleIndex = 0;
+    // Add banner at position 5 on first page only
+    let bannerAdded = false;
     
-    for (let i = 0; i < totalItems; i++) {
-      if (i === 4 && currentPage === 1) {
-        // Insert banner at position 5 on first page
+    // Mix all content types together
+    const allPageContent = [
+      ...pagePrograms.map(p => ({ ...p, priority: 1 })),
+      ...pageScholarships.map(s => ({ ...s, priority: 2 })),
+      ...pageArticles.map(a => ({ ...a, priority: 3 }))
+    ];
+    
+    // Shuffle the content to mix it up
+    const shuffledContent = allPageContent.sort(() => Math.random() - 0.5);
+    
+    shuffledContent.forEach((item, index) => {
+      // Insert banner at position 5 on first page
+      if (index === 4 && currentPage === 1 && !bannerAdded) {
         mixedResults.push({ id: 'banner', type: 'banner' });
-        continue;
+        bannerAdded = true;
       }
-      
-      // Distribute content: roughly 15 programs, 5 scholarships, 7 articles
-      const position = i % 27;
-      if (position < 15 && programIndex < pagePrograms.length) {
-        mixedResults.push(pagePrograms[programIndex++]);
-      } else if (position < 20 && scholarshipIndex < pageScholarships.length) {
-        mixedResults.push(pageScholarships[scholarshipIndex++]);
-      } else if (articleIndex < pageArticles.length) {
-        mixedResults.push(pageArticles[articleIndex++]);
-      } else if (programIndex < pagePrograms.length) {
-        mixedResults.push(pagePrograms[programIndex++]);
-      } else if (scholarshipIndex < pageScholarships.length) {
-        mixedResults.push(pageScholarships[scholarshipIndex++]);
-      }
-    }
+      mixedResults.push(item as SearchResult);
+    });
     
     return mixedResults;
   };
 
   const currentResults = createMixedPageResults();
-  const totalPages = Math.ceil(Math.max(
-    filteredResults.filter(r => r.type === 'program').length / 15,
-    filteredResults.filter(r => r.type === 'scholarship').length / 5,
-    filteredResults.filter(r => r.type === 'article').length / 7
-  ));
+  
+  // Calculate total pages based on the largest content type
+  const totalPages = Math.max(
+    Math.ceil(filteredResults.filter(r => r.type === 'program').length / 15),
+    Math.ceil(filteredResults.filter(r => r.type === 'scholarship').length / 5),
+    Math.ceil(filteredResults.filter(r => r.type === 'article').length / 7),
+    1
+  );
 
   const getResultTypeIcon = (type: string) => {
     switch (type) {
