@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect } from 'react';
 import { Search, ChevronDown, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -158,17 +157,6 @@ const MegaSearch: React.FC<MegaSearchProps> = ({
             </div>
           ))}
         </div>
-      </div>
-
-      <div className="mt-4 text-center">
-        <Button 
-          variant="outline" 
-          size="sm"
-          onClick={() => setShowMegaDropdown(!showMegaDropdown)}
-        >
-          {showMegaDropdown ? 'Hide Options' : 'Show Search Options'}
-          <ChevronDown className={`w-4 h-4 ml-2 transition-transform ${showMegaDropdown ? 'rotate-180' : ''}`} />
-        </Button>
       </div>
     </div>
   );
