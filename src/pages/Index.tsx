@@ -240,7 +240,7 @@ const Index = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleMegaInputFocus = () => {
+  const handleMegaInputClick = () => {
     setShowMegaDropdown(true);
   };
 
@@ -252,9 +252,12 @@ const Index = () => {
       setSelectedCategory(category.name);
     }
     setShowMegaDropdown(false);
-    if (megaInputRef.current) {
-      megaInputRef.current.focus();
-    }
+    // Don't focus back to input immediately to prevent re-opening dropdown
+    setTimeout(() => {
+      if (megaInputRef.current) {
+        megaInputRef.current.focus();
+      }
+    }, 100);
   };
 
   const handleSearch = () => {
@@ -499,7 +502,7 @@ const Index = () => {
               className="pl-10 pr-4 py-3 text-lg border-0 rounded-none focus:ring-0 focus:border-transparent" 
               value={searchQuery} 
               onChange={(e) => setSearchQuery(e.target.value)} 
-              onFocus={handleMegaInputFocus}
+              onClick={handleMegaInputClick}
               onKeyPress={handleKeyPress}
             />
             {selectedCategory && selectedCategory !== 'all' && (
