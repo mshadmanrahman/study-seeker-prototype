@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, MapPin, Clock, Globe, GraduationCap, Calendar, BookOpen, Award, Building, ChevronDown, X, Star, User, Eye } from 'lucide-react';
+import { Search, Filter, MapPin, Clock, Globe, GraduationCap, Calendar, BookOpen, Award, Building, ChevronDown, X, Star, User, Eye, Heart, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { useSearchParams } from 'react-router-dom';
 import Header from '@/components/Header';
+
 interface SearchResult {
   id: string;
   type: 'program' | 'article' | 'scholarship' | 'school';
@@ -25,69 +27,390 @@ interface SearchResult {
   rating?: number;
   image?: string;
   institution?: string;
+  isPromoted?: boolean;
 }
-const mockResults: SearchResult[] = [{
-  id: '1',
-  type: 'program',
-  title: 'Master of Computer Science',
-  description: 'Comprehensive program covering advanced computing concepts, algorithms, and software engineering.',
-  location: 'MIT, Boston, USA',
-  duration: '2 years',
-  language: 'English',
-  deadline: '2024-12-15',
-  degreeType: 'Masters',
-  fieldOfStudy: 'Computer Science',
-  studyPace: 'Full-time',
-  studyFormat: 'On-campus',
-  tuitionFee: '$55,000/year',
-  rating: 4.8,
-  institution: 'Massachusetts Institute of Technology'
-}, {
-  id: '2',
-  type: 'scholarship',
-  title: 'Merit-Based Excellence Scholarship',
-  description: 'Full tuition scholarship for outstanding international students in STEM fields.',
-  location: 'Stanford, USA',
-  deadline: '2024-11-30',
-  fieldOfStudy: 'STEM',
-  tuitionFee: '$75,000 coverage',
-  institution: 'Stanford University'
-}, {
-  id: '3',
-  type: 'program',
-  title: 'Bachelor of Business Administration',
-  description: 'Comprehensive business program with focus on leadership and entrepreneurship.',
-  location: 'London, UK',
-  duration: '3 years',
-  language: 'English',
-  deadline: '2025-01-15',
-  degreeType: 'Bachelors',
-  fieldOfStudy: 'Business',
-  studyPace: 'Full-time',
-  studyFormat: 'Hybrid',
-  tuitionFee: '£25,000/year',
-  rating: 4.5,
-  institution: 'London Business School'
-}, {
-  id: '4',
-  type: 'article',
-  title: 'Study a Masters in Europe: The Complete Guide',
-  description: 'Everything you need to know about pursuing a Masters degree in Europe, including costs, application requirements, and the best programs available.',
-  location: 'Europe',
-  fieldOfStudy: 'Masters Programs'
-}, {
-  id: '5',
-  type: 'article',
-  title: 'Scholarship Opportunities for International Students',
-  description: 'Discover the best scholarships available for international students, including merit-based, need-based, and country-specific funding options.',
-  fieldOfStudy: 'Scholarships'
-}];
+
+const mockResults: SearchResult[] = [
+  // Programs (15 total)
+  {
+    id: '1',
+    type: 'program',
+    title: 'Master of Computer Science',
+    description: 'Comprehensive program covering advanced computing concepts, algorithms, and software engineering.',
+    location: 'MIT, Boston, USA',
+    duration: '2 years',
+    language: 'English',
+    deadline: '2024-12-15',
+    degreeType: 'Masters',
+    fieldOfStudy: 'Computer Science',
+    studyPace: 'Full-time',
+    studyFormat: 'On-campus',
+    tuitionFee: '$55,000/year',
+    rating: 4.8,
+    institution: 'Massachusetts Institute of Technology',
+    isPromoted: true
+  },
+  {
+    id: '2',
+    type: 'program',
+    title: 'Bachelor of Business Administration',
+    description: 'Comprehensive business program with focus on leadership and entrepreneurship.',
+    location: 'London, UK',
+    duration: '3 years',
+    language: 'English',
+    deadline: '2025-01-15',
+    degreeType: 'Bachelors',
+    fieldOfStudy: 'Business',
+    studyPace: 'Full-time',
+    studyFormat: 'Hybrid',
+    tuitionFee: '£25,000/year',
+    rating: 4.5,
+    institution: 'London Business School',
+    isPromoted: true
+  },
+  {
+    id: '3',
+    type: 'program',
+    title: 'Master of Data Science',
+    description: 'Advanced program in data analytics, machine learning, and big data technologies.',
+    location: 'Stanford, CA, USA',
+    duration: '2 years',
+    language: 'English',
+    deadline: '2024-11-30',
+    degreeType: 'Masters',
+    fieldOfStudy: 'Computer Science',
+    studyPace: 'Full-time',
+    studyFormat: 'On-campus',
+    tuitionFee: '$58,000/year',
+    rating: 4.9,
+    institution: 'Stanford University',
+    isPromoted: true
+  },
+  {
+    id: '4',
+    type: 'program',
+    title: 'Bachelor of Engineering',
+    description: 'Comprehensive engineering program with specializations in multiple disciplines.',
+    location: 'Toronto, Canada',
+    duration: '4 years',
+    language: 'English',
+    deadline: '2025-02-01',
+    degreeType: 'Bachelors',
+    fieldOfStudy: 'Engineering',
+    studyPace: 'Full-time',
+    studyFormat: 'On-campus',
+    tuitionFee: 'CAD 35,000/year',
+    rating: 4.3,
+    institution: 'University of Toronto'
+  },
+  // Banner will be inserted at position 5
+  {
+    id: '5',
+    type: 'program',
+    title: 'Master of Public Health',
+    description: 'Interdisciplinary program focusing on population health and disease prevention.',
+    location: 'Harvard, MA, USA',
+    duration: '2 years',
+    language: 'English',
+    deadline: '2025-01-10',
+    degreeType: 'Masters',
+    fieldOfStudy: 'Medicine',
+    studyPace: 'Full-time',
+    studyFormat: 'Hybrid',
+    tuitionFee: '$52,000/year',
+    rating: 4.6,
+    institution: 'Harvard University'
+  },
+  {
+    id: '6',
+    type: 'program',
+    title: 'Bachelor of Arts in Psychology',
+    description: 'Explore human behavior and mental processes with hands-on research opportunities.',
+    location: 'Oxford, UK',
+    duration: '3 years',
+    language: 'English',
+    deadline: '2025-01-20',
+    degreeType: 'Bachelors',
+    fieldOfStudy: 'Arts',
+    studyPace: 'Full-time',
+    studyFormat: 'On-campus',
+    tuitionFee: '£22,000/year',
+    rating: 4.4,
+    institution: 'Oxford University'
+  },
+  {
+    id: '7',
+    type: 'program',
+    title: 'Master of Fine Arts',
+    description: 'Creative program for aspiring artists and designers with studio-based learning.',
+    location: 'New York, USA',
+    duration: '2 years',
+    language: 'English',
+    deadline: '2024-12-01',
+    degreeType: 'Masters',
+    fieldOfStudy: 'Arts',
+    studyPace: 'Full-time',
+    studyFormat: 'On-campus',
+    tuitionFee: '$48,000/year',
+    rating: 4.2,
+    institution: 'Parsons School of Design'
+  },
+  {
+    id: '8',
+    type: 'program',
+    title: 'Bachelor of Law',
+    description: 'Comprehensive legal education with focus on international and commercial law.',
+    location: 'Sydney, Australia',
+    duration: '3 years',
+    language: 'English',
+    deadline: '2025-02-15',
+    degreeType: 'Bachelors',
+    fieldOfStudy: 'Law',
+    studyPace: 'Full-time',
+    studyFormat: 'On-campus',
+    tuitionFee: 'AUD 28,000/year',
+    rating: 4.5,
+    institution: 'University of Sydney'
+  },
+  {
+    id: '9',
+    type: 'program',
+    title: 'Master of Architecture',
+    description: 'Professional degree program combining design theory with practical building experience.',
+    location: 'Barcelona, Spain',
+    duration: '2 years',
+    language: 'English',
+    deadline: '2025-01-05',
+    degreeType: 'Masters',
+    fieldOfStudy: 'Arts',
+    studyPace: 'Full-time',
+    studyFormat: 'On-campus',
+    tuitionFee: '€18,000/year',
+    rating: 4.7,
+    institution: 'ETSAB Barcelona'
+  },
+  {
+    id: '10',
+    type: 'program',
+    title: 'Bachelor of Environmental Science',
+    description: 'Interdisciplinary program addressing climate change and environmental challenges.',
+    location: 'Vancouver, Canada',
+    duration: '4 years',
+    language: 'English',
+    deadline: '2025-01-30',
+    degreeType: 'Bachelors',
+    fieldOfStudy: 'STEM',
+    studyPace: 'Full-time',
+    studyFormat: 'Hybrid',
+    tuitionFee: 'CAD 32,000/year',
+    rating: 4.3,
+    institution: 'University of British Columbia'
+  },
+  {
+    id: '11',
+    type: 'program',
+    title: 'Master of International Business',
+    description: 'Global business program with international exchange opportunities.',
+    location: 'Singapore',
+    duration: '18 months',
+    language: 'English',
+    deadline: '2024-12-20',
+    degreeType: 'Masters',
+    fieldOfStudy: 'Business',
+    studyPace: 'Full-time',
+    studyFormat: 'On-campus',
+    tuitionFee: 'SGD 45,000/year',
+    rating: 4.6,
+    institution: 'National University of Singapore'
+  },
+  {
+    id: '12',
+    type: 'program',
+    title: 'Bachelor of Biomedical Engineering',
+    description: 'Cutting-edge program combining engineering principles with medical applications.',
+    location: 'Zurich, Switzerland',
+    duration: '3 years',
+    language: 'English',
+    deadline: '2025-02-10',
+    degreeType: 'Bachelors',
+    fieldOfStudy: 'Engineering',
+    studyPace: 'Full-time',
+    studyFormat: 'On-campus',
+    tuitionFee: 'CHF 1,500/year',
+    rating: 4.8,
+    institution: 'ETH Zurich'
+  },
+  {
+    id: '13',
+    type: 'program',
+    title: 'Master of Renewable Energy',
+    description: 'Specialized program in sustainable energy technologies and policy.',
+    location: 'Copenhagen, Denmark',
+    duration: '2 years',
+    language: 'English',
+    deadline: '2025-01-25',
+    degreeType: 'Masters',
+    fieldOfStudy: 'Engineering',
+    studyPace: 'Full-time',
+    studyFormat: 'Hybrid',
+    tuitionFee: '€15,000/year',
+    rating: 4.5,
+    institution: 'Technical University of Denmark'
+  },
+  {
+    id: '14',
+    type: 'program',
+    title: 'Bachelor of Digital Media',
+    description: 'Creative technology program focusing on digital design and interactive media.',
+    location: 'Amsterdam, Netherlands',
+    duration: '3 years',
+    language: 'English',
+    deadline: '2025-02-05',
+    degreeType: 'Bachelors',
+    fieldOfStudy: 'Arts',
+    studyPace: 'Full-time',
+    studyFormat: 'On-campus',
+    tuitionFee: '€8,500/year',
+    rating: 4.4,
+    institution: 'Amsterdam University of Applied Sciences'
+  },
+  {
+    id: '15',
+    type: 'program',
+    title: 'Master of Cybersecurity',
+    description: 'Advanced program in information security, ethical hacking, and digital forensics.',
+    location: 'Tel Aviv, Israel',
+    duration: '2 years',
+    language: 'English',
+    deadline: '2024-12-10',
+    degreeType: 'Masters',
+    fieldOfStudy: 'Computer Science',
+    studyPace: 'Full-time',
+    studyFormat: 'On-campus',
+    tuitionFee: '$25,000/year',
+    rating: 4.7,
+    institution: 'Tel Aviv University'
+  },
+  // Scholarships (5 total)
+  {
+    id: '16',
+    type: 'scholarship',
+    title: 'Merit-Based Excellence Scholarship',
+    description: 'Full tuition scholarship for outstanding international students in STEM fields.',
+    location: 'Stanford, USA',
+    deadline: '2024-11-30',
+    fieldOfStudy: 'STEM',
+    tuitionFee: '$75,000 coverage',
+    institution: 'Stanford University'
+  },
+  {
+    id: '17',
+    type: 'scholarship',
+    title: 'Global Leaders Scholarship',
+    description: 'Scholarship for students demonstrating leadership potential and academic excellence.',
+    location: 'Cambridge, UK',
+    deadline: '2024-12-15',
+    fieldOfStudy: 'Business',
+    tuitionFee: '£40,000 coverage',
+    institution: 'Cambridge University'
+  },
+  {
+    id: '18',
+    type: 'scholarship',
+    title: 'Diversity and Inclusion Grant',
+    description: 'Supporting underrepresented students in pursuing higher education goals.',
+    location: 'Toronto, Canada',
+    deadline: '2025-01-10',
+    fieldOfStudy: 'Arts',
+    tuitionFee: 'CAD 30,000 coverage',
+    institution: 'University of Toronto'
+  },
+  {
+    id: '19',
+    type: 'scholarship',
+    title: 'Innovation in Technology Award',
+    description: 'For students pursuing cutting-edge research in technology and engineering.',
+    location: 'Munich, Germany',
+    deadline: '2024-12-05',
+    fieldOfStudy: 'Engineering',
+    tuitionFee: '€25,000 coverage',
+    institution: 'Technical University of Munich'
+  },
+  {
+    id: '20',
+    type: 'scholarship',
+    title: 'Sustainable Future Scholarship',
+    description: 'Supporting students working on environmental and sustainability projects.',
+    location: 'Stockholm, Sweden',
+    deadline: '2025-01-20',
+    fieldOfStudy: 'STEM',
+    tuitionFee: '€20,000 coverage',
+    institution: 'Royal Institute of Technology'
+  },
+  // Articles (7 total)
+  {
+    id: '21',
+    type: 'article',
+    title: 'Study a Masters in Europe: The Complete Guide',
+    description: 'Everything you need to know about pursuing a Masters degree in Europe, including costs, application requirements, and the best programs available.',
+    location: 'Europe',
+    fieldOfStudy: 'Masters Programs'
+  },
+  {
+    id: '22',
+    type: 'article',
+    title: 'Scholarship Opportunities for International Students',
+    description: 'Discover the best scholarships available for international students, including merit-based, need-based, and country-specific funding options.',
+    fieldOfStudy: 'Scholarships'
+  },
+  {
+    id: '23',
+    type: 'article',
+    title: 'Top 10 Universities for Computer Science in 2024',
+    description: 'Ranking of the best computer science programs worldwide based on research output, faculty quality, and graduate outcomes.',
+    fieldOfStudy: 'Computer Science',
+    location: 'Global'
+  },
+  {
+    id: '24',
+    type: 'article',
+    title: 'How to Write a Winning Personal Statement',
+    description: 'Expert tips and strategies for crafting compelling personal statements that stand out to admissions committees.',
+    fieldOfStudy: 'Application Tips'
+  },
+  {
+    id: '25',
+    type: 'article',
+    title: 'MBA vs Masters: Which Degree is Right for You?',
+    description: 'Comprehensive comparison of MBA and specialized Masters programs to help you make the right career decision.',
+    fieldOfStudy: 'Business',
+    location: 'Global'
+  },
+  {
+    id: '26',
+    type: 'article',
+    title: 'Student Life in Canada: What to Expect',
+    description: 'A complete guide to living and studying in Canada, including culture, costs, and practical tips for international students.',
+    fieldOfStudy: 'Student Life',
+    location: 'Canada'
+  },
+  {
+    id: '27',
+    type: 'article',
+    title: 'The Future of Online Learning in Higher Education',
+    description: 'Exploring how digital transformation is reshaping university education and what it means for students.',
+    fieldOfStudy: 'Education Technology'
+  }
+];
+
 const SearchResults: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
   const [results, setResults] = useState<SearchResult[]>(mockResults);
   const [filteredResults, setFilteredResults] = useState<SearchResult[]>(mockResults);
   const [showFilters, setShowFilters] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const resultsPerPage = 10;
 
   // Filter states
   const [selectedDegreeTypes, setSelectedDegreeTypes] = useState<string[]>([]);
@@ -98,6 +421,7 @@ const SearchResults: React.FC = () => {
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [selectedFormats, setSelectedFormats] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<string>('relevance');
+
   const degreeTypes = ['Bachelors', 'Masters', 'PhD', 'Certificate', 'Diploma'];
   const fieldsOfStudy = ['Computer Science', 'Business', 'Engineering', 'Medicine', 'Arts', 'Law', 'STEM'];
   const locations = ['USA', 'UK', 'Canada', 'Australia', 'Germany', 'Netherlands'];
@@ -129,7 +453,9 @@ const SearchResults: React.FC = () => {
       });
     }
     setFilteredResults(filtered);
+    setCurrentPage(1); // Reset to first page when filters change
   }, [results, selectedDegreeTypes, selectedFields, selectedLocations, selectedDurations, selectedPaces, selectedLanguages, selectedFormats, sortBy]);
+
   const clearAllFilters = () => {
     setSelectedDegreeTypes([]);
     setSelectedFields([]);
@@ -139,9 +465,24 @@ const SearchResults: React.FC = () => {
     setSelectedLanguages([]);
     setSelectedFormats([]);
   };
+
   const getActiveFiltersCount = () => {
     return selectedDegreeTypes.length + selectedFields.length + selectedLocations.length + selectedDurations.length + selectedPaces.length + selectedLanguages.length + selectedFormats.length;
   };
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredResults.length / resultsPerPage);
+  const startIndex = (currentPage - 1) * resultsPerPage;
+  const endIndex = startIndex + resultsPerPage;
+  const currentResults = filteredResults.slice(startIndex, endIndex);
+
+  // Insert banner at position 5 (index 4) if we're on the first page
+  const resultsWithBanner = currentPage === 1 ? [
+    ...currentResults.slice(0, 4),
+    { id: 'banner', type: 'banner' as const },
+    ...currentResults.slice(4)
+  ] : currentResults;
+
   const getResultTypeIcon = (type: string) => {
     switch (type) {
       case 'program':
@@ -156,6 +497,8 @@ const SearchResults: React.FC = () => {
         return <BookOpen className="w-4 h-4" />;
     }
   };
+
+  // ... keep existing code (FilterSection component)
   const FilterSection = ({
     title,
     options,
@@ -189,11 +532,14 @@ const SearchResults: React.FC = () => {
           </div>}
       </div>;
   };
-  const ProgramCard = ({
-    result
-  }: {
-    result: SearchResult;
-  }) => <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
+
+  const ProgramCard = ({ result }: { result: SearchResult }) => (
+    <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer relative">
+      {result.isPromoted && (
+        <div className="absolute top-4 right-4 z-10">
+          <Badge className="bg-yellow-500 text-white">Promoted</Badge>
+        </div>
+      )}
       <div className="flex">
         {/* Left side - Campus image */}
         <div className="w-48 flex-shrink-0 relative">
@@ -259,12 +605,11 @@ const SearchResults: React.FC = () => {
           </div>
         </div>
       </div>
-    </Card>;
-  const ArticleCard = ({
-    result
-  }: {
-    result: SearchResult;
-  }) => <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
+    </Card>
+  );
+
+  const ArticleCard = ({ result }: { result: SearchResult }) => (
+    <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
       <div className="flex h-32">
         {/* Left side - Article image */}
         <div className="w-32 flex-shrink-0 overflow-hidden">
@@ -305,12 +650,11 @@ const SearchResults: React.FC = () => {
           </div>
         </div>
       </div>
-    </Card>;
-  const ScholarshipCard = ({
-    result
-  }: {
-    result: SearchResult;
-  }) => <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
+    </Card>
+  );
+
+  const ScholarshipCard = ({ result }: { result: SearchResult }) => (
+    <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
       <div className="flex h-32">
         {/* Left side - Scholarship image */}
         <div className="w-32 flex-shrink-0 overflow-hidden relative">
@@ -334,7 +678,7 @@ const SearchResults: React.FC = () => {
           </h3>
           
           {/* Description */}
-          <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed mb-4">
+          <p className="text-sm text-gray-600 line-clamp-1 leading-relaxed mb-3">
             {result.description}
           </p>
           
@@ -355,8 +699,37 @@ const SearchResults: React.FC = () => {
           </div>
         </div>
       </div>
-    </Card>;
-  return <div className="min-h-screen bg-gray-50">
+    </Card>
+  );
+
+  const PromotedBanner = () => (
+    <Card className="overflow-hidden bg-gradient-to-r from-pink-50 to-pink-100 border border-pink-200">
+      <div className="flex items-center p-6">
+        <div className="flex-shrink-0 mr-6">
+          <div className="w-16 h-16 bg-pink-200 rounded-full flex items-center justify-center">
+            <Heart className="w-8 h-8 text-pink-600" />
+          </div>
+        </div>
+        <div className="flex-1">
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            Best programs for you
+          </h3>
+          <p className="text-gray-600">
+            Answer a few questions and we'll match you with programs!
+          </p>
+        </div>
+        <div className="flex-shrink-0">
+          <Button className="bg-pink-600 hover:bg-pink-700 text-white">
+            Get Started
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </Button>
+        </div>
+      </div>
+    </Card>
+  );
+
+  return (
+    <div className="min-h-screen bg-gray-50">
       {/* Use shared Header component */}
       <Header />
 
@@ -438,11 +811,19 @@ const SearchResults: React.FC = () => {
 
             {/* Results */}
             <div className="space-y-6">
-              {filteredResults.map(result => <div key={result.id}>
-                  {result.type === 'program' && <ProgramCard result={result} />}
-                  {result.type === 'article' && <ArticleCard result={result} />}
-                  {result.type === 'scholarship' && <ScholarshipCard result={result} />}
-                </div>)}
+              {resultsWithBanner.map((result, index) => (
+                <div key={result.id}>
+                  {result.type === 'banner' ? (
+                    <PromotedBanner />
+                  ) : result.type === 'program' ? (
+                    <ProgramCard result={result as SearchResult} />
+                  ) : result.type === 'article' ? (
+                    <ArticleCard result={result as SearchResult} />
+                  ) : result.type === 'scholarship' ? (
+                    <ScholarshipCard result={result as SearchResult} />
+                  ) : null}
+                </div>
+              ))}
             </div>
 
             {filteredResults.length === 0 && <div className="text-center py-12">
@@ -450,9 +831,76 @@ const SearchResults: React.FC = () => {
                 <h3 className="text-lg font-medium text-gray-900 mb-2">No results found</h3>
                 <p className="text-gray-500">Try adjusting your filters or search terms</p>
               </div>}
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="mt-8 flex justify-center">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious 
+                        href="#" 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (currentPage > 1) setCurrentPage(currentPage - 1);
+                        }}
+                        className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+                      />
+                    </PaginationItem>
+                    
+                    {[...Array(totalPages)].map((_, i) => {
+                      const page = i + 1;
+                      if (
+                        page === 1 ||
+                        page === totalPages ||
+                        (page >= currentPage - 1 && page <= currentPage + 1)
+                      ) {
+                        return (
+                          <PaginationItem key={page}>
+                            <PaginationLink
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setCurrentPage(page);
+                              }}
+                              isActive={currentPage === page}
+                            >
+                              {page}
+                            </PaginationLink>
+                          </PaginationItem>
+                        );
+                      } else if (
+                        page === currentPage - 2 ||
+                        page === currentPage + 2
+                      ) {
+                        return (
+                          <PaginationItem key={page}>
+                            <PaginationEllipsis />
+                          </PaginationItem>
+                        );
+                      }
+                      return null;
+                    })}
+                    
+                    <PaginationItem>
+                      <PaginationNext 
+                        href="#" 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+                        }}
+                        className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              </div>
+            )}
           </div>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default SearchResults;
