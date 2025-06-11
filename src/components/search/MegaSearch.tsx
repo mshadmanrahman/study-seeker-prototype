@@ -76,7 +76,7 @@ const MegaSearch: React.FC<MegaSearchProps> = ({
         </div>
 
         {showMegaDropdown && (
-          <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-xl z-[9999] max-h-96 overflow-y-auto">
+          <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-xl z-[99999] max-h-96 overflow-y-auto">
             <div className="p-4">
               <div className="mb-6">
                 <h4 className="text-sm font-semibold text-gray-500 uppercase mb-3">Search in</h4>
