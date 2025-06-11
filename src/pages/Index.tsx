@@ -17,6 +17,10 @@ const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [showMegaDropdown, setShowMegaDropdown] = useState(false);
   const megaInputRef = useRef<HTMLInputElement>(null);
+  
+  // New state for structured search
+  const [selectedSubject, setSelectedSubject] = useState('');
+  const [selectedStructuredLocation, setSelectedStructuredLocation] = useState('');
 
   const degreeTypes = [{
     value: 'preparatory',
@@ -258,6 +262,15 @@ const Index = () => {
     }
   };
 
+  const handleStructuredSearch = () => {
+    const queryParts = [];
+    if (selectedSubject) queryParts.push(selectedSubject);
+    if (selectedStructuredLocation) queryParts.push(`in ${selectedStructuredLocation}`);
+    
+    const query = queryParts.length > 0 ? queryParts.join(' ') : 'programs';
+    navigate(`/search?q=${encodeURIComponent(query)}`);
+  };
+
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleSearch();
@@ -278,7 +291,7 @@ const Index = () => {
           <label className="block text-sm font-medium text-gray-700 mb-2">
             What do you want to study?
           </label>
-          <Select>
+          <Select value={selectedSubject} onValueChange={setSelectedSubject}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select a subject" />
             </SelectTrigger>
@@ -293,7 +306,7 @@ const Index = () => {
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Where do you want to study?
           </label>
-          <Select>
+          <Select value={selectedStructuredLocation} onValueChange={setSelectedStructuredLocation}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select a location" />
             </SelectTrigger>
@@ -308,7 +321,7 @@ const Index = () => {
           </Select>
         </div>
       </div>
-      <Button className="w-full mt-4 bg-primary text-primary-foreground hover:bg-primary/90" onClick={handleSearch}>
+      <Button className="w-full mt-4 bg-primary text-primary-foreground hover:bg-primary/90" onClick={handleStructuredSearch}>
         <Search className="w-4 h-4 mr-2" />
         Search Programs
       </Button>
@@ -707,3 +720,5 @@ const Index = () => {
 };
 
 export default Index;
+
+}
