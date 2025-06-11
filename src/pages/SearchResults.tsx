@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Search, Filter, MapPin, Clock, Globe, GraduationCap, Calendar, BookOpen, Award, Building, ChevronDown, X, Star, User, Eye, Heart, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -8,8 +7,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
+import NoResults from '@/components/search/NoResults';
 
 interface SearchResult {
   id: string;
@@ -468,6 +468,12 @@ const SearchResults: React.FC = () => {
     setSelectedPaces([]);
     setSelectedLanguages([]);
     setSelectedFormats([]);
+    setContentTypeFilter('all');
+  };
+
+  const handleNewSearch = (newQuery: string) => {
+    setSearchQuery(newQuery);
+    navigate(`/search?q=${encodeURIComponent(newQuery)}`);
   };
 
   const getActiveFiltersCount = () => {
@@ -1042,94 +1048,98 @@ const SearchResults: React.FC = () => {
               </div>
             )}
 
-            {/* Results */}
-            <div className="space-y-6">
-              {currentResults.map((result, index) => (
-                <div key={result.id}>
-                  {result.type === 'banner' ? (
-                    <PromotedBanner />
-                  ) : result.type === 'program' ? (
-                    <ProgramCard result={result as SearchResult} index={index} />
-                  ) : result.type === 'article' ? (
-                    <ArticleCard result={result as SearchResult} index={index} />
-                  ) : result.type === 'scholarship' ? (
-                    <ScholarshipCard result={result as SearchResult} index={index} />
-                  ) : null}
+            {/* Results or No Results */}
+            {filteredResults.length === 0 ? (
+              <NoResults
+                searchQuery={searchQuery}
+                onNewSearch={handleNewSearch}
+                onClearFilters={clearAllFilters}
+                hasActiveFilters={getActiveFiltersCount() > 0}
+              />
+            ) : (
+              <>
+                {/* Results */}
+                <div className="space-y-6">
+                  {currentResults.map((result, index) => (
+                    <div key={result.id}>
+                      {result.type === 'banner' ? (
+                        <PromotedBanner />
+                      ) : result.type === 'program' ? (
+                        <ProgramCard result={result as SearchResult} index={index} />
+                      ) : result.type === 'article' ? (
+                        <ArticleCard result={result as SearchResult} index={index} />
+                      ) : result.type === 'scholarship' ? (
+                        <ScholarshipCard result={result as SearchResult} index={index} />
+                      ) : null}
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
 
-            {filteredResults.length === 0 && (
-              <div className="text-center py-12">
-                <Search className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No results found</h3>
-                <p className="text-gray-500">Try adjusting your filters or search terms</p>
-              </div>
-            )}
-
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="mt-8 flex justify-center">
-                <Pagination>
-                  <PaginationContent>
-                    <PaginationItem>
-                      <PaginationPrevious 
-                        href="#" 
-                        onClick={(e) => {
-                          e.preventDefault();
-                          if (currentPage > 1) setCurrentPage(currentPage - 1);
-                        }}
-                        className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
-                      />
-                    </PaginationItem>
-                    
-                    {[...Array(totalPages)].map((_, i) => {
-                      const page = i + 1;
-                      if (
-                        page === 1 ||
-                        page === totalPages ||
-                        (page >= currentPage - 1 && page <= currentPage + 1)
-                      ) {
-                        return (
-                          <PaginationItem key={page}>
-                            <PaginationLink
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setCurrentPage(page);
-                              }}
-                              isActive={currentPage === page}
-                            >
-                              {page}
-                            </PaginationLink>
-                          </PaginationItem>
-                        );
-                      } else if (
-                        page === currentPage - 2 ||
-                        page === currentPage + 2
-                      ) {
-                        return (
-                          <PaginationItem key={page}>
-                            <PaginationEllipsis />
-                          </PaginationItem>
-                        );
-                      }
-                      return null;
-                    })}
-                    
-                    <PaginationItem>
-                      <PaginationNext 
-                        href="#" 
-                        onClick={(e) => {
-                          e.preventDefault();
-                          if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-                        }}
-                        className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
-                      />
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
-              </div>
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="mt-8 flex justify-center">
+                    <Pagination>
+                      <PaginationContent>
+                        <PaginationItem>
+                          <PaginationPrevious 
+                            href="#" 
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (currentPage > 1) setCurrentPage(currentPage - 1);
+                            }}
+                            className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+                          />
+                        </PaginationItem>
+                        
+                        {[...Array(totalPages)].map((_, i) => {
+                          const page = i + 1;
+                          if (
+                            page === 1 ||
+                            page === totalPages ||
+                            (page >= currentPage - 1 && page <= currentPage + 1)
+                          ) {
+                            return (
+                              <PaginationItem key={page}>
+                                <PaginationLink
+                                  href="#"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    setCurrentPage(page);
+                                  }}
+                                  isActive={currentPage === page}
+                                >
+                                  {page}
+                                </PaginationLink>
+                              </PaginationItem>
+                            );
+                          } else if (
+                            page === currentPage - 2 ||
+                            page === currentPage + 2
+                          ) {
+                            return (
+                              <PaginationItem key={page}>
+                                <PaginationEllipsis />
+                              </PaginationItem>
+                            );
+                          }
+                          return null;
+                        })}
+                        
+                        <PaginationItem>
+                          <PaginationNext 
+                            href="#" 
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+                            }}
+                            className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
+                          />
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
