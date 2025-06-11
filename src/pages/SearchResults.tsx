@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Search, Filter, MapPin, Clock, Globe, GraduationCap, Calendar, BookOpen, Award, Building, ChevronDown, X, Star, User, Eye, Heart, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -616,17 +617,66 @@ const SearchResults: React.FC = () => {
     );
   };
 
-  const ProgramCard = ({ result }: { result: SearchResult }) => (
+  // Array of diverse campus images
+  const campusImages = [
+    'photo-1487958449943-2429e8be8625', // white concrete building
+    'photo-1519389950473-47ba0277781c', // people with laptops
+    'photo-1605810230434-7631ac76ec81', // group around video screens
+    'photo-1581092795360-fd1ca04f0952', // man in office chair
+    'photo-1526374965328-7f61d4dc18c5', // Matrix movie still
+    'photo-1531297484001-80022131f5a1', // laptop on surface
+    'photo-1500375592092-40eb2168fd21', // ocean wave
+    'photo-1504893524553-b855bce32c67', // river and rocks
+    'photo-1506744038136-46273834b3fb', // water surrounded by trees
+    'photo-1501854140801-50d01698950b', // mountains aerial view
+    'photo-1615729947596-a598e5de0ab3', // grass and rocky mountain
+    'photo-1721322800607-8c38375eef04', // living room
+    'photo-1523712999610-f77fbcfc3843', // forest with sunbeam
+    'photo-1500673922987-e212871fec22', // yellow lights between trees
+    'photo-1472396961693-142e6e269027'  // deer and mountain
+  ];
+
+  const articleImages = [
+    'photo-1481627834876-b7833e8f5570', // lines of code
+    'photo-1461749280684-dccba630e2f6', // Java programming
+    'photo-1488590528505-98d2b5aba04b', // gray laptop
+    'photo-1518770660439-4636190af475', // circuit board
+    'photo-1498050108023-c5249f4df085', // MacBook with code
+    'photo-1581090464777-f3220bbe1b8b', // person with light bulb
+    'photo-1649972904349-6e44c42644a7', // woman with laptop on bed
+    'photo-1581091226825-a6a2a5aee158'  // woman with laptop
+  ];
+
+  const scholarshipImages = [
+    'photo-1523050854058-8df90110c9f1', // graduation caps
+    'photo-1517022812141-23620dba5c23', // sheep running
+    'photo-1582562124811-c09040d0a901', // cat on textile
+    'photo-1618160702438-9b02ab6515c9', // fruit on plate
+    'photo-1466721591366-2d5fba72006d'  // antelope and zebra
+  ];
+
+  const getImageForResult = (result: SearchResult, index: number) => {
+    if (result.type === 'program') {
+      return `https://images.unsplash.com/${campusImages[index % campusImages.length]}?w=400&h=400&fit=crop`;
+    } else if (result.type === 'article') {
+      return `https://images.unsplash.com/${articleImages[index % articleImages.length]}?w=200&h=200&fit=crop`;
+    } else if (result.type === 'scholarship') {
+      return `https://images.unsplash.com/${scholarshipImages[index % scholarshipImages.length]}?w=200&h=200&fit=crop`;
+    }
+    return 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&h=400&fit=crop';
+  };
+
+  const ProgramCard = ({ result, index }: { result: SearchResult; index: number }) => (
     <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer relative">
       {result.isPromoted && (
         <div className="absolute top-4 right-4 z-10">
-          <Badge className="bg-gray-400 text-white text-xs">Promoted</Badge>
+          <Badge className="bg-gray-300 text-gray-600 text-xs">Promoted</Badge>
         </div>
       )}
       <div className="flex">
         {/* Left side - Campus image */}
         <div className="w-48 flex-shrink-0 relative">
-          <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&h=400&fit=crop" alt={`${result.institution} campus`} className="w-full h-full object-cover" />
+          <img src={getImageForResult(result, index)} alt={`${result.institution} campus`} className="w-full h-full object-cover" />
           {/* Institution logo overlay */}
           <div className="absolute bottom-3 left-3">
             <div className="w-12 h-12 bg-white rounded-lg shadow-md flex items-center justify-center">
@@ -689,12 +739,12 @@ const SearchResults: React.FC = () => {
     </Card>
   );
 
-  const ArticleCard = ({ result }: { result: SearchResult }) => (
+  const ArticleCard = ({ result, index }: { result: SearchResult; index: number }) => (
     <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
       <div className="flex h-32">
         {/* Left side - Article image */}
         <div className="w-32 flex-shrink-0 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=200&h=200&fit=crop" alt="Article image" className="w-full h-full object-cover block" />
+          <img src={getImageForResult(result, index)} alt="Article image" className="w-full h-full object-cover block" />
         </div>
         
         {/* Right side - Article content */}
@@ -738,12 +788,12 @@ const SearchResults: React.FC = () => {
     </Card>
   );
 
-  const ScholarshipCard = ({ result }: { result: SearchResult }) => (
+  const ScholarshipCard = ({ result, index }: { result: SearchResult; index: number }) => (
     <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
       <div className="flex h-32">
         {/* Left side - Scholarship image */}
         <div className="w-32 flex-shrink-0 overflow-hidden relative">
-          <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=200&h=200&fit=crop" alt="Scholarship image" className="w-full h-full object-cover block" />
+          <img src={getImageForResult(result, index)} alt="Scholarship image" className="w-full h-full object-cover block" />
           {/* Scholarship icon overlay */}
           <div className="absolute bottom-1 right-1">
             <div className="w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center">
@@ -999,11 +1049,11 @@ const SearchResults: React.FC = () => {
                   {result.type === 'banner' ? (
                     <PromotedBanner />
                   ) : result.type === 'program' ? (
-                    <ProgramCard result={result as SearchResult} />
+                    <ProgramCard result={result as SearchResult} index={index} />
                   ) : result.type === 'article' ? (
-                    <ArticleCard result={result as SearchResult} />
+                    <ArticleCard result={result as SearchResult} index={index} />
                   ) : result.type === 'scholarship' ? (
-                    <ScholarshipCard result={result as SearchResult} />
+                    <ScholarshipCard result={result as SearchResult} index={index} />
                   ) : null}
                 </div>
               ))}
