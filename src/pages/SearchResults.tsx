@@ -432,9 +432,21 @@ const SearchResults: React.FC = () => {
   const languages = ['English', 'German', 'French', 'Spanish', 'Dutch'];
   const studyFormats = ['On-campus', 'Online', 'Hybrid'];
 
-  // Apply filters
+  // Apply filters and search query
   useEffect(() => {
     let filtered = results.filter(result => {
+      // Apply search query filter - if query exists, filter by title, description, institution
+      if (searchQuery && searchQuery.trim()) {
+        const query = searchQuery.toLowerCase().trim();
+        const matchesSearch = 
+          result.title.toLowerCase().includes(query) ||
+          result.description.toLowerCase().includes(query) ||
+          (result.institution && result.institution.toLowerCase().includes(query)) ||
+          (result.fieldOfStudy && result.fieldOfStudy.toLowerCase().includes(query));
+        
+        if (!matchesSearch) return false;
+      }
+      
       // Apply content type filter first
       if (contentTypeFilter !== 'all' && result.type !== contentTypeFilter) return false;
       
@@ -459,7 +471,7 @@ const SearchResults: React.FC = () => {
     }
     setFilteredResults(filtered);
     setCurrentPage(1); // Reset to first page when filters change
-  }, [results, selectedDegreeTypes, selectedFields, selectedLocations, selectedDurations, selectedPaces, selectedLanguages, selectedFormats, sortBy, contentTypeFilter]);
+  }, [results, selectedDegreeTypes, selectedFields, selectedLocations, selectedDurations, selectedPaces, selectedLanguages, selectedFormats, sortBy, contentTypeFilter, searchQuery]);
 
   const clearAllFilters = () => {
     setSelectedDegreeTypes([]);
