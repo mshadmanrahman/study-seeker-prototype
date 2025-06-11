@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Search, Globe, User, ChevronDown, BookOpen, GraduationCap, Award, Target, Microscope, FileText, MapPin, Clock, Star, X, Monitor, Palette, Heart, Calculator, Briefcase, Camera, Music, Settings, Building, Plane, Hammer, Scissors, TrendingUp, Users, Zap, Cog, Leaf, Shirt, DollarSign, UtensilsCrossed, Newspaper, MessageCircle, Scale, Dna, Lightbulb, UserCheck, Megaphone, Activity, Recycle, Hotel, Car, Home, Sparkles, Earth } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -333,7 +334,7 @@ const Header = () => {
             </div>
             <div className="flex flex-wrap gap-2">
               <span className="text-sm text-gray-600">Popular searches:</span>
-              {popularSearches.map(term => <Badge key={term} variant="secondary" className="cursor-pointer hover:bg-accent hover:text-accent-foreground" onClick={() => handlePopularSearchClick(term)}>
+              {popularSearches.map(term => <Badge key={term} variant="secondary" className="cursor-pointer hover:bg-primary hover:text-primary-foreground" onClick={() => handlePopularSearchClick(term)}>
                   {term}
                 </Badge>)}
             </div>
@@ -359,7 +360,7 @@ const Header = () => {
               <div className="flex-1 relative">
                 <Input type="text" placeholder="Search programs, universities, subjects..." className="border-0 rounded-none focus:ring-0 focus:border-transparent" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyPress={handleKeyPress} />
               </div>
-              <Button className="rounded-none px-6 text-white bg-primary hover:bg-teal-700" onClick={handleSearch}>
+              <Button className="rounded-none px-6 text-white bg-primary hover:bg-primary/90" onClick={handleSearch}>
                 <Search className="w-5 h-5" />
               </Button>
             </div>
@@ -368,7 +369,7 @@ const Header = () => {
             <div className="mb-6">
               <div className="flex flex-wrap gap-2 items-center">
                 <span className="text-sm text-gray-600 font-medium">Popular searches:</span>
-                {popularSearches.map(term => <Badge key={term} variant="secondary" className="cursor-pointer hover:bg-accent hover:text-accent-foreground px-3 py-1" onClick={() => handlePopularSearchClick(term)}>
+                {popularSearches.map(term => <Badge key={term} variant="secondary" className="cursor-pointer hover:bg-primary hover:text-primary-foreground px-3 py-1" onClick={() => handlePopularSearchClick(term)}>
                     {term}
                   </Badge>)}
               </div>
@@ -422,7 +423,7 @@ const Header = () => {
               <div className="flex-1 relative">
                 <Input type="text" placeholder="Search subjects, universities, locations..." className="border-0 rounded-none focus:ring-0 focus:border-transparent" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyPress={handleKeyPress} />
               </div>
-              <Button className="rounded-none px-6 bg-accent text-accent-foreground hover:bg-accent/90" onClick={handleSearch}>
+              <Button className="rounded-none px-6 bg-primary text-primary-foreground hover:bg-primary/90" onClick={handleSearch}>
                 <Search className="w-5 h-5" />
               </Button>
             </div>
@@ -472,11 +473,11 @@ const Header = () => {
                 <div className="flex-1 relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                   <Input ref={megaInputRef} type="text" placeholder={selectedCategory && selectedCategory !== 'all' ? `Search in ${megaSearchCategories.find(c => c.name === selectedCategory)?.name}...` : "Search programs, universities, subjects..."} className="pl-10 pr-4 py-3 text-lg border-0 rounded-none focus:ring-0 focus:border-transparent" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onFocus={handleMegaInputFocus} onKeyPress={handleKeyPress} />
-                  {selectedCategory && selectedCategory !== 'all' && <Badge className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-blue-100 text-blue-800">
+                  {selectedCategory && selectedCategory !== 'all' && <Badge className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-primary/10 text-primary border-primary">
                       {megaSearchCategories.find(c => c.name === selectedCategory)?.name}
                     </Badge>}
                 </div>
-                <Button className="rounded-none px-6 text-white bg-teal-700 hover:bg-teal-600" onClick={handleSearch}>
+                <Button className="rounded-none px-6 text-white bg-primary hover:bg-primary/90" onClick={handleSearch}>
                   <Search className="w-5 h-5" />
                 </Button>
               </div>
@@ -488,7 +489,7 @@ const Header = () => {
                     <div className="mb-6">
                       <h4 className="text-sm font-semibold text-gray-500 uppercase mb-3">Search in</h4>
                       <div className="flex flex-wrap gap-2">
-                        {megaSearchCategories.map(category => <div key={category.name} className={`inline-flex items-center gap-2 px-3 py-2 rounded-full border cursor-pointer transition-all hover:shadow-md ${selectedCategory === category.name ? 'border-purple-500 bg-purple-50 text-purple-700' : 'border-gray-200 bg-white hover:border-gray-300'}`} onClick={() => handleCategorySelect(category)}>
+                        {megaSearchCategories.map(category => <div key={category.name} className={`inline-flex items-center gap-2 px-3 py-2 rounded-full border cursor-pointer transition-all hover:shadow-md ${selectedCategory === category.name ? 'border-primary bg-primary/10 text-primary' : 'border-gray-200 bg-white hover:border-gray-300'}`} onClick={() => handleCategorySelect(category)}>
                             <category.icon className="w-4 h-4" />
                             <span className="text-sm font-medium">{category.name}</span>
                           </div>)}
@@ -510,7 +511,7 @@ const Header = () => {
                     <div>
                       <h4 className="text-sm font-semibold text-gray-500 uppercase mb-3">Popular searches</h4>
                       <div className="flex flex-wrap gap-2">
-                        {popularSearches.map(search => <Badge key={search} variant="secondary" className="cursor-pointer hover:bg-accent hover:text-accent-foreground text-xs px-2 py-1" onClick={() => handlePopularSearchClick(search)}>
+                        {popularSearches.map(search => <Badge key={search} variant="secondary" className="cursor-pointer hover:bg-primary hover:text-primary-foreground text-xs px-2 py-1" onClick={() => handlePopularSearchClick(search)}>
                             {search}
                           </Badge>)}
                       </div>
@@ -523,7 +524,7 @@ const Header = () => {
             <div className="flex items-center gap-3">
               <span className="text-sm font-medium text-gray-600 whitespace-nowrap">Quick Access:</span>
               <div className="flex flex-wrap gap-2">
-                {megaSearchCategories.map(category => <div key={category.name} className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border cursor-pointer transition-all hover:shadow-md text-xs ${selectedCategory === category.name ? 'border-purple-500 bg-purple-50 text-purple-700' : 'border-gray-200 bg-white hover:border-gray-300'}`} onClick={() => handleCategorySelect(category)}>
+                {megaSearchCategories.map(category => <div key={category.name} className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border cursor-pointer transition-all hover:shadow-md text-xs ${selectedCategory === category.name ? 'border-primary bg-primary/10 text-primary' : 'border-gray-200 bg-white hover:border-gray-300'}`} onClick={() => handleCategorySelect(category)}>
                     <category.icon className="w-3 h-3" />
                     <span className="font-medium">{category.name}</span>
                   </div>)}
@@ -534,6 +535,7 @@ const Header = () => {
         return null;
     }
   };
+  
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
       <div className="container mx-auto px-4">
@@ -601,7 +603,7 @@ const Header = () => {
 
           {/* Right side - Language and Sign in */}
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="sm" className="hidden md:flex items-center">
+            <Button variant="ghost" size="sm" className="hidden md:flex items-center hover:bg-primary/10 hover:text-primary">
               <Globe className="w-4 h-4 mr-1" />
               EN
               <ChevronDown className="w-3 h-3 ml-1" />
