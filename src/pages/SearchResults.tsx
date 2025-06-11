@@ -405,6 +405,7 @@ const mockResults: SearchResult[] = [
 
 const SearchResults: React.FC = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
   const [results, setResults] = useState<SearchResult[]>(mockResults);
   const [filteredResults, setFilteredResults] = useState<SearchResult[]>(mockResults);
