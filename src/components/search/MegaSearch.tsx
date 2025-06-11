@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from 'react';
 import { Search, ChevronDown, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -91,7 +92,7 @@ const MegaSearch: React.FC<MegaSearchProps> = ({
                       key={type.name}
                       className={`inline-flex items-center gap-2 px-3 py-2 rounded-full border cursor-pointer transition-all hover:shadow-md ${
                         selectedCategory === type.name 
-                          ? 'border-purple-500 bg-purple-50 text-purple-700' 
+                          ? 'border-primary bg-primary/10 text-primary' 
                           : 'border-gray-200 bg-white hover:border-gray-300'
                       }`}
                       onClick={() => onCategorySelect(type)}
@@ -147,7 +148,7 @@ const MegaSearch: React.FC<MegaSearchProps> = ({
               key={type.name}
               className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border cursor-pointer transition-all hover:shadow-md text-xs ${
                 selectedCategory === type.name 
-                  ? 'border-purple-500 bg-purple-50 text-purple-700' 
+                  ? 'border-primary bg-primary/10 text-primary' 
                   : 'border-gray-200 bg-white hover:border-gray-300'
               }`}
               onClick={() => onCategorySelect(type)}
