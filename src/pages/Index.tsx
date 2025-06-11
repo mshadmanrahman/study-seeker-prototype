@@ -240,10 +240,6 @@ const Index = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleMegaInputClick = () => {
-    setShowMegaDropdown(true);
-  };
-
   const handleCategorySelect = (category: any) => {
     // Toggle selection - if already selected, unselect it
     if (selectedCategory === category.name) {
@@ -252,7 +248,6 @@ const Index = () => {
       setSelectedCategory(category.name);
     }
     setShowMegaDropdown(false);
-    // Don't focus back to input to prevent interference with typing
   };
 
   const handleSearch = () => {
@@ -485,7 +480,7 @@ const Index = () => {
         <p className="text-gray-600">Find programs, schools, scholarships and more</p>
       </div>
       
-      {/* Main Search Bar */}
+      {/* Main Search Bar - NO dropdown triggers on this input */}
       <div className="relative mb-6">
         <div className="flex rounded-lg overflow-hidden border border-gray-300">
           <div className="flex-1 relative">
@@ -510,7 +505,7 @@ const Index = () => {
           </Button>
         </div>
 
-        {/* Enhanced Mega Dropdown */}
+        {/* Enhanced Mega Dropdown - Only shown when manually toggled */}
         {showMegaDropdown && (
           <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-xl z-[9999] max-h-96 overflow-y-auto">
             <div className="p-4">
@@ -591,11 +586,11 @@ const Index = () => {
         <Button 
           variant="outline" 
           size="sm"
-          onClick={handleMegaInputClick}
+          onClick={() => setShowMegaDropdown(!showMegaDropdown)}
           className="text-sm"
         >
           <ChevronDown className="w-4 h-4 mr-1" />
-          Show search options
+          {showMegaDropdown ? 'Hide' : 'Show'} search options
         </Button>
       </div>
     </div>
