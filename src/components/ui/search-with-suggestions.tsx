@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Search, BookOpen, GraduationCap, FileText, DollarSign, MapPin } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -144,7 +145,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
       </div>
 
       {showSuggestions && value.trim().length >= 2 && (
-        <div className="absolute top-full left-0 right-0 z-[9999] mt-1">
+        <div className="absolute top-full left-0 right-0 z-[99999] mt-1">
           <div className="bg-white border border-gray-300 rounded-lg shadow-xl max-h-80 overflow-y-auto min-w-[400px]">
             {isLoading ? (
               <div className="p-4 text-center text-gray-500">
