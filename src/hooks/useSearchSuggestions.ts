@@ -1,8 +1,19 @@
 
 import { useState, useEffect, useMemo } from 'react';
 
+export interface SearchSuggestion {
+  id: string;
+  title: string;
+  type: 'program' | 'school' | 'article' | 'scholarship' | 'location';
+  institution?: string;
+  location?: string;
+  category?: string;
+  amount?: string;
+  region?: string;
+}
+
 // Mock data for suggestions - in a real app, this would come from your API
-const mockSuggestions = [
+const mockSuggestions: SearchSuggestion[] = [
   // Programs
   { id: '1', title: 'Bachelor of Business Administration', type: 'program', institution: 'Harvard University' },
   { id: '2', title: 'Master of Computer Science', type: 'program', institution: 'MIT' },
@@ -40,17 +51,6 @@ const mockSuggestions = [
   { id: '26', title: 'France', type: 'location', region: 'Europe' },
   { id: '27', title: 'Germany', type: 'location', region: 'Europe' },
 ];
-
-export interface SearchSuggestion {
-  id: string;
-  title: string;
-  type: 'program' | 'school' | 'article' | 'scholarship' | 'location';
-  institution?: string;
-  location?: string;
-  category?: string;
-  amount?: string;
-  region?: string;
-}
 
 export const useSearchSuggestions = (query: string, maxSuggestions = 6) => {
   const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
