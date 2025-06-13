@@ -991,7 +991,7 @@ const SearchResults: React.FC = () => {
 
   const ArticleCard = ({ result, index }: { result: SearchResult; index: number }) => (
     <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
-      <div className="flex h-32">
+      <div className="flex h-40">
         {/* Left side - Article image */}
         <div className="w-32 flex-shrink-0 overflow-hidden">
           <img src={getImageForResult(result, index)} alt="Article image" className="w-full h-full object-cover block" />
@@ -1040,7 +1040,7 @@ const SearchResults: React.FC = () => {
 
   const ScholarshipCard = ({ result, index }: { result: SearchResult; index: number }) => (
     <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
-      <div className="flex h-32">
+      <div className="flex h-40">
         {/* Left side - Scholarship image */}
         <div className="w-32 flex-shrink-0 overflow-hidden relative">
           <img src={getImageForResult(result, index)} alt="Scholarship image" className="w-full h-full object-cover block" />
@@ -1053,7 +1053,7 @@ const SearchResults: React.FC = () => {
         </div>
         
         {/* Right side - Scholarship content */}
-        <div className="flex-1 min-w-0 p-4 py-[8px]">
+        <div className="flex-1 min-w-0 p-4">
           {/* Publication date */}
           <p className="text-xs text-gray-500 mb-2">Dec 2024</p>
           
