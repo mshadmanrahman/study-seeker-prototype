@@ -3,6 +3,7 @@ import { Search, BookOpen, GraduationCap, FileText, DollarSign, MapPin } from 'l
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { useSearchSuggestions, SearchSuggestion } from '@/hooks/useSearchSuggestions';
+
 interface SearchWithSuggestionsProps {
   value: string;
   onChange: (value: string) => void;
@@ -134,10 +135,10 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
         <Input ref={inputRef} type="text" placeholder={placeholder} value={value} onChange={handleInputChange} onFocus={handleInputFocus} onKeyDown={handleKeyDown} className={showIcon ? "pl-10" : ""} />
       </div>
 
-      {showSuggestions && value.trim().length >= 2 && <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-80 overflow-y-auto">
+      {showSuggestions && value.trim().length >= 2 && <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-[9999] max-h-80 overflow-y-auto">
           {isLoading ? <div className="p-4 text-center text-gray-500">
               <div className="animate-pulse">Searching...</div>
-            </div> : suggestions.length > 0 ? <div className="py-2 z-10 ">
+            </div> : suggestions.length > 0 ? <div className="py-2">
               {suggestions.map((suggestion, index) => <div key={suggestion.id} className={`px-4 py-3 cursor-pointer transition-colors border-l-4 border-transparent hover:bg-gray-50 ${index === selectedIndex ? 'bg-blue-50 border-l-blue-500' : ''}`} onClick={() => handleSuggestionClick(suggestion)}>
                   <div className="flex items-center gap-3">
                     <div className="text-gray-500">
