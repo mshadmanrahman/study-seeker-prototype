@@ -1,5 +1,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Search, BookOpen, GraduationCap, FileText, DollarSign, MapPin } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -14,6 +15,7 @@ interface SearchWithSuggestionsProps {
   className?: string;
   showIcon?: boolean;
 }
+
 const getTypeIcon = (type: string) => {
   switch (type) {
     case 'program':
@@ -30,6 +32,7 @@ const getTypeIcon = (type: string) => {
       return <Search className="w-4 h-4" />;
   }
 };
+
 const getTypeColor = (type: string) => {
   switch (type) {
     case 'program':
@@ -46,6 +49,7 @@ const getTypeColor = (type: string) => {
       return 'bg-gray-100 text-gray-800';
   }
 };
+
 export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
   value,
   onChange,
@@ -57,6 +61,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
 }) => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
   const {
     suggestions,
     isLoading
@@ -70,6 +75,30 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
     showSuggestions,
     isLoading
   });
+
+  // Calculate dropdown position
+  const updateDropdownPosition = () => {
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      setDropdownPosition({
+        top: rect.bottom + window.scrollY + 4,
+        left: rect.left + window.scrollX,
+        width: rect.width
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (showSuggestions) {
+      updateDropdownPosition();
+      window.addEventListener('scroll', updateDropdownPosition);
+      window.addEventListener('resize', updateDropdownPosition);
+      return () => {
+        window.removeEventListener('scroll', updateDropdownPosition);
+        window.removeEventListener('resize', updateDropdownPosition);
+      };
+    }
+  }, [showSuggestions]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -137,58 +166,84 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
     }
   };
 
+  const SuggestionsDropdown = () => {
+    if (!showSuggestions || value.trim().length < 2) return null;
+
+    return (
+      <div 
+        style={{
+          position: 'absolute',
+          top: dropdownPosition.top,
+          left: dropdownPosition.left,
+          width: Math.max(dropdownPosition.width, 400),
+          zIndex: 999999
+        }}
+      >
+        <div className="bg-white border border-gray-300 rounded-lg shadow-xl max-h-80 overflow-y-auto">
+          {isLoading ? (
+            <div className="p-4 text-center text-gray-500">
+              <div className="animate-pulse">Searching...</div>
+            </div>
+          ) : suggestions.length > 0 ? (
+            <div className="py-2">
+              {suggestions.map((suggestion, index) => (
+                <div 
+                  key={suggestion.id} 
+                  className={`px-4 py-3 cursor-pointer transition-colors border-l-4 border-transparent hover:bg-gray-50 ${index === selectedIndex ? 'bg-blue-50 border-l-blue-500' : ''}`} 
+                  onClick={() => handleSuggestionClick(suggestion)}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="text-gray-500">
+                      {getTypeIcon(suggestion.type)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-medium text-gray-900 truncate">
+                          {suggestion.title}
+                        </span>
+                        <Badge className={`text-xs ${getTypeColor(suggestion.type)}`}>
+                          {suggestion.type}
+                        </Badge>
+                      </div>
+                      {(suggestion.institution || suggestion.location || suggestion.category || suggestion.amount) && (
+                        <div className="text-sm text-gray-500 truncate">
+                          {suggestion.institution || suggestion.location || suggestion.category || suggestion.amount}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="p-4 text-center text-gray-500">
+              No suggestions found for "{value}"
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div ref={containerRef} className={`relative ${className}`}>
       <div className="relative">
         {showIcon && <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />}
-        <Input ref={inputRef} type="text" placeholder={placeholder} value={value} onChange={handleInputChange} onFocus={handleInputFocus} onKeyDown={handleKeyDown} className={showIcon ? "pl-10" : ""} />
+        <Input 
+          ref={inputRef} 
+          type="text" 
+          placeholder={placeholder} 
+          value={value} 
+          onChange={handleInputChange} 
+          onFocus={handleInputFocus} 
+          onKeyDown={handleKeyDown} 
+          className={showIcon ? "pl-10" : ""} 
+        />
       </div>
 
-      {showSuggestions && value.trim().length >= 2 && (
-        <div className="absolute top-full left-0 right-0 z-[99999] mt-1">
-          <div className="bg-white border border-gray-300 rounded-lg shadow-xl max-h-80 overflow-y-auto min-w-[400px]">
-            {isLoading ? (
-              <div className="p-4 text-center text-gray-500">
-                <div className="animate-pulse">Searching...</div>
-              </div>
-            ) : suggestions.length > 0 ? (
-              <div className="py-2">
-                {suggestions.map((suggestion, index) => (
-                  <div 
-                    key={suggestion.id} 
-                    className={`px-4 py-3 cursor-pointer transition-colors border-l-4 border-transparent hover:bg-gray-50 ${index === selectedIndex ? 'bg-blue-50 border-l-blue-500' : ''}`} 
-                    onClick={() => handleSuggestionClick(suggestion)}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="text-gray-500">
-                        {getTypeIcon(suggestion.type)}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="font-medium text-gray-900 truncate">
-                            {suggestion.title}
-                          </span>
-                          <Badge className={`text-xs ${getTypeColor(suggestion.type)}`}>
-                            {suggestion.type}
-                          </Badge>
-                        </div>
-                        {(suggestion.institution || suggestion.location || suggestion.category || suggestion.amount) && (
-                          <div className="text-sm text-gray-500 truncate">
-                            {suggestion.institution || suggestion.location || suggestion.category || suggestion.amount}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="p-4 text-center text-gray-500">
-                No suggestions found for "{value}"
-              </div>
-            )}
-          </div>
-        </div>
+      {typeof document !== 'undefined' && createPortal(
+        <SuggestionsDropdown />,
+        document.body
       )}
     </div>
   );
