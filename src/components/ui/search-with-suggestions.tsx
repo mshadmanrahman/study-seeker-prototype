@@ -50,6 +50,23 @@ const getTypeColor = (type: string) => {
   }
 };
 
+const highlightText = (text: string, searchTerm: string) => {
+  if (!searchTerm.trim()) return text;
+  
+  const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  const parts = text.split(regex);
+  
+  return parts.map((part, index) => 
+    regex.test(part) ? (
+      <span key={index} className="bg-yellow-200 text-yellow-900 font-medium">
+        {part}
+      </span>
+    ) : (
+      part
+    )
+  );
+};
+
 export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
   value,
   onChange,
@@ -199,7 +216,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="font-medium text-gray-900 truncate">
-                          {suggestion.title}
+                          {highlightText(suggestion.title, value)}
                         </span>
                         <Badge className={`text-xs ${getTypeColor(suggestion.type)}`}>
                           {suggestion.type}
