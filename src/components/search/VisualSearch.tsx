@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Search, Globe, Clock, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -56,6 +55,7 @@ const VisualSearch: React.FC<VisualSearchProps> = ({
           onChange={setSearchQuery}
           onKeyPress={onKeyPress}
           placeholder="Search subjects, universities, locations..."
+          className="border-0 rounded-none"
           showIcon={false}
         />
       </div>

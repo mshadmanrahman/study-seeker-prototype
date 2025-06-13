@@ -53,7 +53,7 @@ const AmazonStyleSearch: React.FC<AmazonStyleSearchProps> = ({
           onChange={setSearchQuery}
           onKeyPress={onKeyPress}
           placeholder="Search programs, universities, subjects..."
-          className="h-full"
+          className="h-full border-0 rounded-none"
           showIcon={false}
         />
       </div>

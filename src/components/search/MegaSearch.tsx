@@ -61,7 +61,8 @@ const MegaSearch: React.FC<MegaSearchProps> = ({
               onChange={setSearchQuery}
               onKeyPress={onKeyPress}
               placeholder="Type anything - programs, schools, scholarships..."
-              className="h-full"
+              className="h-full border-0 rounded-none"
+              showIcon={true}
             />
           </div>
           <Button className="rounded-none px-6 text-white bg-primary hover:bg-primary/90" onClick={onSearch}>
