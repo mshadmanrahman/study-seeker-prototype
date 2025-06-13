@@ -29,6 +29,10 @@ interface SearchResult {
   image?: string;
   institution?: string;
   isPromoted?: boolean;
+  establishedYear?: string;
+  studentCount?: string;
+  acceptanceRate?: string;
+  ranking?: string;
 }
 
 const mockResults: SearchResult[] = [
@@ -291,6 +295,137 @@ const mockResults: SearchResult[] = [
     rating: 4.7,
     institution: 'Tel Aviv University'
   },
+  // Universities/Schools (10 total)
+  {
+    id: '28',
+    type: 'school',
+    title: 'Harvard University',
+    description: 'Prestigious Ivy League university known for excellence in research, medicine, business, and law.',
+    location: 'Cambridge, MA, USA',
+    establishedYear: '1636',
+    studentCount: '23,000+',
+    acceptanceRate: '3.4%',
+    ranking: '#1 Global',
+    rating: 4.9,
+    fieldOfStudy: 'Multi-disciplinary'
+  },
+  {
+    id: '29',
+    type: 'school',
+    title: 'University of Oxford',
+    description: 'World-renowned British university with over 900 years of academic excellence.',
+    location: 'Oxford, UK',
+    establishedYear: '1096',
+    studentCount: '24,000+',
+    acceptanceRate: '17.5%',
+    ranking: '#2 Global',
+    rating: 4.8,
+    fieldOfStudy: 'Multi-disciplinary'
+  },
+  {
+    id: '30',
+    type: 'school',
+    title: 'ETH Zurich',
+    description: 'Leading European technical university known for engineering and technology programs.',
+    location: 'Zurich, Switzerland',
+    establishedYear: '1855',
+    studentCount: '22,000+',
+    acceptanceRate: '8%',
+    ranking: '#7 Global (Engineering)',
+    rating: 4.7,
+    fieldOfStudy: 'Engineering & Technology'
+  },
+  {
+    id: '31',
+    type: 'school',
+    title: 'University of Melbourne',
+    description: 'Top-ranked Australian university with strong research focus and diverse programs.',
+    location: 'Melbourne, Australia',
+    establishedYear: '1853',
+    studentCount: '50,000+',
+    acceptanceRate: '70%',
+    ranking: '#33 Global',
+    rating: 4.5,
+    fieldOfStudy: 'Multi-disciplinary'
+  },
+  {
+    id: '32',
+    type: 'school',
+    title: 'University of Toronto',
+    description: "Canada's leading research university with excellence across all disciplines.",
+    location: 'Toronto, Canada',
+    establishedYear: '1827',
+    studentCount: '97,000+',
+    acceptanceRate: '43%',
+    ranking: '#25 Global',
+    rating: 4.6,
+    fieldOfStudy: 'Multi-disciplinary'
+  },
+  {
+    id: '33',
+    type: 'school',
+    title: 'National University of Singapore',
+    description: "Asia's leading global university known for innovation and research excellence.",
+    location: 'Singapore',
+    establishedYear: '1905',
+    studentCount: '40,000+',
+    acceptanceRate: '5.2%',
+    ranking: '#11 Global',
+    rating: 4.8,
+    fieldOfStudy: 'Multi-disciplinary'
+  },
+  {
+    id: '34',
+    type: 'school',
+    title: 'Sorbonne University',
+    description: 'Historic French university renowned for humanities, sciences, and research.',
+    location: 'Paris, France',
+    establishedYear: '1150',
+    studentCount: '55,000+',
+    acceptanceRate: '20%',
+    ranking: '#72 Global',
+    rating: 4.4,
+    fieldOfStudy: 'Multi-disciplinary'
+  },
+  {
+    id: '35',
+    type: 'school',
+    title: 'Technical University of Munich',
+    description: "Germany's top technical university focusing on engineering and natural sciences.",
+    location: 'Munich, Germany',
+    establishedYear: '1868',
+    studentCount: '45,000+',
+    acceptanceRate: '8%',
+    ranking: '#50 Global',
+    rating: 4.6,
+    fieldOfStudy: 'Engineering & Technology'
+  },
+  {
+    id: '36',
+    type: 'school',
+    title: 'University of Amsterdam',
+    description: 'Netherlands\' largest university with strong international programs and research.',
+    location: 'Amsterdam, Netherlands',
+    establishedYear: '1632',
+    studentCount: '42,000+',
+    acceptanceRate: '50%',
+    ranking: '#55 Global',
+    rating: 4.3,
+    fieldOfStudy: 'Multi-disciplinary'
+  },
+  {
+    id: '37',
+    type: 'school',
+    title: 'Seoul National University',
+    description: 'South Korea\'s most prestigious university with excellence in all academic fields.',
+    location: 'Seoul, South Korea',
+    establishedYear: '1946',
+    studentCount: '28,000+',
+    acceptanceRate: '20%',
+    ranking: '#29 Global',
+    rating: 4.7,
+    fieldOfStudy: 'Multi-disciplinary'
+  },
   // Scholarships (5 total)
   {
     id: '16',
@@ -412,7 +547,7 @@ const SearchResults: React.FC = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [contentTypeFilter, setContentTypeFilter] = useState<string>('all'); // New state for content type filter
-  const resultsPerPage = 27; // 15 programs + 5 scholarships + 7 articles
+  const resultsPerPage = 37; // 15 programs + 10 schools + 5 scholarships + 7 articles
 
   // Filter states
   const [selectedDegreeTypes, setSelectedDegreeTypes] = useState<string[]>([]);
@@ -496,22 +631,26 @@ const SearchResults: React.FC = () => {
   // Create mixed content for each page with special positioning
   const createMixedPageResults = () => {
     const programs = filteredResults.filter(r => r.type === 'program');
+    const schools = filteredResults.filter(r => r.type === 'school');
     const scholarships = filteredResults.filter(r => r.type === 'scholarship');
     const articles = filteredResults.filter(r => r.type === 'article');
     
-    const itemsPerPage = 27;
+    const itemsPerPage = 37;
     const startIndex = (currentPage - 1) * itemsPerPage;
     
     // Calculate pagination for each type
     const programsPerPage = 15;
+    const schoolsPerPage = 10;
     const scholarshipsPerPage = 5;
     const articlesPerPage = 7;
     
     const programStart = Math.floor((currentPage - 1) * programsPerPage);
+    const schoolStart = Math.floor((currentPage - 1) * schoolsPerPage);
     const scholarshipStart = Math.floor((currentPage - 1) * scholarshipsPerPage);
     const articleStart = Math.floor((currentPage - 1) * articlesPerPage);
     
     const pagePrograms = programs.slice(programStart, programStart + programsPerPage);
+    const pageSchools = schools.slice(schoolStart, schoolStart + schoolsPerPage);
     const pageScholarships = scholarships.slice(scholarshipStart, scholarshipStart + scholarshipsPerPage);
     const pageArticles = articles.slice(articleStart, articleStart + articlesPerPage);
     
@@ -525,10 +664,11 @@ const SearchResults: React.FC = () => {
     // Add first 3 promoted programs
     promotedPrograms.forEach(program => mixedResults.push(program));
     
-    // Mix the remaining content (regular programs + all promoted after first 3 + scholarships + articles)
+    // Mix the remaining content (regular programs + all promoted after first 3 + schools + scholarships + articles)
     const remainingContent = [
       ...regularPrograms,
       ...remainingPromoted,
+      ...pageSchools,
       ...pageScholarships,
       ...pageArticles
     ];
@@ -554,6 +694,8 @@ const SearchResults: React.FC = () => {
   const getTotalPages = () => {
     if (contentTypeFilter === 'program') {
       return Math.ceil(filteredResults.filter(r => r.type === 'program').length / 15);
+    } else if (contentTypeFilter === 'school') {
+      return Math.ceil(filteredResults.filter(r => r.type === 'school').length / 10);
     } else if (contentTypeFilter === 'scholarship') {
       return Math.ceil(filteredResults.filter(r => r.type === 'scholarship').length / 5);
     } else if (contentTypeFilter === 'article') {
@@ -561,6 +703,7 @@ const SearchResults: React.FC = () => {
     } else {
       return Math.max(
         Math.ceil(filteredResults.filter(r => r.type === 'program').length / 15),
+        Math.ceil(filteredResults.filter(r => r.type === 'school').length / 10),
         Math.ceil(filteredResults.filter(r => r.type === 'scholarship').length / 5),
         Math.ceil(filteredResults.filter(r => r.type === 'article').length / 7),
         1
@@ -674,6 +817,19 @@ const SearchResults: React.FC = () => {
     'photo-1466721591366-2d5fba72006d'  // antelope and zebra
   ];
 
+  const universityImages = [
+    'photo-1607237138185-eedd9c632b0b', // university building
+    'photo-1562774053-701939374585', // university campus
+    'photo-1541339907198-e08756dedf3f', // university library
+    'photo-1580537659466-0a9bfa916a54', // university hall
+    'photo-1523050854058-8df90110c9f1', // graduation caps
+    'photo-1571019613454-1cb2f99b2d8b', // university courtyard
+    'photo-1523240795612-9a054b0db644', // university entrance
+    'photo-1498243691581-b145c3f54a5a', // university building facade
+    'photo-1507003211169-0a1dd7228f2d', // university campus aerial
+    'photo-1519452634265-7b1fbfd1aa1e'  // university at sunset
+  ];
+
   const getImageForResult = (result: SearchResult, index: number) => {
     if (result.type === 'program') {
       return `https://images.unsplash.com/${campusImages[index % campusImages.length]}?w=400&h=400&fit=crop`;
@@ -681,6 +837,8 @@ const SearchResults: React.FC = () => {
       return `https://images.unsplash.com/${articleImages[index % articleImages.length]}?w=200&h=200&fit=crop`;
     } else if (result.type === 'scholarship') {
       return `https://images.unsplash.com/${scholarshipImages[index % scholarshipImages.length]}?w=200&h=200&fit=crop`;
+    } else if (result.type === 'school') {
+      return `https://images.unsplash.com/${universityImages[index % universityImages.length]}?w=400&h=400&fit=crop`;
     }
     return 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&h=400&fit=crop';
   };
@@ -751,6 +909,79 @@ const SearchResults: React.FC = () => {
               <p className="text-sm text-gray-700 line-clamp-2">
                 {result.description}
               </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
+
+  const SchoolCard = ({ result, index }: { result: SearchResult; index: number }) => (
+    <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
+      <div className="flex">
+        {/* Left side - University image */}
+        <div className="w-48 flex-shrink-0 relative">
+          <img src={getImageForResult(result, index)} alt={`${result.title} campus`} className="w-full h-full object-cover" />
+          {/* University logo overlay */}
+          <div className="absolute bottom-3 left-3">
+            <div className="w-12 h-12 bg-white rounded-lg shadow-md flex items-center justify-center">
+              <Building className="w-6 h-6 text-blue-600" />
+            </div>
+          </div>
+        </div>
+        
+        {/* Right side - University details */}
+        <div className="flex-1 p-6">
+          <div className="flex justify-between items-start h-full">
+            <div className="flex-1">
+              {/* University title */}
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                {result.title}
+              </h3>
+              
+              {/* Location */}
+              <p className="text-sm text-gray-600 mb-4">{result.location}</p>
+              
+              {/* University details */}
+              <div className="flex flex-wrap gap-4 mb-4">
+                {result.establishedYear && (
+                  <div className="flex items-center gap-1 text-sm text-gray-600">
+                    <Calendar className="w-4 h-4" />
+                    Est. {result.establishedYear}
+                  </div>
+                )}
+                {result.studentCount && (
+                  <div className="flex items-center gap-1 text-sm text-gray-600">
+                    <User className="w-4 h-4" />
+                    {result.studentCount} students
+                  </div>
+                )}
+                {result.acceptanceRate && (
+                  <div className="flex items-center gap-1 text-sm text-gray-600">
+                    <Award className="w-4 h-4" />
+                    {result.acceptanceRate} acceptance
+                  </div>
+                )}
+                {result.ranking && (
+                  <div className="flex items-center gap-1 text-sm text-gray-600">
+                    <Star className="w-4 h-4" />
+                    {result.ranking}
+                  </div>
+                )}
+              </div>
+              
+              {/* Description */}
+              <p className="text-sm text-gray-700 line-clamp-2">
+                {result.description}
+              </p>
+              
+              {/* Rating */}
+              {result.rating && (
+                <div className="flex items-center gap-1 mt-3">
+                  <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                  <span className="text-sm font-medium">{result.rating}</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -1018,6 +1249,17 @@ const SearchResults: React.FC = () => {
                 </button>
                 <button
                   className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+                    contentTypeFilter === 'school'
+                      ? 'border-primary text-primary'
+                      : 'border-transparent text-gray-500 hover:text-gray-700'
+                  }`}
+                  onClick={() => setContentTypeFilter('school')}
+                >
+                  <Building className="w-4 h-4 inline mr-2" />
+                  Universities ({filteredResults.filter(r => r.type === 'school').length})
+                </button>
+                <button
+                  className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
                     contentTypeFilter === 'scholarship'
                       ? 'border-primary text-primary'
                       : 'border-transparent text-gray-500 hover:text-gray-700'
@@ -1079,6 +1321,8 @@ const SearchResults: React.FC = () => {
                         <PromotedBanner />
                       ) : result.type === 'program' ? (
                         <ProgramCard result={result as SearchResult} index={index} />
+                      ) : result.type === 'school' ? (
+                        <SchoolCard result={result as SearchResult} index={index} />
                       ) : result.type === 'article' ? (
                         <ArticleCard result={result as SearchResult} index={index} />
                       ) : result.type === 'scholarship' ? (
