@@ -782,7 +782,7 @@ const SearchResults: React.FC = () => {
   // Array of diverse campus images
   const campusImages = [
     'photo-1487958449943-2429e8be8625', // white concrete building
-    'photo-1519389950473-47ba0277781c', // people with laptops
+    'photo-1519389950473-2429e8be8625', // people with laptops
     'photo-1605810230434-7631ac76ec81', // group around video screens
     'photo-1581092795360-fd1ca04f0952', // man in office chair
     'photo-1526374965328-7f61d4dc18c5', // Matrix movie still
@@ -804,7 +804,7 @@ const SearchResults: React.FC = () => {
     'photo-1488590528505-98d2b5aba04b', // gray laptop
     'photo-1518770660439-4636190af475', // circuit board
     'photo-1498050108023-c5249f4df085', // MacBook with code
-    'photo-1581090464777-f3220bbe1b8b', // person with light bulb
+    'photo-1581091226825-a6a2a5aee158', // person with light bulb
     'photo-1649972904349-6e44c42644a7', // woman with laptop on bed
     'photo-1581091226825-a6a2a5aee158'  // woman with laptop
   ];
@@ -1234,7 +1234,27 @@ const SearchResults: React.FC = () => {
                   }`}
                   onClick={() => setContentTypeFilter('all')}
                 >
-                  All Results ({filteredResults.length})
+                  All Results ({results.filter(result => {
+                    if (searchQuery && searchQuery.trim()) {
+                      const query = searchQuery.toLowerCase().trim();
+                      const matchesSearch = 
+                        result.title.toLowerCase().includes(query) ||
+                        result.description.toLowerCase().includes(query) ||
+                        (result.institution && result.institution.toLowerCase().includes(query)) ||
+                        (result.fieldOfStudy && result.fieldOfStudy.toLowerCase().includes(query));
+                      
+                      if (!matchesSearch) return false;
+                    }
+                    
+                    if (selectedDegreeTypes.length > 0 && result.degreeType && !selectedDegreeTypes.includes(result.degreeType)) return false;
+                    if (selectedFields.length > 0 && result.fieldOfStudy && !selectedFields.includes(result.fieldOfStudy)) return false;
+                    if (selectedLocations.length > 0 && result.location && !selectedLocations.some(loc => result.location?.includes(loc))) return false;
+                    if (selectedDurations.length > 0 && result.duration && !selectedDurations.includes(result.duration)) return false;
+                    if (selectedPaces.length > 0 && result.studyPace && !selectedPaces.includes(result.studyPace)) return false;
+                    if (selectedLanguages.length > 0 && result.language && !selectedLanguages.includes(result.language)) return false;
+                    if (selectedFormats.length > 0 && result.studyFormat && !selectedFormats.includes(result.studyFormat)) return false;
+                    return true;
+                  }).length})
                 </button>
                 <button
                   className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
@@ -1245,7 +1265,29 @@ const SearchResults: React.FC = () => {
                   onClick={() => setContentTypeFilter('program')}
                 >
                   <GraduationCap className="w-4 h-4 inline mr-2" />
-                  Programs ({filteredResults.filter(r => r.type === 'program').length})
+                  Programs ({results.filter(result => {
+                    if (result.type !== 'program') return false;
+                    
+                    if (searchQuery && searchQuery.trim()) {
+                      const query = searchQuery.toLowerCase().trim();
+                      const matchesSearch = 
+                        result.title.toLowerCase().includes(query) ||
+                        result.description.toLowerCase().includes(query) ||
+                        (result.institution && result.institution.toLowerCase().includes(query)) ||
+                        (result.fieldOfStudy && result.fieldOfStudy.toLowerCase().includes(query));
+                      
+                      if (!matchesSearch) return false;
+                    }
+                    
+                    if (selectedDegreeTypes.length > 0 && result.degreeType && !selectedDegreeTypes.includes(result.degreeType)) return false;
+                    if (selectedFields.length > 0 && result.fieldOfStudy && !selectedFields.includes(result.fieldOfStudy)) return false;
+                    if (selectedLocations.length > 0 && result.location && !selectedLocations.some(loc => result.location?.includes(loc))) return false;
+                    if (selectedDurations.length > 0 && result.duration && !selectedDurations.includes(result.duration)) return false;
+                    if (selectedPaces.length > 0 && result.studyPace && !selectedPaces.includes(result.studyPace)) return false;
+                    if (selectedLanguages.length > 0 && result.language && !selectedLanguages.includes(result.language)) return false;
+                    if (selectedFormats.length > 0 && result.studyFormat && !selectedFormats.includes(result.studyFormat)) return false;
+                    return true;
+                  }).length})
                 </button>
                 <button
                   className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
@@ -1256,7 +1298,29 @@ const SearchResults: React.FC = () => {
                   onClick={() => setContentTypeFilter('school')}
                 >
                   <Building className="w-4 h-4 inline mr-2" />
-                  Universities ({filteredResults.filter(r => r.type === 'school').length})
+                  Universities ({results.filter(result => {
+                    if (result.type !== 'school') return false;
+                    
+                    if (searchQuery && searchQuery.trim()) {
+                      const query = searchQuery.toLowerCase().trim();
+                      const matchesSearch = 
+                        result.title.toLowerCase().includes(query) ||
+                        result.description.toLowerCase().includes(query) ||
+                        (result.institution && result.institution.toLowerCase().includes(query)) ||
+                        (result.fieldOfStudy && result.fieldOfStudy.toLowerCase().includes(query));
+                      
+                      if (!matchesSearch) return false;
+                    }
+                    
+                    if (selectedDegreeTypes.length > 0 && result.degreeType && !selectedDegreeTypes.includes(result.degreeType)) return false;
+                    if (selectedFields.length > 0 && result.fieldOfStudy && !selectedFields.includes(result.fieldOfStudy)) return false;
+                    if (selectedLocations.length > 0 && result.location && !selectedLocations.some(loc => result.location?.includes(loc))) return false;
+                    if (selectedDurations.length > 0 && result.duration && !selectedDurations.includes(result.duration)) return false;
+                    if (selectedPaces.length > 0 && result.studyPace && !selectedPaces.includes(result.studyPace)) return false;
+                    if (selectedLanguages.length > 0 && result.language && !selectedLanguages.includes(result.language)) return false;
+                    if (selectedFormats.length > 0 && result.studyFormat && !selectedFormats.includes(result.studyFormat)) return false;
+                    return true;
+                  }).length})
                 </button>
                 <button
                   className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
@@ -1267,7 +1331,29 @@ const SearchResults: React.FC = () => {
                   onClick={() => setContentTypeFilter('scholarship')}
                 >
                   <Award className="w-4 h-4 inline mr-2" />
-                  Scholarships ({filteredResults.filter(r => r.type === 'scholarship').length})
+                  Scholarships ({results.filter(result => {
+                    if (result.type !== 'scholarship') return false;
+                    
+                    if (searchQuery && searchQuery.trim()) {
+                      const query = searchQuery.toLowerCase().trim();
+                      const matchesSearch = 
+                        result.title.toLowerCase().includes(query) ||
+                        result.description.toLowerCase().includes(query) ||
+                        (result.institution && result.institution.toLowerCase().includes(query)) ||
+                        (result.fieldOfStudy && result.fieldOfStudy.toLowerCase().includes(query));
+                      
+                      if (!matchesSearch) return false;
+                    }
+                    
+                    if (selectedDegreeTypes.length > 0 && result.degreeType && !selectedDegreeTypes.includes(result.degreeType)) return false;
+                    if (selectedFields.length > 0 && result.fieldOfStudy && !selectedFields.includes(result.fieldOfStudy)) return false;
+                    if (selectedLocations.length > 0 && result.location && !selectedLocations.some(loc => result.location?.includes(loc))) return false;
+                    if (selectedDurations.length > 0 && result.duration && !selectedDurations.includes(result.duration)) return false;
+                    if (selectedPaces.length > 0 && result.studyPace && !selectedPaces.includes(result.studyPace)) return false;
+                    if (selectedLanguages.length > 0 && result.language && !selectedLanguages.includes(result.language)) return false;
+                    if (selectedFormats.length > 0 && result.studyFormat && !selectedFormats.includes(result.studyFormat)) return false;
+                    return true;
+                  }).length})
                 </button>
                 <button
                   className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
@@ -1278,7 +1364,29 @@ const SearchResults: React.FC = () => {
                   onClick={() => setContentTypeFilter('article')}
                 >
                   <BookOpen className="w-4 h-4 inline mr-2" />
-                  Articles ({filteredResults.filter(r => r.type === 'article').length})
+                  Articles ({results.filter(result => {
+                    if (result.type !== 'article') return false;
+                    
+                    if (searchQuery && searchQuery.trim()) {
+                      const query = searchQuery.toLowerCase().trim();
+                      const matchesSearch = 
+                        result.title.toLowerCase().includes(query) ||
+                        result.description.toLowerCase().includes(query) ||
+                        (result.institution && result.institution.toLowerCase().includes(query)) ||
+                        (result.fieldOfStudy && result.fieldOfStudy.toLowerCase().includes(query));
+                      
+                      if (!matchesSearch) return false;
+                    }
+                    
+                    if (selectedDegreeTypes.length > 0 && result.degreeType && !selectedDegreeTypes.includes(result.degreeType)) return false;
+                    if (selectedFields.length > 0 && result.fieldOfStudy && !selectedFields.includes(result.fieldOfStudy)) return false;
+                    if (selectedLocations.length > 0 && result.location && !selectedLocations.some(loc => result.location?.includes(loc))) return false;
+                    if (selectedDurations.length > 0 && result.duration && !selectedDurations.includes(result.duration)) return false;
+                    if (selectedPaces.length > 0 && result.studyPace && !selectedPaces.includes(result.studyPace)) return false;
+                    if (selectedLanguages.length > 0 && result.language && !selectedLanguages.includes(result.language)) return false;
+                    if (selectedFormats.length > 0 && result.studyFormat && !selectedFormats.includes(result.studyFormat)) return false;
+                    return true;
+                  }).length})
                 </button>
               </div>
             </div>
