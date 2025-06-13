@@ -58,7 +58,7 @@ const highlightText = (text: string, searchTerm: string) => {
   
   return parts.map((part, index) => 
     regex.test(part) ? (
-      <span key={index} className="bg-primary/10 text-primary font-medium">
+      <span key={index} className="bg-primary/5 text-primary font-medium">
         {part}
       </span>
     ) : (
