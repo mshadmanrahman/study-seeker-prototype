@@ -1013,7 +1013,7 @@ const SearchResults: React.FC = () => {
           </p>
           
           {/* Tags row */}
-          <div className="flex flex-wrap gap-2 mb-2">
+          <div className="flex flex-wrap gap-2 mb-3">
             {result.fieldOfStudy && (
               <Badge variant="secondary" className="text-xs">
                 {result.fieldOfStudy}
