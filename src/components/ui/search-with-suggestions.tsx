@@ -144,16 +144,8 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
       </div>
 
       {showSuggestions && value.trim().length >= 2 && (
-        <div className="fixed inset-0 z-[10000]" style={{ pointerEvents: 'none' }}>
-          <div 
-            className="absolute bg-white border border-gray-300 rounded-lg shadow-xl max-h-80 overflow-y-auto min-w-[400px]"
-            style={{ 
-              top: containerRef.current ? containerRef.current.getBoundingClientRect().bottom + window.scrollY + 4 : 0,
-              left: containerRef.current ? containerRef.current.getBoundingClientRect().left + window.scrollX : 0,
-              width: containerRef.current ? containerRef.current.getBoundingClientRect().width : 'auto',
-              pointerEvents: 'auto'
-            }}
-          >
+        <div className="absolute top-full left-0 right-0 z-[9999] mt-1">
+          <div className="bg-white border border-gray-300 rounded-lg shadow-xl max-h-80 overflow-y-auto min-w-[400px]">
             {isLoading ? (
               <div className="p-4 text-center text-gray-500">
                 <div className="animate-pulse">Searching...</div>
