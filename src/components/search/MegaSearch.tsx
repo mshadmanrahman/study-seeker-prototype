@@ -1,8 +1,9 @@
+
 import React, { useRef, useEffect } from 'react';
-import { Search, ChevronDown, Clock } from 'lucide-react';
+import { Search, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { SearchWithSuggestions } from '@/components/ui/search-with-suggestions';
 import { megaSearchCategories, recentSearches, popularSearches } from '@/constants/searchData';
 
 interface MegaSearchProps {
@@ -28,7 +29,6 @@ const MegaSearch: React.FC<MegaSearchProps> = ({
   onCategorySelect,
   onPopularSearchClick
 }) => {
-  const megaInputRef = useRef<HTMLInputElement>(null);
   const megaSearchRef = useRef<HTMLDivElement>(null);
 
   // Close mega dropdown when clicking outside
@@ -41,16 +41,13 @@ const MegaSearch: React.FC<MegaSearchProps> = ({
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [setShowMegaDropdown]);
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-    if (e.target.value && !showMegaDropdown) {
-      setShowMegaDropdown(true);
-    }
-  };
+
   const handleInputFocus = () => {
     setShowMegaDropdown(true);
   };
-  return <div ref={megaSearchRef} className="search-container p-6 relative z-10">
+
+  return (
+    <div ref={megaSearchRef} className="search-container p-6 relative z-10">
       <div className="text-center mb-6">
         <h3 className="text-lg font-semibold mb-2">Search Everything</h3>
         <p className="text-gray-600">Find programs, schools, scholarships and more</p>
@@ -59,16 +56,12 @@ const MegaSearch: React.FC<MegaSearchProps> = ({
       <div className="relative mb-6">
         <div className="flex rounded-lg overflow-hidden border border-gray-300">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <Input
-              ref={megaInputRef}
-              type="text"
-              placeholder="Type anything - programs, schools, scholarships..."
+            <SearchWithSuggestions
               value={searchQuery}
-              onChange={handleInputChange}
+              onChange={setSearchQuery}
               onKeyPress={onKeyPress}
-              onFocus={handleInputFocus}
-              className="pl-10 pr-4 py-3 text-lg border-0 rounded-none focus:ring-0 focus:border-transparent"
+              placeholder="Type anything - programs, schools, scholarships..."
+              className="h-full"
             />
           </div>
           <Button className="rounded-none px-6 text-white bg-primary hover:bg-primary/90" onClick={onSearch}>
@@ -154,6 +147,8 @@ const MegaSearch: React.FC<MegaSearchProps> = ({
           ))}
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default MegaSearch;

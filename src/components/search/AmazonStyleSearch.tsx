@@ -2,10 +2,10 @@
 import React from 'react';
 import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
+import { SearchWithSuggestions } from '@/components/ui/search-with-suggestions';
 import { degreeTypes, subjects } from '@/constants/searchData';
 
 interface AmazonStyleSearchProps {
@@ -48,13 +48,13 @@ const AmazonStyleSearch: React.FC<AmazonStyleSearchProps> = ({
         </SelectContent>
       </Select>
       <div className="flex-1 relative">
-        <Input 
-          type="text" 
-          placeholder="Search programs, universities, subjects..." 
-          className="border-0 rounded-none focus:ring-0 focus:border-transparent" 
-          value={searchQuery} 
-          onChange={e => setSearchQuery(e.target.value)} 
-          onKeyPress={onKeyPress} 
+        <SearchWithSuggestions
+          value={searchQuery}
+          onChange={setSearchQuery}
+          onKeyPress={onKeyPress}
+          placeholder="Search programs, universities, subjects..."
+          className="h-full"
+          showIcon={false}
         />
       </div>
       <Button className="rounded-none px-6 text-white bg-primary hover:bg-primary/90" onClick={onSearch}>
