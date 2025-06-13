@@ -56,18 +56,25 @@ export const useSearchSuggestions = (query: string, maxSuggestions = 6) => {
   const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  console.log('useSearchSuggestions hook called with query:', query);
+
   const filteredSuggestions = useMemo(() => {
     if (!query || query.trim().length < 2) {
+      console.log('Query too short, returning empty suggestions');
       return [];
     }
 
     const searchTerm = query.toLowerCase().trim();
+    console.log('Filtering suggestions for term:', searchTerm);
+    
     const filtered = mockSuggestions.filter(item => 
       item.title.toLowerCase().includes(searchTerm) ||
       (item.institution && item.institution.toLowerCase().includes(searchTerm)) ||
       (item.location && item.location.toLowerCase().includes(searchTerm)) ||
       (item.category && item.category.toLowerCase().includes(searchTerm))
     );
+
+    console.log('Filtered suggestions count:', filtered.length);
 
     // Group by type and limit results
     const grouped: { [key: string]: SearchSuggestion[] } = {};
@@ -82,6 +89,7 @@ export const useSearchSuggestions = (query: string, maxSuggestions = 6) => {
 
     // Flatten and return limited results
     const result = Object.values(grouped).flat().slice(0, maxSuggestions);
+    console.log('Final suggestions result:', result.length, result.map(r => r.title));
     return result;
   }, [query, maxSuggestions]);
 
@@ -92,8 +100,11 @@ export const useSearchSuggestions = (query: string, maxSuggestions = 6) => {
     }
 
     setIsLoading(true);
+    console.log('Setting loading true, will set suggestions after delay');
+    
     // Simulate API delay
     const timer = setTimeout(() => {
+      console.log('Setting suggestions:', filteredSuggestions.length);
       setSuggestions(filteredSuggestions);
       setIsLoading(false);
     }, 150);

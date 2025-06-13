@@ -64,6 +64,8 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  console.log('SearchWithSuggestions render:', { value, suggestions: suggestions.length, showSuggestions, isLoading });
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
@@ -78,18 +80,21 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
+    console.log('Input change:', newValue);
     onChange(newValue);
     setShowSuggestions(true);
     setSelectedIndex(-1);
   };
 
   const handleInputFocus = () => {
+    console.log('Input focus, suggestions available:', suggestions.length);
     if (suggestions.length > 0 || value.trim().length >= 2) {
       setShowSuggestions(true);
     }
   };
 
   const handleSuggestionClick = (suggestion: SearchSuggestion) => {
+    console.log('Suggestion clicked:', suggestion.title);
     onChange(suggestion.title);
     setShowSuggestions(false);
     setSelectedIndex(-1);
@@ -192,7 +197,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
             </div>
           ) : (
             <div className="p-4 text-center text-gray-500">
-              No suggestions found
+              No suggestions found for "{value}"
             </div>
           )}
         </div>
