@@ -71,6 +71,12 @@ const Header = () => {
                 <div className="flex items-center justify-between p-3 border-b border-gray-200">
                   <div className="flex space-x-4">
                     <button 
+                      onClick={() => setActiveTab('careers360')} 
+                      className={`px-3 py-1 text-sm font-medium rounded ${activeTab === 'careers360' ? 'bg-teal-600 text-white' : 'text-gray-600 hover:text-gray-900'}`}
+                    >
+                      Careers360 Style
+                    </button>
+                    <button 
                       onClick={() => setActiveTab('structured')} 
                       className={`px-3 py-1 text-sm font-medium rounded ${activeTab === 'structured' ? 'bg-primary text-primary-foreground' : 'text-gray-600 hover:text-gray-900'}`}
                     >

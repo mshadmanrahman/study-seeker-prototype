@@ -6,7 +6,7 @@ export const useSearchLogic = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
-  const [activeTab, setActiveTab] = useState('amazon');
+  const [activeTab, setActiveTab] = useState('careers360'); // Changed default to careers360
   const [selectedDegree, setSelectedDegree] = useState('');
   const [showMegaDropdown, setShowMegaDropdown] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');

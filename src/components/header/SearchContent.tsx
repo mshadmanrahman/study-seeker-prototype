@@ -1,12 +1,11 @@
+
 import React from 'react';
-import { Search } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { subjects, degreeTypes, popularSearches } from './searchData';
+import StructuredSearch from '../search/StructuredSearch';
+import FreeTextSearch from '../search/FreeTextSearch';
+import AmazonStyleSearch from '../search/AmazonStyleSearch';
+import VisualSearch from '../search/VisualSearch';
 import MegaSearch from '../search/MegaSearch';
+import Careers360Search from '../search/Careers360Search';
 
 interface SearchContentProps {
   activeTab: string;
@@ -33,7 +32,6 @@ export const SearchContent: React.FC<SearchContentProps> = ({
   setSelectedDegree,
   selectedCategory,
   showMegaDropdown,
-  megaInputRef,
   handleSearch,
   handleKeyPress,
   handleSubjectClick,
@@ -41,274 +39,52 @@ export const SearchContent: React.FC<SearchContentProps> = ({
   handleMegaInputFocus,
   handleCategorySelect
 }) => {
-  const setShowMegaDropdown = () => {}; // This will be managed by parent
-
   const renderSearchContent = () => {
     switch (activeTab) {
       case 'structured':
         return (
-          <div className="p-6 space-y-4">
-            <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  What do you want to study?
-                </label>
-                <Select>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select a subject" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
-                    <SelectItem value="computer-science">Computer Science</SelectItem>
-                    <SelectItem value="business">Business Administration</SelectItem>
-                    <SelectItem value="engineering">Engineering</SelectItem>
-                    <SelectItem value="medicine">Medicine</SelectItem>
-                    <SelectItem value="psychology">Psychology</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Where do you want to study?
-                </label>
-                <Select>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select a location" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
-                    <SelectItem value="usa">United States</SelectItem>
-                    <SelectItem value="uk">United Kingdom</SelectItem>
-                    <SelectItem value="germany">Germany</SelectItem>
-                    <SelectItem value="canada">Canada</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90" onClick={handleSearch}>
-              <Search className="w-4 h-4 mr-2" />
-              Search Programs
-            </Button>
-          </div>
+          <StructuredSearch
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            onKeyPress={handleKeyPress}
+            onSearch={handleSearch}
+            onSubjectClick={handleSubjectClick}
+          />
         );
-
       case 'freetext':
         return (
-          <div className="p-6 space-y-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <Input
-                type="text"
-                placeholder="Search for any program, university, or location..."
-                className="pl-10 pr-4 py-3 text-lg"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyPress={handleKeyPress}
-              />
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <span className="text-sm text-gray-600">Popular searches:</span>
-              {popularSearches.map((term) => (
-                <Badge
-                  key={term}
-                  variant="secondary"
-                  className="cursor-pointer hover:bg-primary hover:text-primary-foreground text-xs px-2 py-1"
-                  onClick={() => handlePopularSearchClick(term)}
-                >
-                  {term}
-                </Badge>
-              ))}
-            </div>
-          </div>
+          <FreeTextSearch
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            onKeyPress={handleKeyPress}
+            onPopularSearchClick={handlePopularSearchClick}
+          />
         );
-
       case 'amazon':
         return (
-          <div className="p-6">
-            {/* Search Bar */}
-            <div className="flex rounded-lg overflow-hidden border border-gray-300 mb-6">
-              <Select value={selectedDegree} onValueChange={setSelectedDegree}>
-                <SelectTrigger className="w-32 border-0 border-r border-gray-300 rounded-none bg-gray-50">
-                  <SelectValue placeholder="All" />
-                </SelectTrigger>
-                <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
-                  <SelectItem value="all">All Degrees</SelectItem>
-                  {degreeTypes.map(degree => 
-                    <SelectItem key={degree.value} value={degree.value}>
-                      <div className="flex items-center gap-2">
-                        <degree.icon className="w-4 h-4" />
-                        {degree.label}
-                      </div>
-                    </SelectItem>
-                  )}
-                </SelectContent>
-              </Select>
-              <div className="flex-1 relative">
-                <Input 
-                  type="text" 
-                  placeholder="Search programs, universities, subjects..." 
-                  className="border-0 rounded-none focus:ring-0 focus:border-transparent" 
-                  value={searchQuery} 
-                  onChange={e => setSearchQuery(e.target.value)} 
-                  onKeyPress={handleKeyPress} 
-                />
-              </div>
-              <Button className="rounded-none px-6 text-white bg-primary hover:bg-primary/90" onClick={handleSearch}>
-                <Search className="w-5 h-5" />
-              </Button>
-            </div>
-
-            {/* Popular Searches */}
-            <div className="mb-6">
-              <div className="flex flex-wrap gap-2 items-center">
-                <span className="text-sm text-gray-600 font-medium">Popular searches:</span>
-                {popularSearches.map((term) => (
-                  <Badge
-                    key={term}
-                    variant="secondary"
-                    className="cursor-pointer hover:bg-primary hover:text-primary-foreground text-xs px-2 py-1"
-                    onClick={() => handlePopularSearchClick(term)}
-                  >
-                    {term}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-
-            {/* Browse by Subject */}
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Browse by Subject</h4>
-              <div className="grid grid-cols-3 gap-4 max-h-80 overflow-y-auto">
-                {subjects.map(subject => 
-                  <Card 
-                    key={subject.name} 
-                    className="cursor-pointer hover:scale-105 transition-transform border border-gray-200" 
-                    onClick={() => handleSubjectClick(subject.name)}
-                  >
-                    <CardContent className="p-4">
-                      <div className="flex items-start gap-3">
-                        <div className="text-gray-600 mt-1">
-                          <subject.icon className="w-5 h-5" />
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="font-medium text-sm text-gray-900 leading-tight mb-1">
-                            {subject.name}
-                          </h4>
-                          <p className="text-xs text-gray-500">{subject.category}</p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                )}
-              </div>
-            </div>
-          </div>
+          <AmazonStyleSearch
+            selectedDegree={selectedDegree}
+            setSelectedDegree={setSelectedDegree}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            onKeyPress={handleKeyPress}
+            onSearch={handleSearch}
+            onPopularSearchClick={handlePopularSearchClick}
+            onSubjectClick={handleSubjectClick}
+          />
         );
-
       case 'visual':
         return (
-          <div className="p-6">
-            <div className="text-center mb-6">
-              <h3 className="text-lg font-semibold mb-2">Find Your Perfect Program</h3>
-              <p className="text-gray-600">Start by selecting your degree type, then explore subjects</p>
-            </div>
-            
-            {/* Degree-First Search Bar */}
-            <div className="flex rounded-lg overflow-hidden border border-gray-300 mb-6">
-              <Select value={selectedDegree} onValueChange={setSelectedDegree}>
-                <SelectTrigger className="w-56 border-0 border-r border-gray-300 rounded-none bg-gray-50">
-                  <SelectValue placeholder="Select Degree Type" />
-                </SelectTrigger>
-                <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
-                  <SelectItem value="all">All Degree Types</SelectItem>
-                  {degreeTypes.map(degree => 
-                    <SelectItem key={degree.value} value={degree.value}>
-                      <div className="flex items-center gap-2">
-                        <degree.icon className="w-4 h-4" />
-                        {degree.label}
-                      </div>
-                    </SelectItem>
-                  )}
-                </SelectContent>
-              </Select>
-              <div className="flex-1 relative">
-                <Input 
-                  type="text" 
-                  placeholder="Search subjects, universities, locations..." 
-                  className="border-0 rounded-none focus:ring-0 focus:border-transparent" 
-                  value={searchQuery} 
-                  onChange={e => setSearchQuery(e.target.value)} 
-                  onKeyPress={handleKeyPress} 
-                />
-              </div>
-              <Button className="rounded-none px-6 bg-primary text-primary-foreground hover:bg-primary/90" onClick={handleSearch}>
-                <Search className="w-5 h-5" />
-              </Button>
-            </div>
-
-            {/* Degree Type Cards */}
-            <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-6">
-              {degreeTypes.map((degree) => (
-                <Card
-                  key={degree.value}
-                  className={`cursor-pointer hover:scale-105 transition-transform ${
-                    selectedDegree === degree.value ? 'ring-2 ring-primary' : ''
-                  }`}
-                  onClick={() => setSelectedDegree(degree.value)}
-                >
-                  <CardContent className="p-4">
-                    <div className="mb-2 text-center text-gray-600">
-                      <degree.icon className="w-8 h-8 mx-auto" />
-                    </div>
-                    <h4 className="font-semibold text-center text-sm">{degree.label}</h4>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            {/* Subject Categories */}
-            <div className="mb-4">
-              <h4 className="text-lg font-semibold mb-3">Browse by Subject</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-96 overflow-y-auto">
-                {subjects.map(subject => 
-                  <Card 
-                    key={subject.name} 
-                    className="cursor-pointer hover:scale-105 transition-transform" 
-                    onClick={() => handleSubjectClick(subject.name)}
-                  >
-                    <CardContent className="p-3">
-                      <div className="flex items-center gap-3">
-                        <div className="text-gray-600">
-                          <subject.icon className="w-6 h-6" />
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="font-medium text-sm">{subject.name}</h4>
-                          <Badge variant="secondary" className="text-xs mt-1">{subject.category}</Badge>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                )}
-              </div>
-            </div>
-
-            {/* Popular Searches */}
-            <div className="mt-4">
-              <div className="flex flex-wrap gap-2 items-center">
-                <span className="text-sm text-gray-600 font-medium">Popular:</span>
-                {popularSearches.map((term) => (
-                  <Badge
-                    key={term}
-                    variant="secondary"
-                    className="cursor-pointer hover:bg-primary hover:text-primary-foreground text-xs px-2 py-1"
-                    onClick={() => handlePopularSearchClick(term)}
-                  >
-                    {term}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-          </div>
+          <VisualSearch
+            selectedDegree={selectedDegree}
+            setSelectedDegree={setSelectedDegree}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            onKeyPress={handleKeyPress}
+            onSearch={handleSearch}
+            onSubjectClick={handleSubjectClick}
+          />
         );
-
       case 'mega':
         return (
           <MegaSearch
@@ -316,18 +92,27 @@ export const SearchContent: React.FC<SearchContentProps> = ({
             setSearchQuery={setSearchQuery}
             selectedCategory={selectedCategory}
             showMegaDropdown={showMegaDropdown}
-            setShowMegaDropdown={setShowMegaDropdown}
+            setShowMegaDropdown={() => {}}
             onKeyPress={handleKeyPress}
             onSearch={handleSearch}
             onCategorySelect={handleCategorySelect}
             onPopularSearchClick={handlePopularSearchClick}
           />
         );
-
+      case 'careers360':
+        return (
+          <Careers360Search
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            onKeyPress={handleKeyPress}
+            onSearch={handleSearch}
+            onPopularSearchClick={handlePopularSearchClick}
+          />
+        );
       default:
         return null;
     }
   };
 
-  return renderSearchContent();
+  return <div>{renderSearchContent()}</div>;
 };
