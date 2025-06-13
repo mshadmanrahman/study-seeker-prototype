@@ -44,11 +44,11 @@ export const SearchContent: React.FC<SearchContentProps> = ({
       case 'structured':
         return (
           <StructuredSearch
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            onKeyPress={handleKeyPress}
+            selectedSubject=""
+            setSelectedSubject={() => {}}
+            selectedStructuredLocation=""
+            setSelectedStructuredLocation={() => {}}
             onSearch={handleSearch}
-            onSubjectClick={handleSubjectClick}
           />
         );
       case 'freetext':
