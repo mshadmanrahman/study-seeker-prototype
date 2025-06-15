@@ -15,6 +15,7 @@ interface SearchContentProps {
   setSelectedDegree: (value: string) => void;
   selectedCategory: string;
   showMegaDropdown: boolean;
+  setShowMegaDropdown: (show: boolean) => void;
   megaInputRef: React.RefObject<HTMLInputElement>;
   handleSearch: () => void;
   handleKeyPress: (e: React.KeyboardEvent) => void;
@@ -32,6 +33,7 @@ export const SearchContent: React.FC<SearchContentProps> = ({
   setSelectedDegree,
   selectedCategory,
   showMegaDropdown,
+  setShowMegaDropdown,
   handleSearch,
   handleKeyPress,
   handleSubjectClick,
@@ -92,7 +94,7 @@ export const SearchContent: React.FC<SearchContentProps> = ({
             setSearchQuery={setSearchQuery}
             selectedCategory={selectedCategory}
             showMegaDropdown={showMegaDropdown}
-            setShowMegaDropdown={() => {}}
+            setShowMegaDropdown={setShowMegaDropdown}
             onKeyPress={handleKeyPress}
             onSearch={handleSearch}
             onCategorySelect={handleCategorySelect}

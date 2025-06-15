@@ -60,6 +60,7 @@ const MegaSearch: React.FC<MegaSearchProps> = ({
               value={searchQuery}
               onChange={setSearchQuery}
               onKeyPress={onKeyPress}
+              onFocus={handleInputFocus}
               placeholder="Type anything - programs, schools, scholarships..."
               className="h-full border-0 rounded-none"
               showIcon={true}

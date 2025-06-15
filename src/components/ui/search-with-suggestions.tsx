@@ -11,6 +11,7 @@ interface SearchWithSuggestionsProps {
   onChange: (value: string) => void;
   onSelect?: (suggestion: SearchSuggestion) => void;
   onKeyPress?: (e: React.KeyboardEvent) => void;
+  onFocus?: () => void;
   placeholder?: string;
   className?: string;
   showIcon?: boolean;
@@ -72,6 +73,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
   onChange,
   onSelect,
   onKeyPress,
+  onFocus,
   placeholder = "Search...",
   className = "",
   showIcon = true
@@ -141,6 +143,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
     if (suggestions.length > 0 || value.trim().length >= 2) {
       setShowSuggestions(true);
     }
+    onFocus?.();
   };
 
   const handleSuggestionClick = (suggestion: SearchSuggestion) => {

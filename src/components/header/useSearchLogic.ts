@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -86,6 +85,7 @@ export const useSearchLogic = () => {
     selectedDegree,
     setSelectedDegree,
     showMegaDropdown,
+    setShowMegaDropdown,
     selectedCategory,
     searchRef,
     megaInputRef,

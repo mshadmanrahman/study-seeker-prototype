@@ -15,6 +15,7 @@ const Header = () => {
     selectedDegree,
     setSelectedDegree,
     showMegaDropdown,
+    setShowMegaDropdown,
     selectedCategory,
     searchRef,
     megaInputRef,
@@ -120,6 +121,7 @@ const Header = () => {
                   setSelectedDegree={setSelectedDegree}
                   selectedCategory={selectedCategory}
                   showMegaDropdown={showMegaDropdown}
+                  setShowMegaDropdown={setShowMegaDropdown}
                   megaInputRef={megaInputRef}
                   handleSearch={handleSearch}
                   handleKeyPress={handleKeyPress}
