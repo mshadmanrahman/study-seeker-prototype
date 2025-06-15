@@ -109,44 +109,45 @@ const Careers360Search: React.FC<Careers360SearchProps> = ({
 
       {/* Search Categories Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-        <Card className="hover:shadow-md transition-shadow cursor-pointer border-l-4 border-l-blue-500">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="bg-blue-50 p-2 rounded-lg">
-                <GraduationCap className="w-6 h-6 text-blue-600" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900">Programs</h3>
-                <p className="text-sm text-gray-600">Browse degree programs</p>
-              </div>
+        {/* Programs Card */}
+        <Card className="hover:shadow-md transition-shadow cursor-pointer border border-teal-200 rounded-2xl relative group">
+          {/* Rounded color accent on the left */}
+          <span className="absolute left-0 top-0 h-full w-1.5 bg-teal-600 rounded-l-2xl"></span>
+          <CardContent className="p-6 pl-8 flex gap-4 items-center">
+            <div className="bg-teal-50 rounded-lg p-3 flex items-center justify-center">
+              <GraduationCap className="w-7 h-7 text-teal-600" />
+            </div>
+            <div>
+              <h3 className="font-bold text-gray-900 text-lg">Programs</h3>
+              <p className="text-gray-600 text-base">Browse degree programs</p>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-md transition-shadow cursor-pointer border-l-4 border-l-green-500">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="bg-green-50 p-2 rounded-lg">
-                <BookOpen className="w-6 h-6 text-green-600" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900">Universities</h3>
-                <p className="text-sm text-gray-600">Find top institutions</p>
-              </div>
+        {/* Universities Card */}
+        <Card className="hover:shadow-md transition-shadow cursor-pointer border border-pink-200 rounded-2xl relative group">
+          <span className="absolute left-0 top-0 h-full w-1.5 bg-pink-600 rounded-l-2xl"></span>
+          <CardContent className="p-6 pl-8 flex gap-4 items-center">
+            <div className="bg-pink-50 rounded-lg p-3 flex items-center justify-center">
+              <BookOpen className="w-7 h-7 text-pink-600" />
+            </div>
+            <div>
+              <h3 className="font-bold text-gray-900 text-lg">Universities</h3>
+              <p className="text-gray-600 text-base">Find top institutions</p>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-md transition-shadow cursor-pointer border-l-4 border-l-purple-500">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="bg-purple-50 p-2 rounded-lg">
-                <DollarSign className="w-6 h-6 text-purple-600" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900">Scholarships</h3>
-                <p className="text-sm text-gray-600">Financial aid options</p>
-              </div>
+        {/* Scholarships Card */}
+        <Card className="hover:shadow-md transition-shadow cursor-pointer border border-teal-200 rounded-2xl relative group">
+          <span className="absolute left-0 top-0 h-full w-1.5 bg-teal-600 rounded-l-2xl"></span>
+          <CardContent className="p-6 pl-8 flex gap-4 items-center">
+            <div className="bg-teal-50 rounded-lg p-3 flex items-center justify-center">
+              <DollarSign className="w-7 h-7 text-teal-600" />
+            </div>
+            <div>
+              <h3 className="font-bold text-gray-900 text-lg">Scholarships</h3>
+              <p className="text-gray-600 text-base">Financial aid options</p>
             </div>
           </CardContent>
         </Card>
@@ -156,3 +157,4 @@ const Careers360Search: React.FC<Careers360SearchProps> = ({
 };
 
 export default Careers360Search;
+
