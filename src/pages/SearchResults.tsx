@@ -518,46 +518,43 @@ const mockResults: SearchResult[] = [
 ];
 
 const PET_IMAGES = [
-  // Cats (23)
-  "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1592194991823-67916219b674?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1495360010541-f48722b34f7d?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1533738363-b7f9a261e36c?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1561948955-570b270e9de1?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1577023311546-cdc07a8454d9?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1509522138144-09c3ba3f5244?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1548546738-8509cb246ed3?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1488740304459-45c4277e7d3d?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1516371294522-221f2154e5a9?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1511044568934-09c3ba3f5244?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1494256997604-768d1f6089b3?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1513245543132-31f507416b26?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1570425622143-4f597a7ab1a4?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1574231164645-d6f0e85535a2?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1588806536343-a6a3b984577b?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?auto=format&fit=crop&w=400&q=80",
-  // Dogs (15)
-  "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1530281700549-e82e7bf110d6?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1537151671928-5b1c6c18a3b6?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1601911739343-433890a5749f?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1598133894008-61f7fdb8cc3a?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1505628346881-b72b27e84530?auto=format&fit=crop&w=400&q=80",
-  "/lovable-uploads/7b031b6e-0c51-445d-bb2e-86dabb789f23.png" // User's German Pinscher
+  // Cats (More cats as requested!)
+  "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80", // Tabby Cat
+  "https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=400&q=80", // Three kittens
+  "https://images.unsplash.com/photo-1592194991823-67916219b674?auto=format&fit=crop&w=400&q=80", // Gray Cat
+  "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=400&q=80", // Cat in a box
+  "https://images.unsplash.com/photo-1533738363-b7f9a261e36c?auto=format&fit=crop&w=400&q=80", // Cat with sunglasses
+  "https://images.unsplash.com/photo-1561948955-570b270e9de1?auto=format&fit=crop&w=400&q=80", // White and gray cat
+  "https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=400&q=80", // Cat in a field
+  "https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=400&q=80", // Cat with yellow eyes
+  "https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?auto=format&fit=crop&w=400&q=80", // Cat winking
+  "https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?auto=format&fit=crop&w=400&q=80", // Cat with butterfly
+  
+  // Persian Cats
+  "https://images.unsplash.com/photo-1583795128727-6ec3642408d8?auto=format&fit=crop&w=400&q=80", // White Persian Cat
+  "https://images.unsplash.com/photo-1555474693-9c84e11e48ac?auto=format&fit=crop&w=400&q=80", // Fluffy Persian Cat
+  
+  // Siberian Cats
+  "https://images.unsplash.com/photo-1615789591457-74a63395c990?auto=format&fit=crop&w=400&q=80", // Siberian Cat on a bed
+  "https://images.unsplash.com/photo-1628226469931-50937a345b1c?auto=format&fit=crop&w=400&q=80", // Siberian Cat closeup
+  
+  // Ragdoll Blue Mitted Cats
+  "https://images.unsplash.com/photo-1623912940228-e4f4a4788349?auto=format&fit=crop&w=400&q=80", // Ragdoll with blue eyes
+  "https://images.unsplash.com/photo-1615383995253-62529c3628e8?auto=format&fit=crop&w=400&q=80", // Ragdoll cat lying down
+
+  // Dogs
+  "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=400&q=80", // Happy dog with a ball
+  "https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?auto=format&fit=crop&w=400&q=80", // Dog with glasses
+  "https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=400&q=80", // Golden Retriever puppy
+  "https://images.unsplash.com/photo-1530281700549-e82e7bf110d6?auto=format&fit=crop&w=400&q=80", // Dog running on a field
+  "https://images.unsplash.com/photo-1583337130417-2346040878f3?auto=format&fit=crop&w=400&q=80", // Corgi
+  "https://images.unsplash.com/photo-1561037404-61cd46aa615b?auto=format&fit=crop&w=400&q=80", // Pug
+  "https://images.unsplash.com/photo-1597633425046-08ebb79440d1?auto=format&fit=crop&w=400&q=80", // French Bulldog
+
+  // German Pinschers
+  "/lovable-uploads/7b031b6e-0c51-445d-bb2e-86dabb789f23.png", // User's German Pinscher
+  "https://images.unsplash.com/photo-1620959296548-1d2153a16490?auto=format&fit=crop&w=400&q=80", // German Pinscher sitting
+  "https://images.unsplash.com/photo-1547228834-0a32d1527891?auto=format&fit=crop&w=400&q=80", // German Pinscher portrait
 ];
 
 // Helper to get a unique, non-repeated pet image for each card per page
