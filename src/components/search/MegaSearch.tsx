@@ -46,6 +46,10 @@ const MegaSearch: React.FC<MegaSearchProps> = ({
     setShowMegaDropdown(true);
   };
 
+  const handleInputClick = () => {
+    setShowMegaDropdown(true);
+  };
+
   return (
     <div ref={megaSearchRef} className="search-container p-6 relative z-10">
       <div className="text-center mb-6">
@@ -55,7 +59,7 @@ const MegaSearch: React.FC<MegaSearchProps> = ({
       
       <div className="relative mb-6">
         <div className="flex rounded-lg overflow-hidden border border-gray-300">
-          <div className="flex-1 relative">
+          <div className="flex-1 relative" onClick={handleInputClick}>
             <SearchWithSuggestions
               value={searchQuery}
               onChange={setSearchQuery}
@@ -71,7 +75,7 @@ const MegaSearch: React.FC<MegaSearchProps> = ({
         </div>
 
         {showMegaDropdown && (
-          <div className="fixed left-1/2 transform -translate-x-1/2 w-full max-w-4xl mt-1 bg-white border border-gray-300 rounded-lg shadow-xl z-[9999] max-h-96 overflow-y-auto">
+          <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-xl z-[9999] max-h-96 overflow-y-auto">
             <div className="p-4">
               <div className="mb-6">
                 <h4 className="text-sm font-semibold text-gray-500 uppercase mb-3">Search in</h4>
