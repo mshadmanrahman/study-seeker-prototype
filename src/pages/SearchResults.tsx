@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, Eye, Search } from 'lucide-react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'react-router-dom';
 
 interface SearchResult {
   title: string;
@@ -58,7 +58,7 @@ const getImageForResult = (result: SearchResult, index: number) => {
 };
 
 const SearchResults = () => {
-  const searchParams = useSearchParams();
+  const [searchParams] = useSearchParams();
   const query = searchParams.get('q') || '';
   const [results, setResults] = useState<SearchResult[]>([]);
 
