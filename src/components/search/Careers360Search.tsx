@@ -136,12 +136,12 @@ const Careers360Search: React.FC<Careers360SearchProps> = ({
             </div>
           </CardContent>
         </Card>
-        {/* Scholarships Card (purple) */}
-        <Card className="hover:shadow-md transition-shadow cursor-pointer border-l-4 border-l-purple-500">
+        {/* Scholarships Card (amber) */}
+        <Card className="hover:shadow-md transition-shadow cursor-pointer border-l-4 border-l-amber-500">
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
-              <div className="bg-purple-50 p-2 rounded-lg">
-                <DollarSign className="w-6 h-6 text-purple-600" />
+              <div className="bg-amber-50 p-2 rounded-lg">
+                <DollarSign className="w-6 h-6 text-amber-500" />
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900">Scholarships</h3>
@@ -156,3 +156,4 @@ const Careers360Search: React.FC<Careers360SearchProps> = ({
 };
 
 export default Careers360Search;
+
