@@ -3,7 +3,7 @@ import React from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { GraduationCap, Clock, MapPin, Globe, Building } from "lucide-react";
-import type { SearchResult } from "@/pages/SearchResults";
+import type { SearchResult } from "@/types/search";
 
 interface Props {
   result: SearchResult;

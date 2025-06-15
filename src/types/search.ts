@@ -24,3 +24,28 @@ export interface MegaSearchCategory {
   icon: LucideIcon;
   description: string;
 }
+
+// Moved from SearchResults.tsx:
+export interface SearchResult {
+  id: string;
+  type: 'program' | 'article' | 'scholarship' | 'school';
+  title: string;
+  description: string;
+  location?: string;
+  duration?: string;
+  language?: string;
+  deadline?: string;
+  degreeType?: string;
+  fieldOfStudy?: string;
+  studyPace?: string;
+  studyFormat?: string;
+  tuitionFee?: string;
+  rating?: number;
+  image?: string;
+  institution?: string;
+  isPromoted?: boolean;
+  establishedYear?: string;
+  studentCount?: string;
+  acceptanceRate?: string;
+  ranking?: string;
+}

@@ -2,7 +2,7 @@
 import React from "react";
 import { Card } from "@/components/ui/card";
 import { Building, Calendar, Star, Award, User } from "lucide-react";
-import type { SearchResult } from "@/pages/SearchResults";
+import type { SearchResult } from "@/types/search";
 
 interface Props {
   result: SearchResult;
