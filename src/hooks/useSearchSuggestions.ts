@@ -115,6 +115,8 @@ function scoreSuggestion(item: SearchSuggestion, searchTerms: string[]) {
   return score;
 }
 
+export { mockSuggestions, scoreSuggestion };
+
 export const useSearchSuggestions = (query: string, maxSuggestions = 100) => {
   const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
   const [isLoading, setIsLoading] = useState(false);
