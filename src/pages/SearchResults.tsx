@@ -518,42 +518,69 @@ const mockResults: SearchResult[] = [
 ];
 
 const PET_IMAGES = [
-  // Verified cat images (Unsplash)
-  "https://images.unsplash.com/photo-1582562124811-c09040d0a901?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1518715308788-ce7a2160aadd?auto=format&fit=crop&w=400&q=80",
-  // Verified dog images (Unsplash)
-  "https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=400&q=80", // German Pinscher!
+  // Cats (23)
+  "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1592194991823-67916219b674?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1495360010541-f48722b34f7d?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1533738363-b7f9a261e36c?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1561948955-570b270e9de1?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1577023311546-cdc07a8454d9?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1509522138144-09c3ba3f5244?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1548546738-8509cb246ed3?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1488740304459-45c4277e7d3d?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1516371294522-221f2154e5a9?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1511044568934-09c3ba3f5244?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1494256997604-768d1f6089b3?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1513245543132-31f507416b26?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1570425622143-4f597a7ab1a4?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1574231164645-d6f0e85535a2?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1588806536343-a6a3b984577b?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?auto=format&fit=crop&w=400&q=80",
+  // Dogs (15)
+  "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1530281700549-e82e7bf110d6?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=400&q=80",
   "https://images.unsplash.com/photo-1537151671928-5b1c6c18a3b6?auto=format&fit=crop&w=400&q=80",
   "https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=400&q=80",
   "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80",
-  // Custom uploaded German Pinscher
-  "/lovable-uploads/7b031b6e-0c51-445d-bb2e-86dabb789f23.png"
+  "https://images.unsplash.com/photo-1601911739343-433890a5749f?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1598133894008-61f7fdb8cc3a?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1505628346881-b72b27e84530?auto=format&fit=crop&w=400&q=80",
+  "/lovable-uploads/7b031b6e-0c51-445d-bb2e-86dabb789f23.png" // User's German Pinscher
 ];
 
 // Helper to get a unique, non-repeated pet image for each card per page
 const getNonRepeatingImageForPage = (() => {
-  let lastPageKey = '';
-  let lastShuffled: string[] = [];
+  const pageImageCache = new Map<string, string[]>();
+
   return (resultsOnPage: SearchResult[], index: number, page: number) => {
-    // Create a key for the current results
+    // Create a key for the current results on the given page
     const pageKey = resultsOnPage.map(r => r.id).join('-') + `-page${page}`;
-    // Shuffle PET_IMAGES anew only if pageKey changes
-    if (lastPageKey !== pageKey) {
-      // Simple shuffle (Fisher-Yates)
-      lastShuffled = PET_IMAGES.slice();
-      for (let i = lastShuffled.length - 1; i > 0; i--) {
+    
+    // Shuffle and cache images only if we haven't seen this page key before
+    if (!pageImageCache.has(pageKey)) {
+      const shuffled = PET_IMAGES.slice();
+      for (let i = shuffled.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [lastShuffled[i], lastShuffled[j]] = [lastShuffled[j], lastShuffled[i]];
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
       }
-      lastPageKey = pageKey;
+      pageImageCache.set(pageKey, shuffled);
     }
-    // Cycle if more results than images
-    return lastShuffled[index % lastShuffled.length];
+
+    const shuffledImages = pageImageCache.get(pageKey)!;
+    // Cycle through images; with enough images, this prevents repeats on a single page
+    return shuffledImages[index % shuffledImages.length];
   };
 })();
 
@@ -1032,29 +1059,40 @@ const SearchResults: React.FC = () => {
             ) : (
               <>
                 <div className="space-y-6">
-                  {currentResults.map((result, index) => (
-                    <div key={result.id}>
-                      {result.type === 'banner' ? (
-                        <PromotedBanner />
-                      ) : result.type === 'program' ? (
-                        <ProgramCard result={result as SearchResult} index={index} getImageForResult={
-                          (r, i) => getNonRepeatingImageForPage(visibleResults as SearchResult[], i, currentPage)
-                        } />
-                      ) : result.type === 'school' ? (
-                        <SchoolCard result={result as SearchResult} index={index} getImageForResult={
-                          (r, i) => getNonRepeatingImageForPage(visibleResults as SearchResult[], i, currentPage)
-                        } />
-                      ) : result.type === 'article' ? (
-                        <ArticleCard result={result as SearchResult} index={index} getImageForResult={
-                          (r, i) => getNonRepeatingImageForPage(visibleResults as SearchResult[], i, currentPage)
-                        } />
-                      ) : result.type === 'scholarship' ? (
-                        <ScholarshipCard result={result as SearchResult} index={index} getImageForResult={
-                          (r, i) => getNonRepeatingImageForPage(visibleResults as SearchResult[], i, currentPage)
-                        } />
-                      ) : null}
-                    </div>
-                  ))}
+                  {currentResults.map((result, index) => {
+                    if (result.type === 'banner') {
+                      return <div key={result.id}><PromotedBanner /></div>;
+                    }
+
+                    // Find the index of the current result within the *visible* results array
+                    // to ensure we get a unique image index that accounts for the banner.
+                    const visibleResultIndex = visibleResults.findIndex(
+                      (r) => (r as SearchResult).id === (result as SearchResult).id
+                    );
+                    
+                    // Fallback to the original index if not found, though it shouldn't happen for non-banner items.
+                    const imageIndex = visibleResultIndex !== -1 ? visibleResultIndex : index;
+
+                    const getImage = () => getNonRepeatingImageForPage(
+                      visibleResults as SearchResult[],
+                      imageIndex,
+                      currentPage
+                    );
+
+                    return (
+                      <div key={result.id}>
+                        {result.type === 'program' ? (
+                          <ProgramCard result={result as SearchResult} index={index} getImageForResult={getImage} />
+                        ) : result.type === 'school' ? (
+                          <SchoolCard result={result as SearchResult} index={index} getImageForResult={getImage} />
+                        ) : result.type === 'article' ? (
+                          <ArticleCard result={result as SearchResult} index={index} getImageForResult={getImage} />
+                        ) : result.type === 'scholarship' ? (
+                          <ScholarshipCard result={result as SearchResult} index={index} getImageForResult={getImage} />
+                        ) : null}
+                      </div>
+                    );
+                  })}
                 </div>
 
                 {totalPages > 1 && (
