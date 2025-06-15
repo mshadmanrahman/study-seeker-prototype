@@ -517,6 +517,46 @@ const mockResults: SearchResult[] = [
   }
 ];
 
+const PET_IMAGES = [
+  // Verified cat images (Unsplash)
+  "https://images.unsplash.com/photo-1582562124811-c09040d0a901?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1518715308788-ce7a2160aadd?auto=format&fit=crop&w=400&q=80",
+  // Verified dog images (Unsplash)
+  "https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=400&q=80", // German Pinscher!
+  "https://images.unsplash.com/photo-1537151671928-5b1c6c18a3b6?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80",
+  // Custom uploaded German Pinscher
+  "/lovable-uploads/7b031b6e-0c51-445d-bb2e-86dabb789f23.png"
+];
+
+// Helper to get a unique, non-repeated pet image for each card per page
+const getNonRepeatingImageForPage = (() => {
+  let lastPageKey = '';
+  let lastShuffled: string[] = [];
+  return (resultsOnPage: SearchResult[], index: number, page: number) => {
+    // Create a key for the current results
+    const pageKey = resultsOnPage.map(r => r.id).join('-') + `-page${page}`;
+    // Shuffle PET_IMAGES anew only if pageKey changes
+    if (lastPageKey !== pageKey) {
+      // Simple shuffle (Fisher-Yates)
+      lastShuffled = PET_IMAGES.slice();
+      for (let i = lastShuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [lastShuffled[i], lastShuffled[j]] = [lastShuffled[j], lastShuffled[i]];
+      }
+      lastPageKey = pageKey;
+    }
+    // Cycle if more results than images
+    return lastShuffled[index % lastShuffled.length];
+  };
+})();
+
 const SearchResults: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -602,70 +642,6 @@ const SearchResults: React.FC = () => {
     return selectedDegreeTypes.length + selectedFields.length + selectedLocations.length + selectedDurations.length + selectedPaces.length + selectedLanguages.length + selectedFormats.length;
   };
 
-  // Helper function: Returns *only* cat or *actual* dog images, including a German Pinscher!
-  const getImageForResult = (_result: SearchResult, index: number): string => {
-    // Cats (all Unsplash, verified cats)
-    const catImages = [
-      // orange tabby cat
-      "https://images.unsplash.com/photo-1582562124811-c09040d0a901?auto=format&fit=crop&w=400&q=80",
-      // grey tabby kitten
-      "https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?auto=format&fit=crop&w=400&q=80",
-      // lounging striped cat
-      "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
-      // close-up of a ginger cat
-      "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=400&q=80",
-      // fluffy white/grey cat
-      "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=80",
-      // young orange kitten
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
-      // brown/black tabby with green eyes
-      "https://images.unsplash.com/photo-1518715308788-ce7a2160aadd?auto=format&fit=crop&w=400&q=80",
-      // cat looking out a window
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80",
-      // sleeping kitten on blanket
-      "https://images.unsplash.com/photo-1465101178521-c5249f4df085?auto=format&fit=crop&w=400&q=80"
-    ];
-
-    // Dogs (all Unsplash/Pixabay, verified dogs, incl. German Pinscher high priority in list)
-    const dogImages = [
-      // German Pinscher
-      "https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=400&q=80",
-      // happy Shiba Inu
-      "https://images.unsplash.com/photo-1537151671928-5b1c6c18a3b6?auto=format&fit=crop&w=400&q=80",
-      // Jack Russell terrier, close-up portrait
-      "https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=400&q=80",
-      // fluffy corgi on rug
-      "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=400&q=80",
-      // puppy on blanket
-      "https://images.unsplash.com/photo-1518715308788-ce7a2160aadd?auto=format&fit=crop&w=400&q=80",
-      // black/white spaniel puppy
-      "https://images.unsplash.com/photo-1518715308788-ce7a2160aadd?auto=format&fit=crop&w=400&q=80",
-      // brown/white beagle
-      "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=400&q=80",
-      // husky in the snow
-      "https://images.unsplash.com/photo-1518715308788-ce7a2160aadd?auto=format&fit=crop&w=400&q=80",
-      // bulldog puppy
-      "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=400&q=80",
-      // French bulldog on orange background
-      "https://images.unsplash.com/photo-1518715308788-ce7a2160aadd?auto=format&fit=crop&w=400&q=80"
-    ];
-
-    const allPetImages = [...catImages, ...dogImages];
-
-    // Deterministic "random" selection per card (so the same card gets the same pet image every time)
-    let key = index;
-    if (_result && _result.id) {
-      let hash = 0;
-      for (let i = 0; i < _result.id.length; i++) {
-        hash = ((hash << 5) - hash) + _result.id.charCodeAt(i);
-        hash |= 0;
-      }
-      key = Math.abs(hash + index);
-    }
-
-    return allPetImages[key % allPetImages.length];
-  };
-
   const createMixedPageResults = () => {
     const programs = filteredResults.filter(r => r.type === 'program');
     const schools = filteredResults.filter(r => r.type === 'school');
@@ -719,7 +695,10 @@ const SearchResults: React.FC = () => {
   };
 
   const currentResults = createMixedPageResults();
-  
+
+  // For determining which results to show pet images for on this page:
+  const visibleResults = currentResults.filter(r => typeof r === 'object' && (r as any).type !== 'banner');
+
   const getTotalPages = () => {
     if (contentTypeFilter === 'program') {
       return Math.ceil(filteredResults.filter(r => r.type === 'program').length / 15);
@@ -1058,13 +1037,21 @@ const SearchResults: React.FC = () => {
                       {result.type === 'banner' ? (
                         <PromotedBanner />
                       ) : result.type === 'program' ? (
-                        <ProgramCard result={result as SearchResult} index={index} getImageForResult={getImageForResult} />
+                        <ProgramCard result={result as SearchResult} index={index} getImageForResult={
+                          (r, i) => getNonRepeatingImageForPage(visibleResults as SearchResult[], i, currentPage)
+                        } />
                       ) : result.type === 'school' ? (
-                        <SchoolCard result={result as SearchResult} index={index} getImageForResult={getImageForResult} />
+                        <SchoolCard result={result as SearchResult} index={index} getImageForResult={
+                          (r, i) => getNonRepeatingImageForPage(visibleResults as SearchResult[], i, currentPage)
+                        } />
                       ) : result.type === 'article' ? (
-                        <ArticleCard result={result as SearchResult} index={index} getImageForResult={getImageForResult} />
+                        <ArticleCard result={result as SearchResult} index={index} getImageForResult={
+                          (r, i) => getNonRepeatingImageForPage(visibleResults as SearchResult[], i, currentPage)
+                        } />
                       ) : result.type === 'scholarship' ? (
-                        <ScholarshipCard result={result as SearchResult} index={index} getImageForResult={getImageForResult} />
+                        <ScholarshipCard result={result as SearchResult} index={index} getImageForResult={
+                          (r, i) => getNonRepeatingImageForPage(visibleResults as SearchResult[], i, currentPage)
+                        } />
                       ) : null}
                     </div>
                   ))}
