@@ -44,36 +44,40 @@ const SearchResults = () => {
   return (
     <div>
       <Header />
-      <div className="container mx-auto py-8">
-        <h1 className="text-2xl font-bold mb-4">Search Results for "{query}"</h1>
-        {searchResults.map((result) => (
-          <Card key={result.id} className="mb-4">
-            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <h2 className="text-lg font-semibold">{result.title}</h2>
-                <p className="text-gray-600">{result.university}, {result.location}</p>
-              </div>
-              <div>
-                <div className="flex items-center text-gray-500 mb-2">
-                  <Clock className="w-4 h-4 mr-2" />
-                  <span>Duration: {result.duration}</span>
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-2xl font-bold mb-6">Search Results for "{query}"</h1>
+        <div className="space-y-4">
+          {searchResults.map((result) => (
+            <Card key={result.id} className="hover:shadow-lg transition-shadow">
+              <CardContent className="p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h2 className="text-xl font-semibold mb-2">{result.title}</h2>
+                    <p className="text-gray-600 mb-4">{result.university}</p>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex items-center text-gray-500">
+                      <Clock className="w-4 h-4 mr-3" />
+                      <span>Duration: {result.duration}</span>
+                    </div>
+                    <div className="flex items-center text-gray-500">
+                      <Calendar className="w-4 h-4 mr-3" />
+                      <span>Deadline: {result.deadline}</span>
+                    </div>
+                    <div className="flex items-center text-gray-500">
+                      <DollarSign className="w-4 h-4 mr-3" />
+                      <span>Scholarship: {result.scholarship}</span>
+                    </div>
+                    <div className="flex items-center text-gray-500">
+                      <MapPin className="w-4 h-4 mr-3" />
+                      <span>{result.location}</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center text-gray-500 mb-2">
-                  <Calendar className="w-4 h-4 mr-2" />
-                  <span>Deadline: {result.deadline}</span>
-                </div>
-                <div className="flex items-center text-gray-500 mb-2">
-                  <DollarSign className="w-4 h-4 mr-2" />
-                  <span>Scholarship: {result.scholarship}</span>
-                </div>
-                <div className="flex items-center text-gray-500">
-                  <MapPin className="w-4 h-4 mr-2" />
-                  <span>Location: {result.location}</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     </div>
   );
