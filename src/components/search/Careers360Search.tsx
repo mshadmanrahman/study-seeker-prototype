@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search, BookOpen, GraduationCap, MapPin, DollarSign, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -109,7 +108,7 @@ const Careers360Search: React.FC<Careers360SearchProps> = ({
       {/* Search Categories Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
         {/* Programs Card (teal) */}
-        <Card className="hover:shadow-md transition-shadow cursor-pointer border-l-4 border-l-teal-500">
+        <Card className="hover:shadow-md transition-shadow cursor-pointer border-l-4 border-l-teal-600">
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
               <div className="bg-teal-50 p-2 rounded-lg">
@@ -136,12 +135,12 @@ const Careers360Search: React.FC<Careers360SearchProps> = ({
             </div>
           </CardContent>
         </Card>
-        {/* Scholarships Card (amber) */}
-        <Card className="hover:shadow-md transition-shadow cursor-pointer border-l-4 border-l-amber-500">
+        {/* Scholarships Card (emerald) */}
+        <Card className="hover:shadow-md transition-shadow cursor-pointer border-l-4 border-l-emerald-500">
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
-              <div className="bg-amber-50 p-2 rounded-lg">
-                <DollarSign className="w-6 h-6 text-amber-500" />
+              <div className="bg-emerald-50 p-2 rounded-lg">
+                <DollarSign className="w-6 h-6 text-emerald-500" />
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900">Scholarships</h3>
@@ -156,4 +155,3 @@ const Careers360Search: React.FC<Careers360SearchProps> = ({
 };
 
 export default Careers360Search;
-
