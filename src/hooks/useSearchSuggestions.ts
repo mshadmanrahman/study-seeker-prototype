@@ -62,6 +62,15 @@ const mockSuggestions: SearchSuggestion[] = [
   { id: '108', title: 'MBA Programme', type: 'program', institution: 'London Business School', location: 'London, UK'},
   { id: '109', title: 'PhD in Computer Science', type: 'program', institution: 'University of Cambridge', location: 'Cambridge, UK'},
   { id: '110', title: 'Master in Engineering', type: 'program', institution: 'Technical University of Madrid', location: 'Madrid, Spain' },
+
+  // ========= Added for Engineering Degrees in Spain =========
+  { id: '201', title: 'Bachelor of Engineering', type: 'program', institution: 'Universitat Politècnica de Catalunya', location: 'Barcelona, Spain' },
+  { id: '202', title: 'Engineering Degrees in Spain', type: 'article', category: 'Program Guides', location: 'Spain' },
+  { id: '203', title: 'Top Engineering Programs in Spain', type: 'article', category: 'Education', location: 'Spain' },
+  { id: '204', title: 'Civil Engineering Degree', type: 'program', institution: 'University of Salamanca', location: 'Salamanca, Spain' },
+  { id: '205', title: 'Study Engineering in Spain', type: 'article', category: 'Study Abroad', location: 'Spain' },
+  { id: '206', title: 'Mechanical Engineering Degree in Madrid', type: 'program', institution: 'Complutense University of Madrid', location: 'Madrid, Spain' },
+  { id: '207', title: 'Electrical Engineering (Graduate)', type: 'program', institution: 'University of Zaragoza', location: 'Zaragoza, Spain' },
 ];
 
 export const useSearchSuggestions = (query: string, maxSuggestions = 100) => {
