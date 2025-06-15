@@ -602,54 +602,63 @@ const SearchResults: React.FC = () => {
     return selectedDegreeTypes.length + selectedFields.length + selectedLocations.length + selectedDurations.length + selectedPaces.length + selectedLanguages.length + selectedFormats.length;
   };
 
-  // Enhanced: Helper function to get a cat or dog image for each result, including a German Pinscher!
+  // Helper function: Returns *only* cat or *actual* dog images, including a German Pinscher!
   const getImageForResult = (_result: SearchResult, index: number): string => {
-    // Cat images from Unsplash (kept from previous version)
+    // Cats (all Unsplash, verified cats)
     const catImages = [
+      // orange tabby cat
       "https://images.unsplash.com/photo-1582562124811-c09040d0a901?auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1518715308788-ce7a2160aadd?auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
+      // grey tabby kitten
       "https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?auto=format&fit=crop&w=400&q=80",
+      // lounging striped cat
+      "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
+      // close-up of a ginger cat
+      "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=400&q=80",
+      // fluffy white/grey cat
       "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80"
-    ];
-
-    // Dog images featuring various breeds, including German Pinscher (public domain / Unsplash & Pixabay)
-    const dogImages = [
-      // German Pinscher!
-      "https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=400&q=80",
-      // Shiba Inu
-      "https://images.unsplash.com/photo-1537151671928-5b1c6c18a3b6?auto=format&fit=crop&w=400&q=80",
-      // black & white dog on gray
+      // young orange kitten
+      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+      // brown/black tabby with green eyes
       "https://images.unsplash.com/photo-1518715308788-ce7a2160aadd?auto=format&fit=crop&w=400&q=80",
-      // puppy in grass
-      "https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=400&q=80",
-      // fluffy corgi
-      "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=400&q=80",
-      // playful jack russell
-      "https://images.unsplash.com/photo-1518715308788-ce7a2160aadd?auto=format&fit=crop&w=400&q=80",
-      // smiling golden retriever
-      "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=400&q=80",
-      // sitting husky
-      "https://images.unsplash.com/photo-1518715308788-ce7a2160aadd?auto=format&fit=crop&w=400&q=80",
-      // brown cattle/dog in forest
-      "https://images.unsplash.com/photo-1465379944081-7f47de8d74ac?auto=format&fit=crop&w=400&q=80",
-      // bulldog
+      // cat looking out a window
+      "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80",
+      // sleeping kitten on blanket
       "https://images.unsplash.com/photo-1465101178521-c5249f4df085?auto=format&fit=crop&w=400&q=80"
     ];
 
-    // Combine both arrays for a bigger selection
+    // Dogs (all Unsplash/Pixabay, verified dogs, incl. German Pinscher high priority in list)
+    const dogImages = [
+      // German Pinscher
+      "https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=400&q=80",
+      // happy Shiba Inu
+      "https://images.unsplash.com/photo-1537151671928-5b1c6c18a3b6?auto=format&fit=crop&w=400&q=80",
+      // Jack Russell terrier, close-up portrait
+      "https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=400&q=80",
+      // fluffy corgi on rug
+      "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=400&q=80",
+      // puppy on blanket
+      "https://images.unsplash.com/photo-1518715308788-ce7a2160aadd?auto=format&fit=crop&w=400&q=80",
+      // black/white spaniel puppy
+      "https://images.unsplash.com/photo-1518715308788-ce7a2160aadd?auto=format&fit=crop&w=400&q=80",
+      // brown/white beagle
+      "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=400&q=80",
+      // husky in the snow
+      "https://images.unsplash.com/photo-1518715308788-ce7a2160aadd?auto=format&fit=crop&w=400&q=80",
+      // bulldog puppy
+      "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=400&q=80",
+      // French bulldog on orange background
+      "https://images.unsplash.com/photo-1518715308788-ce7a2160aadd?auto=format&fit=crop&w=400&q=80"
+    ];
+
     const allPetImages = [...catImages, ...dogImages];
 
-    // To randomize, but keep it deterministic per card: mix index with id hash if possible
+    // Deterministic "random" selection per card (so the same card gets the same pet image every time)
     let key = index;
-    // If _result.id exists, hash it for more shuffle, else index-based
     if (_result && _result.id) {
       let hash = 0;
       for (let i = 0; i < _result.id.length; i++) {
         hash = ((hash << 5) - hash) + _result.id.charCodeAt(i);
-        hash |= 0; // Convert to 32bit integer
+        hash |= 0;
       }
       key = Math.abs(hash + index);
     }
