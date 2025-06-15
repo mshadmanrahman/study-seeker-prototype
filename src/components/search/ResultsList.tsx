@@ -62,10 +62,10 @@ const ResultsList: React.FC<ResultsListProps> = ({
 
           return (
             <div key={result.id}>
-              {result.type === 'program' && <ProgramCard result={searchResult} index={index} getImageForResult={getImage} />}
-              {result.type === 'school' && <SchoolCard result={searchResult} index={index} getImageForResult={getImage} />}
-              {result.type === 'article' && <ArticleCard result={searchResult} index={index} getImageForResult={getImage} />}
-              {result.type === 'scholarship' && <ScholarshipCard result={searchResult} index={index} getImageForResult={getImage} />}
+              {result.type === 'program' && <ProgramCard result={searchResult} getImageForResult={getImage} />}
+              {result.type === 'school' && <SchoolCard result={searchResult} getImageForResult={getImage} />}
+              {result.type === 'article' && <ArticleCard result={searchResult} getImageForResult={getImage} />}
+              {result.type === 'scholarship' && <ScholarshipCard result={searchResult} getImageForResult={getImage} />}
             </div>
           );
         })}

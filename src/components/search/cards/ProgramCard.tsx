@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -7,11 +6,10 @@ import type { SearchResult } from "@/types/search";
 
 interface Props {
   result: SearchResult;
-  index: number;
   getImageForResult: () => string;
 }
 
-const ProgramCard: React.FC<Props> = ({ result, index, getImageForResult }) => (
+const ProgramCard: React.FC<Props> = ({ result, getImageForResult }) => (
   <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer relative">
     {result.isPromoted && (
       <div className="absolute top-4 right-4 z-10">

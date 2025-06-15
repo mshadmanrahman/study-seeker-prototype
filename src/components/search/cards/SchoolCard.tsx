@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card } from "@/components/ui/card";
 import { Building, Calendar, Star, Award, User } from "lucide-react";
@@ -6,11 +5,10 @@ import type { SearchResult } from "@/types/search";
 
 interface Props {
   result: SearchResult;
-  index: number;
   getImageForResult: () => string;
 }
 
-const SchoolCard: React.FC<Props> = ({ result, index, getImageForResult }) => (
+const SchoolCard: React.FC<Props> = ({ result, getImageForResult }) => (
   <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
     <div className="flex">
       <div className="w-48 flex-shrink-0 relative">
