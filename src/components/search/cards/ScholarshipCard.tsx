@@ -7,7 +7,7 @@ import type { SearchResult } from "@/types/search";
 interface Props {
   result: SearchResult;
   index: number;
-  getImageForResult: (result: SearchResult, index: number) => string;
+  getImageForResult: () => string;
 }
 
 const ScholarshipCard: React.FC<Props> = ({ result, index, getImageForResult }) => (
@@ -15,7 +15,7 @@ const ScholarshipCard: React.FC<Props> = ({ result, index, getImageForResult }) 
     <div className="flex h-40">
       <div className="w-32 flex-shrink-0 overflow-hidden relative">
         <img
-          src={getImageForResult(result, index)}
+          src={getImageForResult()}
           alt="Scholarship image"
           className="w-full h-full object-cover block"
         />
