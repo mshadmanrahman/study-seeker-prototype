@@ -3,7 +3,6 @@ import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Header from '@/components/Header';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Clock, MapPin, Calendar, DollarSign } from 'lucide-react';
 
 // Mock data for search results
@@ -49,7 +48,7 @@ const SearchResults = () => {
         <div className="space-y-4">
           {searchResults.map((result) => (
             <Card key={result.id} className="hover:shadow-lg transition-shadow">
-              <CardContent className="p-6">
+              <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <h2 className="text-xl font-semibold mb-2">{result.title}</h2>
@@ -84,3 +83,4 @@ const SearchResults = () => {
 };
 
 export default SearchResults;
+
