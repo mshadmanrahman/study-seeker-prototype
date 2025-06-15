@@ -50,6 +50,19 @@ const mockSuggestions: SearchSuggestion[] = [
   { id: '25', title: 'United Kingdom', type: 'location', region: 'Europe' },
   { id: '26', title: 'France', type: 'location', region: 'Europe' },
   { id: '27', title: 'Germany', type: 'location', region: 'Europe' },
+
+  // Data for recent and popular searches
+  { id: '100', title: 'A Guide to Engineering Degrees in Spain', type: 'article', category: 'Program Guides' },
+  { id: '101', title: 'Finding Free Masters Programs', type: 'article', category: 'Financial Aid' },
+  { id: '102', title: 'Exploring Erasmus Programs', type: 'article', category: 'Study Abroad' },
+  { id: '103', title: 'Advantages of Dual Masters in Europe', type: 'article', category: 'Program Guides' },
+  { id: '104', title: 'Top MBA in London for 2025', type: 'article', category: 'Program Guides' },
+  { id: '105', title: 'Your Path to a Computer Science PhD', type: 'article', category: 'Program Guides' },
+  { id: '106', title: 'How to Study Medicine in Germany', type: 'article', category: 'Study Abroad' },
+  { id: '107', title: 'The Rise of Online Masters Degrees', type: 'article', category: 'Program Guides' },
+  { id: '108', title: 'MBA Programme', type: 'program', institution: 'London Business School', location: 'London, UK'},
+  { id: '109', title: 'PhD in Computer Science', type: 'program', institution: 'University of Cambridge', location: 'Cambridge, UK'},
+  { id: '110', title: 'Master in Engineering', type: 'program', institution: 'Technical University of Madrid', location: 'Madrid, Spain' },
 ];
 
 export const useSearchSuggestions = (query: string, maxSuggestions = 6) => {
