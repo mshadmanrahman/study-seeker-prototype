@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useMemo } from 'react';
 
 export interface SearchSuggestion {
@@ -65,45 +64,31 @@ const mockSuggestions: SearchSuggestion[] = [
   { id: '110', title: 'Master in Engineering', type: 'program', institution: 'Technical University of Madrid', location: 'Madrid, Spain' },
 ];
 
-export const useSearchSuggestions = (query: string, maxSuggestions = 6) => {
+export const useSearchSuggestions = (query: string, maxSuggestions = 100) => {
   const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log('useSearchSuggestions hook called with query:', query);
-
   const filteredSuggestions = useMemo(() => {
     if (!query || query.trim().length < 2) {
-      console.log('Query too short, returning empty suggestions');
       return [];
     }
 
-    const searchTerm = query.toLowerCase().trim();
-    console.log('Filtering suggestions for term:', searchTerm);
+    const searchTerms = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
     
-    const filtered = mockSuggestions.filter(item => 
-      item.title.toLowerCase().includes(searchTerm) ||
-      (item.institution && item.institution.toLowerCase().includes(searchTerm)) ||
-      (item.location && item.location.toLowerCase().includes(searchTerm)) ||
-      (item.category && item.category.toLowerCase().includes(searchTerm))
-    );
-
-    console.log('Filtered suggestions count:', filtered.length);
-
-    // Group by type and limit results
-    const grouped: { [key: string]: SearchSuggestion[] } = {};
-    filtered.forEach(item => {
-      if (!grouped[item.type]) {
-        grouped[item.type] = [];
-      }
-      if (grouped[item.type].length < 2) { // Max 2 per type
-        grouped[item.type].push(item);
-      }
+    const filtered = mockSuggestions.filter(item => {
+      const searchableText = [
+        item.title,
+        item.institution,
+        item.location,
+        item.category,
+        item.region,
+        item.type
+      ].filter(Boolean).join(' ').toLowerCase();
+      
+      return searchTerms.every(term => searchableText.includes(term));
     });
 
-    // Flatten and return limited results
-    const result = Object.values(grouped).flat().slice(0, maxSuggestions);
-    console.log('Final suggestions result:', result.length, result.map(r => r.title));
-    return result;
+    return filtered.slice(0, maxSuggestions);
   }, [query, maxSuggestions]);
 
   useEffect(() => {
@@ -113,11 +98,9 @@ export const useSearchSuggestions = (query: string, maxSuggestions = 6) => {
     }
 
     setIsLoading(true);
-    console.log('Setting loading true, will set suggestions after delay');
     
     // Simulate API delay
     const timer = setTimeout(() => {
-      console.log('Setting suggestions:', filteredSuggestions.length);
       setSuggestions(filteredSuggestions);
       setIsLoading(false);
     }, 150);
