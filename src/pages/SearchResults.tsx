@@ -10,6 +10,12 @@ import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, Pagi
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import NoResults from '@/components/search/NoResults';
+import ProgramCard from '@/components/search/cards/ProgramCard';
+import SchoolCard from '@/components/search/cards/SchoolCard';
+import ScholarshipCard from '@/components/search/cards/ScholarshipCard';
+import ArticleCard from '@/components/search/cards/ArticleCard';
+import PromotedBanner from '@/components/search/cards/PromotedBanner';
+import FilterSection from '@/components/search/FilterSection';
 
 interface SearchResult {
   id: string;
@@ -36,7 +42,6 @@ interface SearchResult {
 }
 
 const mockResults: SearchResult[] = [
-  // Programs (15 total)
   {
     id: '1',
     type: 'program',
@@ -295,7 +300,6 @@ const mockResults: SearchResult[] = [
     rating: 4.7,
     institution: 'Tel Aviv University'
   },
-  // Universities/Schools (10 total)
   {
     id: '28',
     type: 'school',
@@ -426,7 +430,6 @@ const mockResults: SearchResult[] = [
     rating: 4.7,
     fieldOfStudy: 'Multi-disciplinary'
   },
-  // Scholarships (5 total)
   {
     id: '16',
     type: 'scholarship',
@@ -482,7 +485,6 @@ const mockResults: SearchResult[] = [
     tuitionFee: '€20,000 coverage',
     institution: 'Royal Institute of Technology'
   },
-  // Articles (7 total)
   {
     id: '21',
     type: 'article',
@@ -546,10 +548,9 @@ const SearchResults: React.FC = () => {
   const [filteredResults, setFilteredResults] = useState<SearchResult[]>(mockResults);
   const [showFilters, setShowFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [contentTypeFilter, setContentTypeFilter] = useState<string>('all'); // New state for content type filter
-  const resultsPerPage = 37; // 15 programs + 10 schools + 5 scholarships + 7 articles
+  const [contentTypeFilter, setContentTypeFilter] = useState<string>('all');
+  const resultsPerPage = 37;
 
-  // Filter states
   const [selectedDegreeTypes, setSelectedDegreeTypes] = useState<string[]>([]);
   const [selectedFields, setSelectedFields] = useState<string[]>([]);
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
@@ -567,10 +568,8 @@ const SearchResults: React.FC = () => {
   const languages = ['English', 'German', 'French', 'Spanish', 'Dutch'];
   const studyFormats = ['On-campus', 'Online', 'Hybrid'];
 
-  // Apply filters and search query
   useEffect(() => {
     let filtered = results.filter(result => {
-      // Apply search query filter - if query exists, filter by title, description, institution
       if (searchQuery && searchQuery.trim()) {
         const query = searchQuery.toLowerCase().trim();
         const matchesSearch = 
@@ -582,7 +581,6 @@ const SearchResults: React.FC = () => {
         if (!matchesSearch) return false;
       }
       
-      // Apply content type filter first
       if (contentTypeFilter !== 'all' && result.type !== contentTypeFilter) return false;
       
       if (selectedDegreeTypes.length > 0 && result.degreeType && !selectedDegreeTypes.includes(result.degreeType)) return false;
@@ -595,7 +593,6 @@ const SearchResults: React.FC = () => {
       return true;
     });
 
-    // Apply sorting
     if (sortBy === 'rating') {
       filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0));
     } else if (sortBy === 'deadline') {
@@ -605,7 +602,7 @@ const SearchResults: React.FC = () => {
       });
     }
     setFilteredResults(filtered);
-    setCurrentPage(1); // Reset to first page when filters change
+    setCurrentPage(1);
   }, [results, selectedDegreeTypes, selectedFields, selectedLocations, selectedDurations, selectedPaces, selectedLanguages, selectedFormats, sortBy, contentTypeFilter, searchQuery]);
 
   const clearAllFilters = () => {
@@ -628,7 +625,6 @@ const SearchResults: React.FC = () => {
     return selectedDegreeTypes.length + selectedFields.length + selectedLocations.length + selectedDurations.length + selectedPaces.length + selectedLanguages.length + selectedFormats.length;
   };
 
-  // Create mixed content for each page with special positioning
   const createMixedPageResults = () => {
     const programs = filteredResults.filter(r => r.type === 'program');
     const schools = filteredResults.filter(r => r.type === 'school');
@@ -638,7 +634,6 @@ const SearchResults: React.FC = () => {
     const itemsPerPage = 37;
     const startIndex = (currentPage - 1) * itemsPerPage;
     
-    // Calculate pagination for each type
     const programsPerPage = 15;
     const schoolsPerPage = 10;
     const scholarshipsPerPage = 5;
@@ -656,15 +651,12 @@ const SearchResults: React.FC = () => {
     
     const mixedResults: (SearchResult | { id: string; type: 'banner' })[] = [];
     
-    // First 3 positions: promoted programs
     const promotedPrograms = pagePrograms.filter(p => p.isPromoted).slice(0, 3);
     const regularPrograms = pagePrograms.filter(p => !p.isPromoted);
     const remainingPromoted = pagePrograms.filter(p => p.isPromoted).slice(3);
     
-    // Add first 3 promoted programs
     promotedPrograms.forEach(program => mixedResults.push(program));
     
-    // Mix the remaining content (regular programs + all promoted after first 3 + schools + scholarships + articles)
     const remainingContent = [
       ...regularPrograms,
       ...remainingPromoted,
@@ -673,13 +665,10 @@ const SearchResults: React.FC = () => {
       ...pageArticles
     ];
     
-    // Shuffle remaining content
     const shuffledContent = remainingContent.sort(() => Math.random() - 0.5);
     
-    // Add shuffled content, inserting banner at position 6 (index 5)
     shuffledContent.forEach((item, index) => {
       if (mixedResults.length === 5 && currentPage === 1) {
-        // Insert banner at position 6 on first page
         mixedResults.push({ id: 'banner', type: 'banner' });
       }
       mixedResults.push(item);
@@ -690,7 +679,6 @@ const SearchResults: React.FC = () => {
 
   const currentResults = createMixedPageResults();
   
-  // Calculate total pages based on content type filter
   const getTotalPages = () => {
     if (contentTypeFilter === 'program') {
       return Math.ceil(filteredResults.filter(r => r.type === 'program').length / 15);
@@ -728,405 +716,12 @@ const SearchResults: React.FC = () => {
     }
   };
 
-  // FilterSection component
-  const FilterSection = ({
-    title,
-    options,
-    selected,
-    onSelectionChange
-  }: {
-    title: string;
-    options: string[];
-    selected: string[];
-    onSelectionChange: (values: string[]) => void;
-  }) => {
-    const [isOpen, setIsOpen] = useState(true);
-    return (
-      <div className="mb-6">
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center justify-between w-full text-left font-medium text-gray-900 mb-3"
-        >
-          {title}
-          <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-        </button>
-        {isOpen && (
-          <div className="space-y-2">
-            {options.map((option) => (
-              <div key={option} className="flex items-center space-x-2">
-                <Checkbox
-                  id={`${title}-${option}`}
-                  checked={selected.includes(option)}
-                  onCheckedChange={(checked) => {
-                    if (checked) {
-                      onSelectionChange([...selected, option]);
-                    } else {
-                      onSelectionChange(selected.filter((item) => item !== option));
-                    }
-                  }}
-                />
-                <label
-                  htmlFor={`${title}-${option}`}
-                  className="text-sm text-gray-700 cursor-pointer"
-                >
-                  {option}
-                </label>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  };
-
-  // Array of diverse campus images
-  const campusImages = [
-    'photo-1487958449943-2429e8be8625', // white concrete building
-    'photo-1486312338219-ce68d2c6f44d', // person using MacBook Pro - replaced broken ID
-    'photo-1605810230434-7631ac76ec81', // group around video screens
-    'photo-1581092795360-fd1ca04f0952', // man in office chair
-    'photo-1526374965328-7f61d4dc18c5', // Matrix movie still
-    'photo-1531297484001-80022131f5a1', // laptop on surface
-    'photo-1500375592092-40eb2168fd21', // ocean wave
-    'photo-1504893524553-b855bce32c67', // river and rocks
-    'photo-1506744038136-46273834b3fb', // water surrounded by trees
-    'photo-1501854140801-50d01698950b', // mountains aerial view
-    'photo-1615729947596-a598e5de0ab3', // grass and rocky mountain
-    'photo-1721322800607-8c38375eef04', // living room
-    'photo-1523712999610-f77fbcfc3843', // forest with sunbeam
-    'photo-1500673922987-e212871fec22', // yellow lights between trees
-    'photo-1472396961693-142e6e269027'  // deer and mountain
-  ];
-
-  const articleImages = [
-    'photo-1481627834876-b7833e8f5570', // lines of code
-    'photo-1461749280684-dccba630e2f6', // Java programming
-    'photo-1488590528505-98d2b5aba04b', // gray laptop
-    'photo-1518770660439-4636190af475', // circuit board
-    'photo-1498050108023-c5249f4df085', // MacBook with code
-    'photo-1581091226825-a6a2a5aee158', // person with light bulb
-    'photo-1649972904349-6e44c42644a7', // woman with laptop on bed
-    'photo-1581091226825-a6a2a5aee158'  // woman with laptop
-  ];
-
-  const scholarshipImages = [
-    'photo-1523050854058-8df90110c9f1', // graduation caps
-    'photo-1517022812141-23620dba5c23', // sheep running
-    'photo-1582562124811-c09040d0a901', // cat on textile
-    'photo-1618160702438-9b02ab6515c9', // fruit on plate
-    'photo-1466721591366-2d5fba72006d'  // antelope and zebra
-  ];
-
-  const universityImages = [
-    'photo-1607237138185-eedd9c632b0b', // university building
-    'photo-1562774053-701939374585', // university campus
-    'photo-1541339907198-e08756dedf3f', // university library
-    'photo-1580537659466-0a9bfa916a54', // university hall
-    'photo-1523050854058-8df90110c9f1', // graduation caps
-    'photo-1571019613454-1cb2f99b2d8b', // university courtyard
-    'photo-1523240795612-9a054b0db644', // university entrance
-    'photo-1498243691581-b145c3f54a5a', // university building facade
-    'photo-1507003211169-0a1dd7228f2d', // university campus aerial
-    'photo-1519452634265-7b1fbfd1aa1e'  // university at sunset
-  ];
-
-  const getImageForResult = (result: SearchResult, index: number) => {
-    if (result.type === 'program') {
-      return `https://images.unsplash.com/${campusImages[index % campusImages.length]}?w=400&h=400&fit=crop`;
-    } else if (result.type === 'article') {
-      return `https://images.unsplash.com/${articleImages[index % articleImages.length]}?w=200&h=200&fit=crop`;
-    } else if (result.type === 'scholarship') {
-      return `https://images.unsplash.com/${scholarshipImages[index % scholarshipImages.length]}?w=200&h=200&fit=crop`;
-    } else if (result.type === 'school') {
-      return `https://images.unsplash.com/${universityImages[index % universityImages.length]}?w=400&h=400&fit=crop`;
-    }
-    return 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&h=400&fit=crop';
-  };
-
-  const ProgramCard = ({ result, index }: { result: SearchResult; index: number }) => (
-    <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer relative">
-      {result.isPromoted && (
-        <div className="absolute top-4 right-4 z-10">
-          <Badge className="bg-gray-300 text-gray-600 text-xs">Promoted</Badge>
-        </div>
-      )}
-      <div className="flex">
-        {/* Left side - Campus image */}
-        <div className="w-48 flex-shrink-0 relative">
-          <img src={getImageForResult(result, index)} alt={`${result.institution} campus`} className="w-full h-full object-cover" />
-          {/* Institution logo overlay */}
-          <div className="absolute bottom-3 left-3">
-            <div className="w-12 h-12 bg-white rounded-lg shadow-md flex items-center justify-center">
-              <Building className="w-6 h-6 text-blue-600" />
-            </div>
-          </div>
-        </div>
-        
-        {/* Right side - Program details */}
-        <div className="flex-1 p-6">
-          <div className="flex justify-between items-start h-full">
-            <div className="flex-1">
-              {/* Institution name */}
-              <p className="text-sm text-gray-600 mb-1">{result.institution}</p>
-              
-              {/* Program title */}
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                {result.title}
-              </h3>
-              
-              {/* Location */}
-              <p className="text-sm text-gray-600 mb-4">{result.location}</p>
-              
-              {/* Program details */}
-              <div className="flex flex-wrap gap-4 mb-4">
-                {result.degreeType && (
-                  <div className="flex items-center gap-1 text-sm text-gray-600">
-                    <GraduationCap className="w-4 h-4" />
-                    {result.degreeType}
-                  </div>
-                )}
-                {result.duration && (
-                  <div className="flex items-center gap-1 text-sm text-gray-600">
-                    <Clock className="w-4 h-4" />
-                    {result.duration}
-                  </div>
-                )}
-                {result.studyFormat && (
-                  <div className="flex items-center gap-1 text-sm text-gray-600">
-                    <MapPin className="w-4 h-4" />
-                    {result.studyFormat}
-                  </div>
-                )}
-                {result.language && (
-                  <div className="flex items-center gap-1 text-sm text-gray-600">
-                    <Globe className="w-4 h-4" />
-                    {result.language}
-                  </div>
-                )}
-              </div>
-              
-              {/* Description */}
-              <p className="text-sm text-gray-700 line-clamp-2">
-                {result.description}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Card>
-  );
-
-  const SchoolCard = ({ result, index }: { result: SearchResult; index: number }) => (
-    <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
-      <div className="flex">
-        {/* Left side - University image */}
-        <div className="w-48 flex-shrink-0 relative">
-          <img src={getImageForResult(result, index)} alt={`${result.title} campus`} className="w-full h-full object-cover" />
-          {/* University logo overlay */}
-          <div className="absolute bottom-3 left-3">
-            <div className="w-12 h-12 bg-white rounded-lg shadow-md flex items-center justify-center">
-              <Building className="w-6 h-6 text-blue-600" />
-            </div>
-          </div>
-        </div>
-        
-        {/* Right side - University details */}
-        <div className="flex-1 p-6">
-          <div className="flex justify-between items-start h-full">
-            <div className="flex-1">
-              {/* University title */}
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                {result.title}
-              </h3>
-              
-              {/* Location */}
-              <p className="text-sm text-gray-600 mb-4">{result.location}</p>
-              
-              {/* University details */}
-              <div className="flex flex-wrap gap-4 mb-4">
-                {result.establishedYear && (
-                  <div className="flex items-center gap-1 text-sm text-gray-600">
-                    <Calendar className="w-4 h-4" />
-                    Est. {result.establishedYear}
-                  </div>
-                )}
-                {result.studentCount && (
-                  <div className="flex items-center gap-1 text-sm text-gray-600">
-                    <User className="w-4 h-4" />
-                    {result.studentCount} students
-                  </div>
-                )}
-                {result.acceptanceRate && (
-                  <div className="flex items-center gap-1 text-sm text-gray-600">
-                    <Award className="w-4 h-4" />
-                    {result.acceptanceRate} acceptance
-                  </div>
-                )}
-                {result.ranking && (
-                  <div className="flex items-center gap-1 text-sm text-gray-600">
-                    <Star className="w-4 h-4" />
-                    {result.ranking}
-                  </div>
-                )}
-              </div>
-              
-              {/* Description */}
-              <p className="text-sm text-gray-700 line-clamp-2">
-                {result.description}
-              </p>
-              
-              {/* Rating */}
-              {result.rating && (
-                <div className="flex items-center gap-1 mt-3">
-                  <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                  <span className="text-sm font-medium">{result.rating}</span>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </Card>
-  );
-
-  const ArticleCard = ({ result, index }: { result: SearchResult; index: number }) => (
-    <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
-      <div className="flex h-40">
-        {/* Left side - Article image */}
-        <div className="w-32 flex-shrink-0 overflow-hidden">
-          <img src={getImageForResult(result, index)} alt="Article image" className="w-full h-full object-cover block" />
-        </div>
-        
-        {/* Right side - Article content */}
-        <div className="flex-1 min-w-0 p-4">
-          {/* Publication date */}
-          <p className="text-xs text-gray-500 mb-2">Dec 2024</p>
-          
-          {/* Article title */}
-          <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 leading-tight">
-            {result.title}
-          </h3>
-          
-          {/* Description */}
-          <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed mb-3">
-            {result.description}
-          </p>
-          
-          {/* Tags row */}
-          <div className="flex flex-wrap gap-2 mb-3">
-            {result.fieldOfStudy && (
-              <Badge variant="secondary" className="text-xs">
-                {result.fieldOfStudy}
-              </Badge>
-            )}
-            {result.location && (
-              <Badge variant="secondary" className="text-xs">
-                {result.location}
-              </Badge>
-            )}
-          </div>
-          
-          {/* Metadata footer */}
-          <div className="flex items-center gap-3 text-xs text-gray-500">
-            <div className="flex items-center gap-1">
-              <Eye className="w-3 h-3" />
-              <span>5 min read</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Card>
-  );
-
-  const ScholarshipCard = ({ result, index }: { result: SearchResult; index: number }) => (
-    <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
-      <div className="flex h-40">
-        {/* Left side - Scholarship image */}
-        <div className="w-32 flex-shrink-0 overflow-hidden relative">
-          <img src={getImageForResult(result, index)} alt="Scholarship image" className="w-full h-full object-cover block" />
-          {/* Scholarship icon overlay */}
-          <div className="absolute bottom-1 right-1">
-            <div className="w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center">
-              <Award className="w-3 h-3 text-yellow-600" />
-            </div>
-          </div>
-        </div>
-        
-        {/* Right side - Scholarship content */}
-        <div className="flex-1 min-w-0 p-4">
-          {/* Publication date */}
-          <p className="text-xs text-gray-500 mb-2">Dec 2024</p>
-          
-          {/* Scholarship title */}
-          <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 leading-tight">
-            {result.title}
-          </h3>
-          
-          {/* Description */}
-          <p className="text-sm text-gray-600 line-clamp-1 leading-relaxed mb-3">
-            {result.description}
-          </p>
-          
-          {/* Metadata footer */}
-          <div className="flex items-center gap-3 text-xs text-gray-500">
-            {result.fieldOfStudy && (
-              <div className="flex items-center gap-1">
-                <GraduationCap className="w-3 h-3" />
-                <span>{result.fieldOfStudy}</span>
-              </div>
-            )}
-            {result.location && (
-              <div className="flex items-center gap-1">
-                <MapPin className="w-3 h-3" />
-                <span>{result.location}</span>
-              </div>
-            )}
-            {result.deadline && (
-              <div className="flex items-center gap-1">
-                <Calendar className="w-3 h-3" />
-                <span>Deadline: {new Date(result.deadline).toLocaleDateString()}</span>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </Card>
-  );
-
-  const PromotedBanner = () => (
-    <Card className="overflow-hidden bg-gradient-to-r from-pink-50 to-pink-100 border border-pink-200">
-      <div className="flex items-center p-6">
-        <div className="flex-shrink-0 mr-6">
-          <div className="w-16 h-16 bg-pink-200 rounded-full flex items-center justify-center">
-            <Heart className="w-8 h-8 text-pink-600" />
-          </div>
-        </div>
-        <div className="flex-1">
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">
-            Best programs for you
-          </h3>
-          <p className="text-gray-600">
-            Answer a few questions and we'll match you with programs!
-          </p>
-        </div>
-        <div className="flex-shrink-0">
-          <Button className="bg-pink-600 hover:bg-pink-700 text-white">
-            Get Started
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
-        </div>
-      </div>
-    </Card>
-  );
-
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Use shared Header component */}
       <Header />
 
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex gap-6">
-          {/* Filters Sidebar */}
           <div className={`${showFilters ? 'block' : 'hidden'} lg:block w-80 flex-shrink-0`}>
             <div className="bg-white rounded-lg border border-gray-200 p-6 sticky top-6">
               <div className="flex items-center justify-between mb-6">
@@ -1192,9 +787,7 @@ const SearchResults: React.FC = () => {
             </div>
           </div>
 
-          {/* Results Area */}
           <div className="flex-1">
-            {/* Results Header */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-4">
                 <div>
@@ -1223,7 +816,6 @@ const SearchResults: React.FC = () => {
               </Select>
             </div>
 
-            {/* Content Type Filter Tabs */}
             <div className="mb-6">
               <div className="flex gap-2 border-b border-gray-200">
                 <button
@@ -1391,7 +983,6 @@ const SearchResults: React.FC = () => {
               </div>
             </div>
 
-            {/* Active Filters */}
             {getActiveFiltersCount() > 0 && (
               <div className="mb-6">
                 <div className="flex flex-wrap gap-2">
@@ -1411,7 +1002,6 @@ const SearchResults: React.FC = () => {
               </div>
             )}
 
-            {/* Results or No Results */}
             {filteredResults.length === 0 ? (
               <NoResults
                 searchQuery={searchQuery}
@@ -1421,26 +1011,24 @@ const SearchResults: React.FC = () => {
               />
             ) : (
               <>
-                {/* Results */}
                 <div className="space-y-6">
                   {currentResults.map((result, index) => (
                     <div key={result.id}>
                       {result.type === 'banner' ? (
                         <PromotedBanner />
                       ) : result.type === 'program' ? (
-                        <ProgramCard result={result as SearchResult} index={index} />
+                        <ProgramCard result={result as SearchResult} index={index} getImageForResult={getImageForResult} />
                       ) : result.type === 'school' ? (
-                        <SchoolCard result={result as SearchResult} index={index} />
+                        <SchoolCard result={result as SearchResult} index={index} getImageForResult={getImageForResult} />
                       ) : result.type === 'article' ? (
-                        <ArticleCard result={result as SearchResult} index={index} />
+                        <ArticleCard result={result as SearchResult} index={index} getImageForResult={getImageForResult} />
                       ) : result.type === 'scholarship' ? (
-                        <ScholarshipCard result={result as SearchResult} index={index} />
+                        <ScholarshipCard result={result as SearchResult} index={index} getImageForResult={getImageForResult} />
                       ) : null}
                     </div>
                   ))}
                 </div>
 
-                {/* Pagination */}
                 {totalPages > 1 && (
                   <div className="mt-8 flex justify-center">
                     <Pagination>
