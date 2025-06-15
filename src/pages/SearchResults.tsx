@@ -782,7 +782,7 @@ const SearchResults: React.FC = () => {
   // Array of diverse campus images
   const campusImages = [
     'photo-1487958449943-2429e8be8625', // white concrete building
-    'photo-1519389950473-2429e8be8625', // people with laptops
+    'photo-1486312338219-ce68d2c6f44d', // person using MacBook Pro - replaced broken ID
     'photo-1605810230434-7631ac76ec81', // group around video screens
     'photo-1581092795360-fd1ca04f0952', // man in office chair
     'photo-1526374965328-7f61d4dc18c5', // Matrix movie still
