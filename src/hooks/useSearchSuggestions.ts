@@ -63,15 +63,57 @@ const mockSuggestions: SearchSuggestion[] = [
   { id: '109', title: 'PhD in Computer Science', type: 'program', institution: 'University of Cambridge', location: 'Cambridge, UK'},
   { id: '110', title: 'Master in Engineering', type: 'program', institution: 'Technical University of Madrid', location: 'Madrid, Spain' },
 
-  // ========= Added for Engineering Degrees in Spain =========
-  { id: '201', title: 'Bachelor of Engineering', type: 'program', institution: 'Universitat Politècnica de Catalunya', location: 'Barcelona, Spain' },
-  { id: '202', title: 'Engineering Degrees in Spain', type: 'article', category: 'Program Guides', location: 'Spain' },
-  { id: '203', title: 'Top Engineering Programs in Spain', type: 'article', category: 'Education', location: 'Spain' },
-  { id: '204', title: 'Civil Engineering Degree', type: 'program', institution: 'University of Salamanca', location: 'Salamanca, Spain' },
-  { id: '205', title: 'Study Engineering in Spain', type: 'article', category: 'Study Abroad', location: 'Spain' },
-  { id: '206', title: 'Mechanical Engineering Degree in Madrid', type: 'program', institution: 'Complutense University of Madrid', location: 'Madrid, Spain' },
-  { id: '207', title: 'Electrical Engineering (Graduate)', type: 'program', institution: 'University of Zaragoza', location: 'Zaragoza, Spain' },
+  // ========= Added/expanded for Engineering Degrees in Spain =========
+  // Programs
+  { id: '211', title: 'Bachelor of Civil Engineering', type: 'program', institution: 'Polytechnic University of Madrid', location: 'Madrid, Spain', category: 'Engineering', region: 'Europe' },
+  { id: '212', title: 'Bachelor in Industrial Engineering', type: 'program', institution: 'University of Valencia', location: 'Valencia, Spain', category: 'Engineering', region: 'Europe' },
+  { id: '213', title: 'Masters in Electrical Engineering', type: 'program', institution: 'Technical University of Catalonia', location: 'Barcelona, Spain', category: 'Engineering', region: 'Europe' },
+  { id: '214', title: 'Chemical Engineering Degree', type: 'program', institution: 'University of Zaragoza', location: 'Zaragoza, Spain', category: 'Engineering', region: 'Europe' },
+  { id: '215', title: 'Aerospace Engineering BSc', type: 'program', institution: 'Carlos III University of Madrid', location: 'Madrid, Spain', category: 'Engineering', region: 'Europe' },
+  { id: '216', title: 'Marine Engineering Program', type: 'program', institution: 'University of La Coruña', location: 'La Coruña, Spain', category: 'Engineering', region: 'Europe' },
+  { id: '217', title: 'Industrial Design Engineering', type: 'program', institution: 'University of Seville', location: 'Seville, Spain', category: 'Engineering', region: 'Europe' },
+  { id: '218', title: 'Engineering Degrees in Spain', type: 'program', institution: 'Multiple Institutions', location: 'Spain', category: 'Engineering', region: 'Europe' }, // KEY: Exact search phrase
+
+  // Articles
+  { id: '202', title: 'Engineering Degrees in Spain', type: 'article', category: 'Program Guides', location: 'Spain', region: 'Europe' },
+  { id: '203', title: 'Top Engineering Programs in Spain', type: 'article', category: 'Education', location: 'Spain', region: 'Europe' },
+  { id: '205', title: 'Study Engineering in Spain', type: 'article', category: 'Study Abroad', location: 'Spain', region: 'Europe' },
+
+  // Remainng original suggestions for completeness
+  { id: '201', title: 'Bachelor of Engineering', type: 'program', institution: 'Universitat Politècnica de Catalunya', location: 'Barcelona, Spain', category: 'Engineering', region: 'Europe' },
+  { id: '204', title: 'Civil Engineering Degree', type: 'program', institution: 'University of Salamanca', location: 'Salamanca, Spain', category: 'Engineering', region: 'Europe' },
+  { id: '206', title: 'Mechanical Engineering Degree in Madrid', type: 'program', institution: 'Complutense University of Madrid', location: 'Madrid, Spain', category: 'Engineering', region: 'Europe' },
+  { id: '207', title: 'Electrical Engineering (Graduate)', type: 'program', institution: 'University of Zaragoza', location: 'Zaragoza, Spain', category: 'Engineering', region: 'Europe' },
 ];
+
+function scoreSuggestion(item: SearchSuggestion, searchTerms: string[]) {
+  // Higher score for closer matches
+  let score = 0;
+  const content = [
+    item.title, item.institution, item.location, item.category, item.region, item.type
+  ].filter(Boolean).join(' ').toLowerCase();
+
+  // Exact phrase (all terms spaced the same)
+  if (searchTerms.length > 1 && content.includes(searchTerms.join(' '))) {
+    score += 10;
+  }
+  // All terms somewhere in content
+  if (searchTerms.every(term => content.includes(term))) {
+    score += 6;
+  }
+  // Count number of matching terms
+  const matches = searchTerms.filter(term => content.includes(term)).length;
+  score += matches;
+  // Prefer program and article types for this kind of query
+  if (item.type === 'program' || item.type === 'article') {
+    score += 2;
+  }
+  // Small bonus if in Spain for engineering
+  if (content.includes('spain') && content.includes('engineering')) {
+    score += 2;
+  }
+  return score;
+}
 
 export const useSearchSuggestions = (query: string, maxSuggestions = 100) => {
   const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
@@ -83,21 +125,20 @@ export const useSearchSuggestions = (query: string, maxSuggestions = 100) => {
     }
 
     const searchTerms = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
-    
-    const filtered = mockSuggestions.filter(item => {
-      const searchableText = [
-        item.title,
-        item.institution,
-        item.location,
-        item.category,
-        item.region,
-        item.type
-      ].filter(Boolean).join(' ').toLowerCase();
-      
-      return searchTerms.every(term => searchableText.includes(term));
-    });
 
-    return filtered.slice(0, maxSuggestions);
+    // Calculate score for all suggestions
+    const scored = mockSuggestions
+      .map(item => ({
+        item, 
+        score: scoreSuggestion(item, searchTerms)
+      }))
+      .filter(row => row.score > 0);
+
+    // Sort by highest score
+    scored.sort((a, b) => b.score - a.score);
+
+    // Extract sorted suggestion objects and slice
+    return scored.map(row => row.item).slice(0, maxSuggestions);
   }, [query, maxSuggestions]);
 
   useEffect(() => {
@@ -107,12 +148,12 @@ export const useSearchSuggestions = (query: string, maxSuggestions = 100) => {
     }
 
     setIsLoading(true);
-    
+
     // Simulate API delay
     const timer = setTimeout(() => {
       setSuggestions(filteredSuggestions);
       setIsLoading(false);
-    }, 150);
+    }, 120);
 
     return () => clearTimeout(timer);
   }, [filteredSuggestions, query]);
