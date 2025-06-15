@@ -602,45 +602,21 @@ const SearchResults: React.FC = () => {
     return selectedDegreeTypes.length + selectedFields.length + selectedLocations.length + selectedDurations.length + selectedPaces.length + selectedLanguages.length + selectedFormats.length;
   };
 
-  // Helper function to get an image for each result (stubbed with Unsplash as default)
-  const getImageForResult = (result: SearchResult, index: number): string => {
-    // If a custom image URL is provided on the item, use it
-    if (result.image) return result.image;
-
-    // Provide different Unsplash images based on institution/type for demo purposes
-    // (For production, replace with real mapped images)
-    const unsplashImages: Record<string, string> = {
-      "Massachusetts Institute of Technology": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
-      "London Business School": "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80",
-      "Stanford University": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
-      "University of Toronto": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
-      "ETH Zurich": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=80",
-      "Oxford University": "https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=400&q=80",
-      "Harvard University": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=400&q=80",
-      "Parsons School of Design": "https://images.unsplash.com/photo-1454023492550-5696f8ff10e1?auto=format&fit=crop&w=400&q=80",
-      "University of Sydney": "https://images.unsplash.com/photo-1482062364825-616fd23b8fc1?auto=format&fit=crop&w=400&q=80",
-      "National University of Singapore": "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=400&q=80",
-      "Technical University of Denmark": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=400&q=80",
-      "Amsterdam University of Applied Sciences": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
-      "Tel Aviv University": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
-      "ETSAB Barcelona": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
-      // Add more mappings as needed
-    };
-
-    if (result.institution && unsplashImages[result.institution]) {
-      return unsplashImages[result.institution];
-    }
-    if (result.title && unsplashImages[result.title]) {
-      return unsplashImages[result.title];
-    }
-
-    // Default Unsplash photo
-    const defaultImages = [
-      "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=80"
+  // Helper function to get a cat image for each result from Unsplash
+  const getImageForResult = (_result: SearchResult, index: number): string => {
+    // A set of fun/wholesome cat images from Unsplash
+    const catImages = [
+      "https://images.unsplash.com/photo-1582562124811-c09040d0a901?auto=format&fit=crop&w=400&q=80", // orange and white tabby
+      "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1518715308788-ce7a2160aadd?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?auto=format&fit=crop&w=400&q=80", // grey tabby kitten
+      "https://images.unsplash.com/photo-1518715308788-ce7a2160aadd?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80"
     ];
-    return defaultImages[index % defaultImages.length];
+    return catImages[index % catImages.length];
   };
 
   const createMixedPageResults = () => {
